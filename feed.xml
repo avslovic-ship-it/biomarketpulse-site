@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BioMarket Pulse</title>
+    <link>https://biomarketpulse.com/</link>
+    <atom:link href="https://biomarketpulse.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>A two-minute daily briefing on the deals, science, regulation and markets moving biotech, pharma, synthetic biology, biocatalysis and agriculture.</description>
+    <language>en-us</language>
+    <itunes:author>BioMarket Pulse</itunes:author>
+    <itunes:category text="Business"/>
+    <itunes:category text="Science"/>
+    <itunes:explicit>false</itunes:explicit>
+    <lastBuildDate>Fri, 30 Oct 2026 10:30:00 +0000</lastBuildDate>
+    <item>
+      <title>BioMarket Pulse — Friday, October 30, 2026 (Edition 41)</title>
+      <description>BioMarin licenses a Fabry enzyme therapy, Ferring buys Gameto for up to $1.4B, Genmab&#x27;s petosemtamab wins in head and neck cancer, Brazil soy planting hits 40%, and Canada loses measles elimination status.</description>
+      <enclosure url="https://biomarketpulse.com/pulse-2026-10-30.mp3" length="1136266" type="audio/mpeg"/>
+      <guid isPermaLink="false">biomarket-pulse-2026-10-30</guid>
+      <pubDate>Fri, 30 Oct 2026 10:30:00 +0000</pubDate>
+      <itunes:duration>2:22</itunes:duration>
+      <link>https://biomarketpulse.com/</link>
+    </item>
+  </channel>
+</rss>
