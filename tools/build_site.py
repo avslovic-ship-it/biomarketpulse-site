@@ -203,12 +203,16 @@ FAVICON = ("data:image/svg+xml," +
 
 def head_tags(title, desc, slug, preview, edition_date_iso):
     url = SITE + "/" + (slug + "/" if slug else "")
+    root = "" if preview else "/"
     t, d = html.escape(title), html.escape(desc)
     tags = [
         f"<title>{t}</title>",
         f'<meta name="description" content="{d}">',
         f'<link rel="canonical" href="{url}">',
-        f'<link rel="icon" href="{FAVICON}">',
+        f'<link rel="icon" href="{root}favicon.svg" type="image/svg+xml">',
+        f'<link rel="icon" href="{root}favicon.ico" sizes="any">',
+        f'<link rel="apple-touch-icon" href="{root}apple-touch-icon.png">',
+        f'<meta property="og:image" content="{SITE}/icon-512.png">',
         '<meta name="theme-color" content="#141f19">',
         f'<meta property="og:site_name" content="{NAME}">',
         '<meta property="og:type" content="website">',
