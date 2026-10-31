@@ -1,0 +1,23 @@
+# BioMarket Pulse
+Options -Indexes
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+
+# Never serve settings, tools or the raw edition
+<FilesMatch "^(config\.php|bmp-config.*\.php|README\.md|.*\.py)$">
+  Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/(tools|data|\.git)(/|$)
+
+# Always send visitors to https://www.biomarketpulse.com
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^biomarketpulse\.com$ [NC]
+RewriteRule ^ https://www.biomarketpulse.com%{REQUEST_URI} [L,R=301]
+
+# Daily pages: always fetch the newest edition
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

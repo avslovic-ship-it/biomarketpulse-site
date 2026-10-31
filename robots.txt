@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /data/
+Disallow: /tools/
+Disallow: /api.php
+
+Sitemap: https://www.biomarketpulse.com/sitemap.xml
