@@ -1,0 +1,145 @@
+<section class="pd" id="pd" aria-live="polite">
+<style>
+.pd{margin-top:6px}
+.pd .pd-back{display:inline-block;font-size:13.5px;margin:6px 0 10px}
+.pd .pd-top{border-top:2px solid var(--hl);padding-top:12px}
+.pd h1{font-size:30px;line-height:1.15;margin:0 0 6px}
+.pd .pd-tags{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 6px}
+.pd .tg{font-size:11.5px;padding:2px 8px;border-radius:3px;color:var(--hl-ink);background:var(--hl-tint)}
+.pd .tg.bio{background:#e3f1e4;color:#1f5b2a}.pd .tg.chem{background:#f3e8dd;color:#7a3a0a}
+.pd .pd-co{font-size:14px;color:var(--muted);margin:0 0 14px}
+.pd .pd-sum{border:1px solid var(--line);border-top:3px solid var(--hl);background:#fff;padding:14px 16px;font-size:15.5px;line-height:1.6;margin:0 0 16px}
+.pd .pd-sum p{margin:0 0 8px}.pd .pd-sum p:last-child{margin:0}
+.pd .pd-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:0 0 18px}
+.pd .pd-fact{border:1px solid var(--line);padding:9px 12px;background:#fff;min-width:0}
+.pd .pd-fact span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:2px}
+.pd .pd-fact b{font-weight:600;font-size:14.5px;overflow-wrap:anywhere}
+.pd .pd-fact small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.pd h2{font-size:18px;margin:22px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px}
+.pd .pd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}
+.pd .pd-card{border:1px solid var(--line);background:#fff;padding:12px 14px;min-width:0}
+.pd .pd-card h3{font-size:14.5px;margin:0 0 2px}
+.pd .pd-card .sub{font-size:12.5px;color:var(--muted);margin:0 0 10px;line-height:1.4}
+.pd .bar{display:grid;grid-template-columns:minmax(80px,38%) 1fr auto;gap:8px;align-items:center;font-size:12.5px;margin:4px 0}
+.pd .bar .l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pd .bar .t{height:12px;background:var(--hl-tint);border-radius:2px}
+.pd .bar .t i{display:block;height:100%;background:var(--hl);border-radius:2px}
+.pd .bar.me .t i{background:var(--accent-ink,#a94300)}.pd .bar.me .l{font-weight:700}
+.pd .bar .v{font-variant-numeric:tabular-nums;color:var(--muted)}
+.pd svg.cols{width:100%;height:auto;display:block}
+.pd svg.cols text{font:11px system-ui,sans-serif;fill:var(--muted)}
+.pd svg.cols .gl{stroke:var(--line);stroke-width:1}
+.pd .pd-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.pd .pd-list li{padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.pd .pd-list small{display:block;color:var(--muted);font-size:12.5px}
+.pd table{border-collapse:collapse;width:100%;font-size:13.5px}
+.pd td,.pd th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.pd th{font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.pd .scroll{overflow-x:auto}
+.pd details{border-bottom:1px solid var(--line);padding:7px 2px;font-size:14px}
+.pd details summary{cursor:pointer;font-weight:600}
+.pd details p{margin:6px 0 2px;color:var(--muted);font-size:13px;line-height:1.5}
+.pd .pd-note{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.5}
+.pd .pd-msg{padding:20px 2px;color:var(--muted)}
+.pd .chips{display:flex;flex-wrap:wrap;gap:6px}
+.pd .chips span{border:1px solid var(--line-strong);padding:2px 9px;border-radius:999px;font-size:12.5px;background:#fff}
+</style>
+  <a class="pd-back" id="pd-back" href="/agriculture/#br-bio">← Back to the search</a>
+  <div id="pd-body"><div class="pd-msg">Loading the product…</div></div>
+<script>
+(function(){
+  var body=document.getElementById("pd-body"); if(!body) return;
+  var r=(new URLSearchParams(location.search).get("r")||"").trim();
+  function el(t,c,x){var e=document.createElement(t); if(c) e.className=c; if(x!=null) e.textContent=x; return e;}
+  function msg(m){body.innerHTML=""; body.appendChild(el("div","pd-msg",m));}
+  var CL=[[/Inseticida fumigante/i,"Fumigant insecticide"],[/Agente Biol[óo]gico de Controle/i,"Biological control agent"],[/Regulador de Crescimento/i,"Plant growth regulator"],[/Ativador de planta/i,"Plant activator"],[/Protetor de sementes/i,"Seed protectant"],
+    [/Feromônio/i,"Pheromone"],[/Inseticida/i,"Insecticide"],[/Fungicida/i,"Fungicide"],[/Herbicida/i,"Herbicide"],[/Acaricida/i,"Acaricide"],[/Nematicida/i,"Nematicide"],[/Bactericida/i,"Bactericide"],
+    [/Formicida/i,"Ant killer"],[/Cupinicida/i,"Termiticide"],[/Moluscicida/i,"Molluscicide"]];
+  function enClass(k){var o=k, micro=/microbiol/i.test(k), bio=/biol[óo]gico$/i.test(k)&&!/Agente/i.test(k);
+    for(var i=0;i<CL.length;i++) if(CL[i][0].test(k)){o=CL[i][1]; break;}
+    return o+(micro?" (microbial)":bio?" (biological)":"");}
+  var TX=[[/Extremamente T/i,"Extremely toxic"],[/Altamente T/i,"Highly toxic"],[/Moderadamente|Medianamente/i,"Moderately toxic"],[/Pouco T/i,"Slightly toxic"],[/Improv[áa]vel/i,"Unlikely to cause acute harm"],[/N[ãa]o Classificado/i,"Not classified"],[/BAIXA EXPOSI/i,"Low exposure, restricted to traps"],[/N[ÃA]O DETERMINADO/i,"Not determined (nature of the product)"]];
+  function enTox(t){if(!t) return "—"; for(var i=0;i<TX.length;i++) if(TX[i][0].test(t)) return TX[i][1]; return t;}
+  var EN=[[/Altamente Perigoso/i,"Highly dangerous to the environment"],[/Muito Perigoso/i,"Very dangerous to the environment"],[/Pouco Perigoso/i,"Slightly dangerous to the environment"],[/Baixo Risco/i,"Low environmental risk"],[/Perigoso/i,"Dangerous to the environment"]];
+  function enEnv(t){if(!t) return "—"; for(var i=0;i<EN.length;i++) if(EN[i][0].test(t)) return EN[i][1]; return t;}
+  var UN=[[/Gramas por Litro/i,"g/L"],[/Gramas por Kilograma|Gramas por Quilograma/i,"g/kg"],[/Miligramas por Litro/i,"mg/L"],[/Miligramas por Kilograma|Miligramas por Quilograma/i,"mg/kg"],[/Unidades.*Litro/i,"units/L"],[/Percentual/i,"%"]];
+  function unit(u){for(var i=0;i<UN.length;i++) if(UN[i][0].test(u||"")) return UN[i][1]; return u||"";}
+  var APP={Terrestre:"ground","Terrestre.":"ground",Aérea:"air","Aérea.":"air"};
+  var FM={EC:"emulsifiable concentrate",SC:"suspension concentrate",WG:"water-dispersible granules",WP:"wettable powder",SL:"soluble concentrate",OD:"oil dispersion",GR:"granules",DP:"dust",FS:"flowable concentrate for seed treatment",ME:"micro-emulsion",SE:"suspo-emulsion",EW:"emulsion, oil in water",CS:"capsule suspension",SP:"soluble powder",WS:"water-dispersible powder for seed treatment",AL:"other liquids",AE:"aerosol",RB:"bait",TB:"tablet",UL:"ultra-low-volume liquid",SG:"water-soluble granules",DC:"dispersible concentrate",PS:"seed-coated with pesticide",LS:"solution for seed treatment",GL:"emulsifiable gel",FG:"fine granules",PA:"paste",VP:"vapour-releasing product",MG:"microgranules",ZC:"mixed CS and SC",XX:"other"};
+  function enForm(f){var c=String(f||"").split(" - ")[0].trim(); return FM[c]||String(f||"").replace(/^[A-Z]{1,4}\s-\s/,"").toLowerCase();}
+  function tecEn(t){return APP[t]||t;}
+  var DOC={Bula:"Label leaflet",Rótulo:"Label",Certificado:"Registration certificate"};
+  function list(a){a=a.filter(Boolean); return a.length<2?(a[0]||""):a.length===2?a[0]+" and "+a[1]:a.slice(0,-1).join(", ")+" and "+a[a.length-1];}
+  function bars(rows,mine){var w=el("div"); var mx=Math.max.apply(null,rows.map(function(x){return x[1];}).concat([1]));
+    rows.forEach(function(x){var d=el("div","bar"+(mine&&x[0]===mine?" me":"")); var l=el("span","l",x[0]); l.title=x[0]; d.appendChild(l);
+      var t=el("span","t"), i=el("i"); i.style.width=Math.max(2,x[1]/mx*100)+"%"; t.appendChild(i); d.appendChild(t); d.appendChild(el("span","v",x[1])); w.appendChild(d);}); return w;}
+  function cols(byYear,mine){
+    var ys=Object.keys(byYear).map(Number).sort(function(a,b){return a-b;}); if(!ys.length) return el("div","sub","No registration dates on file.");
+    var y0=Math.min(ys[0],mine||ys[0]), y1=new Date().getFullYear(), n=y1-y0+1, W=600,H=170,pl=26,pb=22,pt=8, mx=Math.max.apply(null,ys.map(function(y){return byYear[y];}));
+    var NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg"); s.setAttribute("viewBox","0 0 "+W+" "+H); s.setAttribute("class","cols"); s.setAttribute("role","img");
+    s.setAttribute("aria-label","Registrations by year: "+ys.map(function(y){return y+" "+byYear[y];}).join(", "));
+    function mk(t,a,tx){var e=document.createElementNS(NS,t); for(var k in a) e.setAttribute(k,a[k]); if(tx!=null) e.textContent=tx; s.appendChild(e); return e;}
+    var bw=(W-pl)/n, ph=H-pb-pt;
+    [0,Math.ceil(mx/2),mx].forEach(function(g){var y=pt+ph-g/mx*ph; mk("line",{x1:pl,x2:W,y1:y,y2:y,"class":"gl"}); mk("text",{x:pl-4,y:y+4,"text-anchor":"end"},g);});
+    for(var y=y0;y<=y1;y++){var v=byYear[y]||0, h=v/mx*ph, x=pl+(y-y0)*bw;
+      if(v) mk("rect",{x:x+bw*0.15,y:pt+ph-h,width:bw*0.7,height:h,fill:y===mine?"#a94300":"#1d4d7a",rx:1});
+      if((y-y0)%(n>14?3:1)===0||y===y1) mk("text",{x:x+bw/2,y:H-6,"text-anchor":"middle"},String(y).slice(n>14?0:0));}
+    return s;}
+  function fact(l,v,sm){var d=el("div","pd-fact"); d.appendChild(el("span",null,l)); d.appendChild(el("b",null,v)); if(sm) d.appendChild(el("small",null,sm)); return d;}
+  function card(h,sub,node){var c=el("div","pd-card"); c.appendChild(el("h3",null,h)); if(sub) c.appendChild(el("p","sub",sub)); c.appendChild(node); return c;}
+  function show(D){
+    var p=D.p, name=p.b.length?p.b[0]:"Registration "+p.r, bio=p.v;
+    document.title=name+" — Brazil crop-protection registration | BioMarket Pulse";
+    var uses=p.uses||{}, crops=Object.keys(uses), pestN=0, pairs=[];
+    crops.forEach(function(c){var seen={}; uses[c].forEach(function(u){seen[u.s||u.c[0]]=1;}); var n=Object.keys(seen).length; pairs.push([c,n]); pestN+=n;});
+    pairs.sort(function(a,b){return b[1]-a[1];});
+    var allCrops=crops.some(function(c){return /todas as culturas/i.test(c);});
+    var year=p.d?p.d.slice(0,4):null, cls=p.k.map(enClass);
+    var ais=p.ai.length?p.ai.map(function(a){return a.n+(a.c?" ("+a.c+" "+unit(a.u)+")":"");}):p.ais;
+    body.innerHTML="";
+    var top=el("div","pd-top"); top.appendChild(el("h1",null,name));
+    if(p.b.length>1) top.appendChild(el("p","pd-co","Also sold as "+p.b.slice(1).join(", ")));
+    var tags=el("div","pd-tags"); tags.appendChild(el("span","tg "+(bio?"bio":"chem"),bio?"Biological":"Chemical")); cls.forEach(function(c){tags.appendChild(el("span","tg",c));}); if(p.o) tags.appendChild(el("span","tg","Approved for organic farming")); top.appendChild(tags);
+    top.appendChild(el("p","pd-co",p.c+" · MAPA registration "+p.r+(year?" · registered "+year:""))); body.appendChild(top);
+    var sum=el("div","pd-sum"), s1=name+" is "+(bio?"a biological ":"a chemical ")+cls.map(function(c){return c.replace(/ \((microbial|biological)\)/,"");}).join(" / ").toLowerCase()+" registered in Brazil to "+p.c.replace(/\.$/,"")+". "+
+      (ais.length?"Its active ingredient"+(ais.length>1?"s are ":" is ")+list(ais)+". ":"")+(p.f?"It is formulated as "+(/s$/i.test(enForm(p.f))?"":/^[aeiou]/i.test(enForm(p.f))?"an ":"a ")+enForm(p.f)+" ("+p.f.split(" - ")[0]+")"+(p.tec.length?" and applied by "+list(p.tec.map(tecEn))+" application":"")+". ":"");
+    sum.appendChild(el("p",null,s1));
+    var s2=(crops.length?"It is registered for "+(allCrops?"all crops":crops.length+" crop"+(crops.length===1?"":"s"))+" and "+pestN+" target pest"+(pestN===1?"":"s")+" or weed"+(pestN===1?"":"s")+(pairs.length&&!allCrops?", with the most targets on "+pairs[0][0].toLowerCase()+" ("+pairs[0][1]+")":"")+". ":"No crop uses are listed for this product. ")+
+      "Toxicological class: "+enTox(p.t).toLowerCase()+". Environmental class: "+enEnv(p.e).toLowerCase()+".";
+    sum.appendChild(el("p",null,s2));
+    if(D.peers.count>1){sum.appendChild(el("p",null,D.peers.count+" registered products from "+D.peers.companies+" compan"+(D.peers.companies===1?"y":"ies")+" contain "+D.key+". "+p.c+" has "+D.company.count+" registered product"+(D.company.count===1?"":"s")+" in total"+(D.company.bio?", "+D.company.bio+" of them biological":"")+"."));}
+    else sum.appendChild(el("p",null,p.c+" has "+D.company.count+" registered product"+(D.company.count===1?"":"s")+" in total"+(D.company.bio?", "+D.company.bio+" of them biological":"")+"."+(D.key?" "+p.b[0]+" is the only registered product containing "+D.key+".":"")));
+    body.appendChild(sum);
+    var f=el("div","pd-facts");
+    f.appendChild(fact("Formulation",p.f?enForm(p.f).replace(/^./,function(c){return c.toUpperCase();})+" ("+p.f.split(" - ")[0]+")":"—",p.f)); f.appendChild(fact("Toxicological class",enTox(p.t),p.t)); f.appendChild(fact("Environmental class",enEnv(p.e),p.e));
+    f.appendChild(fact("Application",p.tec.length?(function(t){return t.charAt(0).toUpperCase()+t.slice(1);})(p.tec.map(tecEn).join(" and "))+" application":"—")); f.appendChild(fact("Mode of action",p.m.length?p.m.join(" ").replace(/\.$/,""):"Not stated"));
+    f.appendChild(fact("Handling",[p.fl?"Flammable":"",p.co?"Corrosive":""].filter(Boolean).join(", ")||"Not flagged flammable or corrosive"));
+    body.appendChild(f);
+    if(p.ai.length){body.appendChild(el("h2",null,"Composition")); var sc=el("div","scroll"), tb=el("table"), hd=el("tr"); ["Active ingredient","Chemical group","Concentration","Share"].forEach(function(h){hd.appendChild(el("th",null,h));}); tb.appendChild(hd);
+      p.ai.forEach(function(a){var tr=el("tr"); [a.n,a.g||"—",a.c?a.c+" "+unit(a.u):"—",a.p?a.p+"%":"—"].forEach(function(x){tr.appendChild(el("td",null,x));}); tb.appendChild(tr);}); sc.appendChild(tb); body.appendChild(sc);}
+    body.appendChild(el("h2",null,"The numbers"));
+    var g=el("div","pd-grid");
+    if(pairs.length&&!allCrops) g.appendChild(card("Targets per crop","How many pests or weeds this product is registered against, by crop.",bars(pairs.slice(0,10),null)));
+    if(D.key) g.appendChild(card("Registrations of "+D.key+" by year",D.peers.count+" product"+(D.peers.count===1?"":"s")+" from "+D.peers.companies+" companies. This product is highlighted.",cols(D.peers.by_year,year?+year:null)));
+    var tc=Object.keys(D.peers.top_companies).map(function(k){return [k,D.peers.top_companies[k]];});
+    if(tc.length>1) g.appendChild(card("Who else registers "+D.key,"Companies with the most registered products containing it.",bars(tc,p.c)));
+    var bc=Object.keys(D.company.by_class).map(function(k){return [enClass(k),D.company.by_class[k]];});
+    if(bc.length) g.appendChild(card(p.c+" portfolio","Its "+D.company.count+" registered products, by type.",bars(bc,null)));
+    body.appendChild(g);
+    if(D.peers.list.length){body.appendChild(el("h2",null,"Other products with the same active ingredient")); var ul=el("ul","pd-list");
+      D.peers.list.forEach(function(x){var li=el("li"), a=el("a",null,x.b.length?x.b[0]:"Registration "+x.r); a.href="/product/?r="+encodeURIComponent(x.r); li.appendChild(a); li.appendChild(el("small",null,x.c+" · "+enClass(x.k)+(x.d?" · registered "+x.d.slice(0,4):""))); ul.appendChild(li);}); body.appendChild(ul);
+      if(D.peers.count-1>D.peers.list.length) body.appendChild(el("p","pd-note","Showing the "+D.peers.list.length+" most recently registered of "+(D.peers.count-1)+". Use the search to see them all."));}
+    if(crops.length&&!allCrops||pestN){body.appendChild(el("h2",null,"Registered uses")); crops.sort().forEach(function(c){var d=el("details"), sm=el("summary",null,c+" · "+uses[c].length+" target"+(uses[c].length===1?"":"s")); d.appendChild(sm);
+        var seen={}, out=[]; uses[c].forEach(function(u){var k=u.s||u.c[0]; if(seen[k]) return; seen[k]=1; out.push((u.c.length?u.c[0]+" ":"")+(u.s?"("+u.s+")":""));}); d.appendChild(el("p",null,out.join("; "))); body.appendChild(d);});}
+    if(p.docs.length){body.appendChild(el("h2",null,"Documents on file")); var ch=el("div","chips"); p.docs.sort(function(a,b){return String(b.d).localeCompare(String(a.d));}).slice(0,12).forEach(function(d){ch.appendChild(el("span",null,(DOC[d.t]||d.t)+(d.d?" · "+d.d.slice(0,7):"")));}); body.appendChild(ch);}
+    body.appendChild(el("p","pd-note","Source: MAPA's AGROFIT registry, via Embrapa AgroAPI. MAPA last updated the source data on "+(D.source_updated||"an unknown date")+"; this page re-reads it daily. Class names and descriptions were translated from Portuguese by BioMarket Pulse; the original wording is shown where it differs. Registration year comes from the certificate on file. This is a summary for information only: confirm every registration, label and use with MAPA before acting on it."));
+  }
+  function go(){
+    if(!r){ msg("No product selected. Use the search to find one."); return; }
+    if(!window.BMP||!window.BMP.on){ msg("Product pages are available on biomarketpulse.com."); return; }
+    window.BMP.api("br_product",{r:r}).then(function(j){show(j.data);},function(e){msg(e&&e.code==="not_found"?"That registration number isn't in the registry.":"This product is temporarily unavailable. Please try again shortly.");});
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",go); else go();
+})();
+</script>
+</section>

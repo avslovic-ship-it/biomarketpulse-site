@@ -882,11 +882,13 @@
 .brb .brb-box input:focus-visible{outline:3px solid var(--hl-tint);outline-offset:1px}
 .brb .brb-ex{font-size:12.5px;color:var(--muted);margin:0 0 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .brb .brb-chip{border:1px solid var(--line-strong);background:#fff;color:var(--ink);font:inherit;font-size:12.5px;padding:3px 10px;border-radius:999px;cursor:pointer}
+.brb .brb-chip[aria-pressed="true"]{background:var(--hl);border-color:var(--hl);color:#fff}
 .brb .brb-n{font-size:13px;color:var(--muted);margin:4px 0 6px}
 .brb .brb-n b{color:var(--ink)}
 .brb .brb-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .brb .brb-it{padding:11px 2px;border-bottom:1px solid var(--line)}
 .brb .brb-l1{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.brb a.brb-name{text-decoration:none}.brb a.brb-name:hover{text-decoration:underline}
 .brb .brb-name{font-weight:700;color:var(--ink);font-size:15px}
 .brb .brb-k{font-size:11px;padding:1px 7px;border-radius:3px;color:var(--hl-ink);background:var(--hl-tint)}
 .brb .brb-new{font-size:11px;font-weight:700;padding:1px 7px;border-radius:3px;color:#fff;background:var(--accent-ink,#a94300)}
@@ -899,15 +901,16 @@
 .brb .brb-msg{padding:14px 2px;color:var(--muted);font-size:14px}
 </style>
   <div class="section-head">
-    <h2 id="brb-h">Brazil Biologicals Search</h2>
+    <h2 id="brb-h">Brazil Crop Protection Search</h2>
     <span class="count" id="brb-count">MAPA · AGROFIT</span>
   </div>
-  <p class="brb-sub">Type what you're looking for, in English or Portuguese, and get every biological product registered in Brazil that matches. Combine a product type, a crop, a pest or a company.</p>
+  <p class="brb-sub">Type what you're looking for, in English or Portuguese, and get every product registered in Brazil that matches, chemical and biological. Combine a product type, a crop, a pest, an active ingredient or a company. Each result opens its own product dashboard.</p>
   <div id="brb-body"><div class="brb-msg">Loading the registry…</div></div>
 <script>
 (function(){
   var body=document.getElementById("brb-body"); if(!body) return;
-  var DATA=null, shown=20, refs={};
+  var DATA=null, shown=20, refs={}, kind="", searched=false;
+  function enK(k){return String(k).replace(/Inseticida/i,"Insecticide").replace(/Fungicida/i,"Fungicide").replace(/Herbicida/i,"Herbicide").replace(/Acaricida/i,"Acaricide").replace(/Nematicida/i,"Nematicide").replace(/Bactericida/i,"Bactericide").replace(/Feromônio/i,"Pheromone").replace(/Agente Biológico de Controle/i,"Biological control agent").replace(/Regulador de Crescimento/i,"Growth regulator").replace(/Formicida/i,"Ant killer").replace(/Cupinicida/i,"Termiticide").replace(/Moluscicida/i,"Molluscicide").replace(/Ativador de planta/i,"Plant activator").replace(/Protetor de sementes/i,"Seed protectant").replace(/ microbiológico/i," (microbial)").replace(/ fumigante/i," (fumigant)").replace(/ biológico/i," (biological)");}
   function el(t,c,x){var e=document.createElement(t); if(c) e.className=c; if(x!=null) e.textContent=x; return e;}
   function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
   /* English terms -> the Portuguese words used in AGROFIT. Anything not listed is searched as typed. */
@@ -916,12 +919,12 @@
     soy:["soja"],soybean:["soja"],corn:["milho"],maize:["milho"],cotton:["algodao"],sugarcane:["cana"],"sugar cane":["cana"],coffee:["cafe"],wheat:["trigo"],rice:["arroz"],
     bean:["feijao"],tomato:["tomate"],potato:["batata"],citrus:["citros","laranja"],orange:["laranja"],banana:["banana"],grape:["uva"],apple:["maca"],eucalyptus:["eucalipto"],
     pasture:["pastagem"],vegetable:["hortalica","olericola"],fruit:["fruta"],sorghum:["sorgo"],peanut:["amendoim"],onion:["cebola"],cassava:["mandioca"],mango:["manga"],
-    papaya:["mamao"],strawberry:["morango"],cocoa:["cacau"],tobacco:["fumo"],barley:["cevada"],
+    papaya:["mamao"],strawberry:["morango"],cocoa:["cacau"],tobacco:["fumo"],barley:["cevada"],herbicide:["herbicida"],termiticide:["cupinicida"],"growth regulator":["regulador de crescimento"],formicide:["formicida"],molluscicide:["moluscicida"],glyphosate:["glifosato"],atrazine:["atrazina"],paraquat:["paraquate"],mancozeb:["mancozebe"],copper:["cobre"],sulfur:["enxofre"],sulphur:["enxofre"],azoxystrobin:["azoxistrobina"],tebuconazole:["tebuconazol"],imidacloprid:["imidacloprido"],chlorpyrifos:["clorpirifos"],glufosinate:["glufosinato"],abamectin:["abamectina"],thiamethoxam:["tiametoxam"],bifenthrin:["bifentrina"],cypermethrin:["cipermetrina"],deltamethrin:["deltametrina"],chlorothalonil:["clorotalonil"],propiconazole:["propiconazol"],epoxiconazole:["epoxiconazol"],trifloxystrobin:["trifloxistrobina"],pyraclostrobin:["piraclostrobina"],"lambda-cyhalothrin":["lambda-cialotrina"],spinosad:["espinosade"],
     whitefly:["mosca-branca"],caterpillar:["lagarta"],armyworm:["spodoptera","lagarta"],"fall armyworm":["spodoptera"],looper:["lagarta"],mite:["acaro"],aphid:["pulgao"],
     nematode:["nematoide"],"stink bug":["percevejo"],borer:["broca"],"white mold":["mofo-branco"],rust:["ferrugem"],fusarium:["fusari"],thrips:["tripes"],
     leafhopper:["cigarrinha"],weevil:["bicudo","gorgulho"],"root rot":["podridao"],blight:["requeima","queima"],"powdery mildew":["oidio"],"downy mildew":["mildio"]};
   var CROPS={soja:1,milho:1,algodao:1,cana:1,cafe:1,trigo:1,arroz:1,feijao:1,tomate:1,batata:1,citros:1,laranja:1,banana:1,uva:1,maca:1,eucalipto:1,pastagem:1,sorgo:1,amendoim:1,cebola:1,mandioca:1,manga:1,mamao:1,morango:1,cacau:1,fumo:1,cevada:1,hortalica:1,olericola:1,fruta:1};
-  var STOP={and:1,or:1,for:1,with:1,in:1,on:1,the:1,of:1,to:1,a:1,e:1,ou:1,de:1,da:1,do:1,para:1,em:1,com:1,"&":1,"+":1,products:1,product:1,produtos:1,produto:1,biological:1,biologicals:1};
+  var STOP={and:1,or:1,for:1,with:1,in:1,on:1,the:1,of:1,to:1,a:1,e:1,ou:1,de:1,da:1,do:1,para:1,em:1,com:1,"&":1,"+":1,products:1,product:1,produtos:1,produto:1};
   function alts(tok){
     if(SYN[tok]) return SYN[tok];
     var s=tok.replace(/(ies)$/,"y").replace(/(es|s)$/,""); if(SYN[s]) return SYN[s];
@@ -929,14 +932,14 @@
     return [tok];
   }
   function parse(q){
-    var t=norm(q).replace(/[,;]+/g," ").replace(/\s+/g," ").trim(), out=[], flags={organic:false};
+    var t=norm(q).replace(/[,;]+/g," ").replace(/\s+/g," ").trim(), out=[], flags={organic:false,type:""};
     Object.keys(SYN).filter(function(k){return k.indexOf(" ")>0;}).sort(function(a,b){return b.length-a.length;}).forEach(function(k){
       if(t.indexOf(k)>=0){ out.push({label:k,alts:SYN[k]}); t=t.replace(k," "); }});
-    t.split(" ").forEach(function(w){ if(!w||STOP[w]) return; if(w==="organic"||w==="organico"){flags.organic=true; return;} out.push({label:w,alts:alts(w)}); });
+    t.split(" ").forEach(function(w){ if(!w||STOP[w]) return; if(w==="organic"||w==="organico"){flags.organic=true; return;} if(/^(biological|biologicals|biologic|biologico|biologicos|bio)$/.test(w)){flags.type="bio"; return;} if(/^(chemical|chemicals|synthetic|quimico|quimicos)$/.test(w)){flags.type="chem"; return;} out.push({label:w,alts:alts(w)}); });
     return {terms:out,flags:flags};
   }
   function matches(it,P){
-    if(P.flags.organic&&!it.o) return false;
+    if(P.flags.organic&&!it.o) return false; var ty=P.flags.type||kind; if(ty==="bio"&&!it.v) return false; if(ty==="chem"&&it.v) return false;
     for(var i=0;i<P.terms.length;i++){
       var ok=false, a=P.terms[i].alts;
       for(var j=0;j<a.length&&!ok;j++){
@@ -960,38 +963,42 @@
     var box=el("form","brb-box"), q=el("input"); box.setAttribute("role","search"); box.onsubmit=function(e){e.preventDefault(); shown=20; run(true);}; q.type="search"; q.id="brb-q"; q.autocomplete="off"; q.placeholder="e.g. insecticide and soy";
     q.setAttribute("aria-label","Search Brazil's registered biologicals");
     box.appendChild(q); var go=el("button","brb-go","Search"); go.type="submit"; box.appendChild(go); body.appendChild(box); refs.q=q;
+    var ty=el("div","brb-ex"); ty.appendChild(el("span",null,"Show:")); refs.ty=[];
+    [["","All products"],["bio","Biological"],["chem","Chemical"]].forEach(function(x){var b=el("button","brb-chip",x[1]); b.type="button"; b.setAttribute("aria-pressed",x[0]===kind); b.onclick=function(){kind=x[0]; refs.ty.forEach(function(y){y[0].setAttribute("aria-pressed",y[1]===kind);}); shown=20; if(searched) run(true);}; refs.ty.push([b,x[0]]); ty.appendChild(b);});
+    body.appendChild(ty);
     var ex=el("div","brb-ex"); ex.appendChild(el("span",null,"Try:"));
-    ["insecticide and soy","fungicide corn","nematicide coffee","bacillus","pheromone","Koppert","white mold","organic fungicide"].forEach(function(s){
+    ["insecticide and soy","herbicide soy","glyphosate","fungicide corn","biological nematicide coffee","bacillus","Koppert","white mold"].forEach(function(s){
       var b=el("button","brb-chip",s); b.type="button"; b.onclick=function(){q.value=s; shown=20; run(true); q.focus();}; ex.appendChild(b);});
     body.appendChild(ex);
     refs.n=el("div","brb-n"); refs.n.setAttribute("aria-live","polite"); body.appendChild(refs.n);
     refs.list=el("ol","brb-list"); body.appendChild(refs.list);
     refs.more=el("button","brb-more","Show more"); refs.more.type="button"; refs.more.onclick=function(){shown+=40; run(true);}; body.appendChild(refs.more);
-    body.appendChild(el("p","brb-note","Source: MAPA's AGROFIT registry, via Embrapa AgroAPI. MAPA last updated the source data on "+(DATA.source_updated||"an unknown date")+"; this page re-reads it daily and marks a product New when it first appears. Covers formulated biological products (microbial and biological-control agents, pheromones); inoculants and biofertilizers are not included. A product registered for all crops appears in every crop search. Always confirm a registration on the official AGROFIT page before acting on it."));
-    document.getElementById("brb-count").textContent=DATA.items.length+" products · MAPA AGROFIT";
+    body.appendChild(el("p","brb-note","Source: MAPA's AGROFIT registry, via Embrapa AgroAPI. MAPA last updated the source data on "+(DATA.source_updated||"an unknown date")+"; this page re-reads it daily and marks a product New when it first appears. Covers formulated chemical and biological crop-protection products; inoculants, biofertilizers and technical-grade products are not included. A product registered for all crops appears in every crop search. Always confirm a registration on the official AGROFIT page before acting on it."));
+    document.getElementById("brb-count").textContent=DATA.items.length+" products · MAPA";
   }
   function run(go){
-    if(!go){ refs.n.textContent=DATA.items.length+" registered biological products. Type a search above and press Search."; refs.list.innerHTML=""; refs.more.style.display="none"; return; }
-    var P=parse(refs.q.value), has=P.terms.length||P.flags.organic;
+    searched=!!go;
+    if(!go){ refs.n.textContent=DATA.items.length+" registered products (chemical and biological). Type a search above and press Search."; refs.list.innerHTML=""; refs.more.style.display="none"; return; }
+    var P=parse(refs.q.value), has=P.terms.length||P.flags.organic||P.flags.type||kind;
     var rows=has?DATA.items.filter(function(it){return matches(it,P);}):DATA.items;
-    var desc=P.terms.map(function(t){return t.alts[0]===t.label?t.label:t.label+" → "+t.alts.join(" / ");}).concat(P.flags.organic?["organic"]:[]).join("  +  ");
+    var desc=P.terms.map(function(t){return t.alts[0]===t.label?t.label:t.label+" → "+t.alts.join(" / ");}).concat(P.flags.organic?["organic"]:[]).concat(P.flags.type==="bio"?["biological"]:P.flags.type==="chem"?["chemical"]:kind==="bio"?["biological"]:kind==="chem"?["chemical"]:[]).join("  +  ");
     refs.n.textContent="";
     var b=el("b",null,rows.length+" product"+(rows.length===1?"":"s")); refs.n.appendChild(b);
     refs.n.appendChild(document.createTextNode(has?" matching  "+desc:" in the registry. Type above to narrow them down."));
     refs.list.innerHTML="";
     rows.slice(0,shown).forEach(function(it){
       var li=el("li","brb-it"), l1=el("div","brb-l1");
-      l1.appendChild(el("span","brb-name",it.b.length?it.b.join(" · "):"Registration "+it.r));
-      l1.appendChild(el("span","brb-k",it.k)); if(it.s) l1.appendChild(el("span","brb-new","New"));
+      var nm=el("a","brb-name",it.b.length?it.b.join(" · "):"Registration "+it.r); nm.href="/product/?r="+encodeURIComponent(it.r); l1.appendChild(nm);
+      l1.appendChild(el("span","brb-k",(it.v?"Biological · ":"Chemical · ")+enK(it.k))); if(it.s) l1.appendChild(el("span","brb-new","New"));
       li.appendChild(l1); li.appendChild(el("div","brb-co",it.c+" · Reg. "+it.r));
       if(it.a.length) li.appendChild(el("div","brb-ai",it.a.join("; ")));
       var m=el("div","brb-meta"), parts=[];
       if(it.u.length) parts.push("Crops: "+it.u.slice(0,5).join(", ")+(it.u.length>5?" +"+(it.u.length-5)+" more":""));
       if(it.z.length) parts.push("Targets: "+it.z.slice(0,5).join(", ")+(it.z.length>5?" …":""));
       if(it.o) parts.push("Approved for organic farming");
-      if(it.d) parts.push("First filed "+it.d.slice(0,7));
+      if(it.d) parts.push("Registered "+it.d.slice(0,4));
       m.textContent=parts.join(" · ")+(parts.length?" · ":"");
-      if(it.l){var a=el("a",null,"AGROFIT ↗"); a.href=it.l; a.target="_blank"; a.rel="noopener"; m.appendChild(a);}
+      var a=el("a",null,"Product dashboard →"); a.href=nm.href; m.appendChild(a);
       li.appendChild(m); refs.list.appendChild(li);
     });
     if(!rows.length) refs.list.appendChild(el("li","brb-msg","No products match all of those words. Try fewer words or one of the examples above."));

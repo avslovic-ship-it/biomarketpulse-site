@@ -8,7 +8,7 @@
  *   pm_meta {pmids}            -> PubMed article details
  *   deepdive {term}            -> company/sector JSON (Claude)
  *   ask {turns}                -> answer grounded in today's edition (Claude, with PubMed tool)
- *   br_bio                     -> Brazil biologicals registry (MAPA AGROFIT via Embrapa AgroAPI), refreshed daily
+ *   br_bio / br_product        -> Brazil crop-protection registry (MAPA AGROFIT via Embrapa AgroAPI), refreshed daily
  *
  * Command line (Hostinger cron, once a day):  php /path/to/public_html/api.php sync
  */
@@ -257,7 +257,7 @@ function run_pubmed_tool(array $in): array {
   } catch (Throwable $e) { return ['papers' => [], 'note' => 'PubMed search failed; answer from the dashboard lists instead.']; }
 }
 
-/* ---------- Brazil biologicals registry: MAPA AGROFIT via Embrapa AgroAPI (free, 100k calls/month) ---------- */
+/* ---------- Brazil crop-protection registry: MAPA AGROFIT via Embrapa AgroAPI (free, 100k calls/month) ---------- */
 const AGRO_BASE = 'https://api.cnptia.embrapa.br';
 function agro_file(): string { return data_dir() . '/br-bio.json'; }
 function agro_configured(): bool { global $C; return trim((string)$C['AGROAPI_KEY']) !== '' && trim((string)$C['AGROAPI_SECRET']) !== ''; }
@@ -265,7 +265,7 @@ function agro_date(?string $s): ?string { return $s && preg_match('~^(\d{2})/(\d
 function agro_get(string $tok, string $path, array $q = []): array {
   $url = AGRO_BASE . '/agrofit/v1' . $path . ($q ? '?' . http_build_query($q) : '');
   for ($try = 1; $try <= 4; $try++) {
-    [$code, $body] = http($url, null, ['Authorization: Bearer ' . $tok, 'Accept: application/json'], 45);
+    [$code, $body] = http($url, null, ['Authorization: Bearer ' . $tok, 'Accept: application/json'], 60);
     if ($code === 200) { $j = json_decode($body, true); if (is_array($j)) return $j; }
     if ($code === 401 || $code === 403) throw new RuntimeException('agroapi_auth');
     sleep(2 * $try);
@@ -277,58 +277,119 @@ function agro_clean_ai(string $s): string {
   $s = preg_replace('/\s*\([\d.,]+\s*[^()]*\)\s*$/u', '', $s);
   return trim($s);
 }
-/* Pull every biological class from AGROFIT and write one compact snapshot. Returns a short summary. */
+/* Short key for "same active ingredient": name before the first comma or bracket, lower case. */
+function agro_ai_key(string $s): string {
+  $s = mb_strtolower(agro_clean_ai($s)); $s = preg_split('/[,(]/u', $s)[0] ?? $s; return trim($s);
+}
+/* Registration date: the date in the certificate's description, else the earliest document date. */
+function agro_regdate(array $p): ?string {
+  $cert = []; $any = [];
+  foreach ($p['documento_cadastrado'] ?? [] as $x) {
+    if ($dd = agro_date($x['data_inclusao'] ?? null)) $any[] = $dd;
+    if (($x['tipo_documento'] ?? '') === 'Certificado' && preg_match('~(\d{2})[./](\d{2})[./](\d{4})~', (string)($x['descricao'] ?? ''), $m) && (int)$m[3] > 1950 && (int)$m[3] <= (int)date('Y'))
+      $cert[] = "$m[3]-$m[2]-$m[1]";
+  }
+  return $cert ? min($cert) : ($any ? min($any) : null);
+}
+function agro_arr($v): array { return is_array($v) ? array_values($v) : (($v === null || $v === '') ? [] : [(string)$v]); }
+function agro_shard(string $reg): int { return crc32($reg) % 64; }
+function agro_detail(array $p, ?string $regdate): array {
+  $uses = [];
+  foreach ($p['indicacao_uso'] ?? [] as $u) {
+    $cr = (string)($u['cultura'] ?? ''); if ($cr === '') continue;
+    $uses[$cr][] = ['s' => (string)($u['praga_nome_cientifico'] ?? ''), 'c' => agro_arr($u['praga_nome_comum'] ?? [])];
+  }
+  $docs = []; foreach ($p['documento_cadastrado'] ?? [] as $x) $docs[(string)($x['tipo_documento'] ?? '') . '|' . (string)agro_date($x['data_inclusao'] ?? null)] = ['t' => (string)($x['tipo_documento'] ?? ''), 'd' => agro_date($x['data_inclusao'] ?? null)];
+  $ai = array_map(fn($a) => ['n' => (string)($a['ingrediente_ativo'] ?? ''), 'g' => (string)($a['grupo_quimico'] ?? ''), 'c' => (string)($a['concentracao'] ?? ''), 'u' => (string)($a['unidade_medida'] ?? ''), 'p' => (string)($a['percentual'] ?? '')], $p['ingrediente_ativo_detalhado'] ?? []);
+  return ['r' => (string)$p['numero_registro'], 'b' => agro_arr($p['marca_comercial'] ?? []), 'c' => (string)($p['titular_registro'] ?? ''),
+    'k' => agro_arr($p['classe_categoria_agronomica'] ?? []), 'v' => !empty($p['produto_biologico']), 'f' => (string)($p['formulacao'] ?? ''),
+    't' => (string)($p['classificacao_toxicologica'] ?? ''), 'e' => (string)($p['classificacao_ambiental'] ?? ''), 'o' => !empty($p['produto_agricultura_organica']),
+    'fl' => !empty($p['inflamavel']), 'co' => !empty($p['corrosivo']), 'ai' => $ai, 'ais' => array_values(array_unique(array_map('agro_clean_ai', agro_arr($p['ingrediente_ativo'] ?? [])))),
+    'm' => agro_arr($p['modo_acao'] ?? []), 'tec' => agro_arr($p['tecnica_aplicacao'] ?? []), 'uses' => $uses, 'docs' => array_values($docs), 'd' => $regdate];
+}
+/* Pull the whole registry, a few pages at a time (resumable), then write the search snapshot and per-product detail files. */
 function agro_sync(): array {
   global $C;
   if (!agro_configured()) throw new RuntimeException('not_configured');
   $lock = fopen(data_dir() . '/br-bio.lock', 'c');
   if (!$lock || !flock($lock, LOCK_EX | LOCK_NB)) return ['busy' => true];
-  @set_time_limit(170);
+  $cli = PHP_SAPI === 'cli'; $budget = $cli ? 100000 : 100; $t0 = time();
+  @set_time_limit($cli ? 0 : 170);
   touch(data_dir() . '/br-bio.try');
-  [$code, $body] = http(AGRO_BASE . '/token', 'grant_type=client_credentials',
-    ['Authorization: Basic ' . base64_encode($C['AGROAPI_KEY'] . ':' . $C['AGROAPI_SECRET']), 'Content-Type: application/x-www-form-urlencoded'], 30);
-  $tok = (string)(json_decode($body, true)['access_token'] ?? '');
-  if ($code !== 200 || $tok === '') throw new RuntimeException('agroapi_auth');
-  $classes = array_values(array_filter(array_map(fn($c) => (string)($c['nome'] ?? ''), agro_get($tok, '/classes-categorias-agronomicas')),
-    fn($n) => preg_match('/microbiol|biol[óo]gico|fer[oô]m/iu', $n)));
-  if (!$classes) throw new RuntimeException('agroapi_unavailable');
-  $ver = agro_get($tok, '/versao'); $srcUpdated = (string)($ver[0]['data_ultima_atualizacao'] ?? '');
-  $all = [];
-  foreach ($classes as $cl) {
-    for ($pg = 1; $pg <= 40; $pg++) {
-      $d = agro_get($tok, '/search/produtos-formulados', ['classe_categoria_agronomica' => $cl, 'page' => $pg]);
-      foreach ($d as $p) if (!empty($p['numero_registro'])) $all[(string)$p['numero_registro']] = $p;
-      if (count($d) < 100) break;
-      usleep(300000);
+  $stf = data_dir() . '/br-work.json'; $nd = data_dir() . '/br-work.ndjson';
+  $st = is_file($stf) ? json_decode((string)file_get_contents($stf), true) : null;
+  if (!is_array($st) || time() - (int)($st['t'] ?? 0) > 6 * 3600) { $st = ['next' => 1, 't' => time(), 'done' => false]; @unlink($nd); }
+  if (empty($st['done'])) {
+    [$code, $body] = http(AGRO_BASE . '/token', 'grant_type=client_credentials',
+      ['Authorization: Basic ' . base64_encode($C['AGROAPI_KEY'] . ':' . $C['AGROAPI_SECRET']), 'Content-Type: application/x-www-form-urlencoded'], 30);
+    $tok = (string)(json_decode($body, true)['access_token'] ?? '');
+    if ($code !== 200 || $tok === '') throw new RuntimeException('agroapi_auth');
+    $ver = agro_get($tok, '/versao'); $st['source_updated'] = (string)($ver[0]['data_ultima_atualizacao'] ?? '');
+    while (true) {
+      if (time() - $t0 > $budget) { file_put_contents($stf, json_encode($st)); return ['partial' => true, 'next_page' => $st['next']]; }
+      $d = agro_get($tok, '/produtos-formulados', ['page' => $st['next']]);
+      if (!$d) break;
+      $fh = fopen($nd, 'a'); foreach ($d as $p) if (!empty($p['numero_registro'])) fwrite($fh, json_encode($p, JSON_UNESCAPED_UNICODE) . "\n"); fclose($fh);
+      $st['next']++; $st['t'] = time(); file_put_contents($stf, json_encode($st));
+      if (count($d) < 100 || $st['next'] > 150) break;
+      usleep(400000);
     }
+    $st['done'] = true; file_put_contents($stf, json_encode($st));
   }
+  $all = [];
+  $fh = fopen($nd, 'r'); while (($ln = fgets($fh)) !== false) { $p = json_decode($ln, true); if ($p) $all[(string)$p['numero_registro']] = $p; } fclose($fh);
   $prev = is_file(agro_file()) ? (json_decode((string)file_get_contents(agro_file()), true) ?: []) : [];
   $prevSeen = []; foreach ($prev['items'] ?? [] as $it) $prevSeen[$it['r']] = $it['s'] ?? null;
-  if ($prevSeen && count($all) < 0.7 * count($prevSeen)) throw new RuntimeException('incomplete_pull');
-  if (count($all) < 100) throw new RuntimeException('incomplete_pull');
-  $today = date('Y-m-d'); $first = !$prevSeen; $new = 0; $items = [];
+  if (count($all) < 1000 || ($prevSeen && count($all) < 0.7 * count($prevSeen))) { @unlink($stf); @unlink($nd); throw new RuntimeException('incomplete_pull'); }
+  $today = date('Y-m-d'); $first = !$prevSeen; $new = 0; $items = []; $shards = [];
   foreach ($all as $reg => $p) {
-    $dates = []; foreach ($p['documento_cadastrado'] ?? [] as $x) if ($dd = agro_date($x['data_inclusao'] ?? null)) $dates[] = $dd;
+    $rd = agro_regdate($p);
     $crops = []; $pests = [];
     foreach ($p['indicacao_uso'] ?? [] as $u) {
       if (!empty($u['cultura'])) $crops[$u['cultura']] = 1;
-      $pn = $u['praga_nome_comum'][0] ?? ($u['praga_nome_cientifico'] ?? ''); if ($pn !== '') $pests[$pn] = 1;
+      $pn = agro_arr($u['praga_nome_comum'] ?? [])[0] ?? ($u['praga_nome_cientifico'] ?? ''); if ($pn !== '') $pests[$pn] = 1;
     }
     $seen = array_key_exists($reg, $prevSeen) ? $prevSeen[$reg] : ($first ? null : $today);
     if (!$first && !array_key_exists($reg, $prevSeen)) $new++;
-    $items[] = ['r' => (string)$reg, 'b' => array_values($p['marca_comercial'] ?? []), 'c' => (string)($p['titular_registro'] ?? ''),
-      'k' => (string)($p['classe_categoria_agronomica'][0] ?? ''), 'a' => array_values(array_unique(array_map('agro_clean_ai', $p['ingrediente_ativo'] ?? []))),
-      'f' => (string)($p['formulacao'] ?? ''), 't' => (string)($p['classificacao_toxicologica'] ?? ''), 'e' => (string)($p['classificacao_ambiental'] ?? ''),
+    $items[] = ['r' => (string)$reg, 'v' => !empty($p['produto_biologico']), 'b' => agro_arr($p['marca_comercial'] ?? []), 'c' => (string)($p['titular_registro'] ?? ''),
+      'k' => (string)(agro_arr($p['classe_categoria_agronomica'] ?? [])[0] ?? ''), 'a' => array_values(array_unique(array_map('agro_clean_ai', agro_arr($p['ingrediente_ativo'] ?? [])))),
       'o' => !empty($p['produto_agricultura_organica']), 'u' => array_slice(array_keys($crops), 0, 40), 'z' => array_slice(array_keys($pests), 0, 12),
-      'd' => $dates ? min($dates) : null, 's' => $seen, 'l' => (string)($p['url_agrofit'] ?? '')];
+      'd' => $rd, 's' => $seen];
+    $shards[agro_shard((string)$reg)][(string)$reg] = agro_detail($p, $rd);
   }
-  usort($items, fn($a, $b) => strcmp((string)($b['s'] ?? $b['d']), (string)($a['s'] ?? $a['d'])) ?: strcmp($a['r'], $b['r']));
-  $snap = ['generated' => gmdate('c'), 'source_updated' => $srcUpdated, 'baseline' => $prev['baseline'] ?? $today, 'count' => count($items), 'items' => $items];
-  $tmp = agro_file() . '.tmp';
-  file_put_contents($tmp, json_encode($snap, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-  rename($tmp, agro_file());
-  flock($lock, LOCK_UN);
-  return ['ok' => true, 'count' => count($items), 'new_since_last' => $new, 'classes' => $classes];
+  usort($items, fn($a, $b) => strcmp((string)($b['s'] ?? ''), (string)($a['s'] ?? '')) ?: strcmp((string)$b['d'], (string)$a['d']) ?: strcmp($a['r'], $b['r']));
+  $dir = data_dir() . '/br-detail'; if (!is_dir($dir)) @mkdir($dir, 0700, true);
+  for ($i = 0; $i < 64; $i++) { $f = "$dir/$i.json"; file_put_contents("$f.tmp", json_encode($shards[$i] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)); rename("$f.tmp", $f); }
+  $snap = ['generated' => gmdate('c'), 'source_updated' => $st['source_updated'] ?? '', 'baseline' => $prev['baseline'] ?? $today, 'count' => count($items), 'items' => $items];
+  file_put_contents(agro_file() . '.tmp', json_encode($snap, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+  rename(agro_file() . '.tmp', agro_file());
+  @unlink($stf); @unlink($nd);
+  return ['ok' => true, 'count' => count($items), 'new_since_last' => $new];
+}
+/* One product page: its full record plus context computed from the whole registry. */
+function agro_product(string $reg): ?array {
+  $f = data_dir() . '/br-detail/' . agro_shard($reg) . '.json';
+  $sh = is_file($f) ? json_decode((string)file_get_contents($f), true) : null;
+  $p = $sh[$reg] ?? null; if (!$p || !is_file(agro_file())) return null;
+  $snap = json_decode((string)file_get_contents(agro_file()), true); $items = $snap['items'] ?? [];
+  $key = $p['ai'] ? agro_ai_key($p['ai'][0]['n']) : ($p['ais'] ? agro_ai_key($p['ais'][0]) : '');
+  $peers = []; $byYear = []; $byCo = []; $co = []; $coClass = [];
+  foreach ($items as $it) {
+    if ($it['c'] === $p['c']) { $co[] = $it; $coClass[$it['k']] = ($coClass[$it['k']] ?? 0) + 1; }
+    if ($key === '') continue;
+    foreach ($it['a'] as $a) if (agro_ai_key($a) === $key) {
+      $peers[] = $it; if ($it['d']) { $y = substr($it['d'], 0, 4); $byYear[$y] = ($byYear[$y] ?? 0) + 1; }
+      $byCo[$it['c']] = ($byCo[$it['c']] ?? 0) + 1; break;
+    }
+  }
+  arsort($byCo); arsort($coClass); ksort($byYear);
+  $list = array_values(array_filter($peers, fn($x) => $x['r'] !== $reg));
+  usort($list, fn($a, $b) => strcmp((string)$b['d'], (string)$a['d']));
+  return ['p' => $p, 'key' => $key, 'generated' => $snap['generated'] ?? '', 'source_updated' => $snap['source_updated'] ?? '',
+    'peers' => ['count' => count($peers), 'companies' => count($byCo), 'by_year' => $byYear, 'top_companies' => array_slice($byCo, 0, 8, true),
+      'list' => array_map(fn($x) => ['r' => $x['r'], 'b' => $x['b'], 'c' => $x['c'], 'k' => $x['k'], 'd' => $x['d']], array_slice($list, 0, 12))],
+    'company' => ['count' => count($co), 'by_class' => array_slice($coClass, 0, 8, true),
+      'bio' => count(array_filter($co, fn($x) => $x['v']))]];
 }
 
 /* ---------- command line: php api.php sync (daily cron) ---------- */
@@ -368,9 +429,14 @@ try {
       $f = agro_file(); $age = is_file($f) ? time() - (int)filemtime($f) : PHP_INT_MAX;
       $tried = is_file(data_dir() . '/br-bio.try') ? time() - (int)filemtime(data_dir() . '/br-bio.try') : PHP_INT_MAX;
       if ($age > 30 * 3600 && $tried > 900 && agro_configured()) { try { agro_sync(); } catch (Throwable $e) { error_log('BMP agro ' . $e->getMessage()); } }
-      if (!is_file($f)) fail(agro_configured() ? 'unavailable' : 'not_configured', 503);
+      if (!is_file($f)) fail(agro_configured() ? 'building' : 'not_configured', 503);
       if (!ini_get('zlib.output_compression')) ob_start('ob_gzhandler');
       echo '{"ok":true,"data":' . file_get_contents($f) . '}'; exit;
+
+    case 'br_product':
+      $r = trim((string)($in['r'] ?? '')); if (!preg_match('~^[0-9A-Za-z.\-/]{1,14}$~', $r)) fail('bad_request');
+      $pr = agro_product($r); if (!$pr) fail('not_found', 404);
+      out(['ok' => true, 'data' => $pr]);
 
     case 'deepdive':
       $term = trim(preg_replace('/\s+/', ' ', (string)($in['term'] ?? '')));
