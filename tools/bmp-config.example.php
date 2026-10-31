@@ -28,6 +28,12 @@ return [
   'NCBI_API_KEY' => '',
   'NCBI_EMAIL'   => '',
 
+  // 4) Brazil biologicals registry (free). Register at agroapi.cnptia.embrapa.br, create an application,
+  //    subscribe it to AGROFIT v1, then paste its Consumer Key and Consumer Secret here.
+  //    Then add a daily cron job in hPanel:  php /home/YOURUSER/domains/biomarketpulse.com/public_html/api.php sync
+  'AGROAPI_KEY'    => '',
+  'AGROAPI_SECRET' => '',
+
   // Prices per million tokens, used only to track spend against the cap (Sonnet 5.5 / Haiku 5.5, Oct 2026).
   'PRICES' => [
     'claude-sonnet-5-5' => ['in' => 2.00, 'out' => 10.00, 'cache_read_mult' => 0.05],

@@ -86,6 +86,127 @@ BRIDGE_JS = r"""<script>
 </script>
 """
 
+BR_SECTION = r"""<section class="brb" id="br-bio" aria-labelledby="brb-h">
+<style>
+.brb{margin-top:6px}
+.brb .brb-sub{font-size:13px;color:var(--muted);margin:10px 0 12px;line-height:1.5}
+.brb .brb-stats{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px}
+.brb .brb-stat{flex:1 1 130px;border:1px solid var(--line);border-top:3px solid var(--hl);padding:8px 12px;background:var(--surface,#fff)}
+.brb .brb-stat b{display:block;font-size:22px;line-height:1.2;color:var(--ink)}
+.brb .brb-stat span{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.brb .brb-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.brb .brb-chip{border:1px solid var(--line-strong);background:#fff;color:var(--ink);font:inherit;font-size:12px;padding:3px 9px;border-radius:999px;cursor:pointer}
+.brb .brb-chip[aria-pressed="true"]{background:var(--hl);border-color:var(--hl);color:#fff}
+.brb .brb-ctl{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.brb .brb-ctl input,.brb .brb-ctl select{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--line-strong);background:#fff;color:var(--ink);border-radius:3px;min-width:0}
+.brb .brb-ctl input{flex:1 1 240px}
+.brb .brb-n{font-size:12.5px;color:var(--muted);margin:2px 0 6px}
+.brb .brb-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.brb .brb-it{padding:11px 2px;border-bottom:1px solid var(--line)}
+.brb .brb-l1{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.brb .brb-name{font-weight:700;color:var(--ink);font-size:15px}
+.brb .brb-k{font-size:11px;padding:1px 7px;border-radius:3px;color:var(--hl-ink);background:var(--hl-tint)}
+.brb .brb-new{font-size:11px;font-weight:700;padding:1px 7px;border-radius:3px;color:#fff;background:var(--accent-ink,#a94300)}
+.brb .brb-co{font-size:13px;color:var(--muted);margin-top:2px}
+.brb .brb-ai{font-size:13.5px;margin-top:4px;color:var(--ink)}
+.brb .brb-meta{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+.brb .brb-meta a{white-space:nowrap}
+.brb .brb-more{display:block;margin:12px auto 0;font:inherit;font-size:14px;padding:8px 18px;border:1px solid var(--line-strong);background:#fff;color:var(--ink);border-radius:3px;cursor:pointer}
+.brb .brb-note{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5}
+.brb .brb-msg{padding:14px 2px;color:var(--muted);font-size:14px}
+</style>
+  <div class="section-head">
+    <h2 id="brb-h">Brazil Biologicals Registry</h2>
+    <span class="count" id="brb-count">MAPA · AGROFIT</span>
+  </div>
+  <p class="brb-sub">Every biological crop-protection product registered with Brazil's Ministry of Agriculture (MAPA): microbial and biological-control agents and pheromones. Search by company, product, organism, crop or target pest.</p>
+  <div id="brb-body"><div class="brb-msg">Loading the registry…</div></div>
+<script>
+(function(){
+  var body=document.getElementById("br-bio") && document.getElementById("brb-body");
+  if(!body) return;
+  var DATA=null, state={q:"",k:"",co:"",onlyNew:false,shown:20};
+  function el(t,c,x){var e=document.createElement(t); if(c) e.className=c; if(x!=null) e.textContent=x; return e;}
+  function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+  function short(c){return c.replace(/\b(S\.?\/?A\.?|Ltda\.?|LTDA|Holding|Brasil|do Brasil|Ind[uú]stria|Com[eé]rcio|e|de|Produtos|Agr[ií]colas?|Agropecu[aá]ria|Defensivos)\b\.?/gi,"").replace(/[,.\-–]+\s*$/,"").replace(/\s+/g," ").trim()||c;}
+  function fail(msg){body.innerHTML=""; body.appendChild(el("div","brb-msg",msg));}
+  function load(){
+    if(!window.BMP||!window.BMP.on){ fail("The registry is available on biomarketpulse.com."); return; }
+    window.BMP.api("br_bio").then(function(j){ DATA=j.data; prep(); render(true); },
+      function(e){ fail(e&&e.code==="not_configured"?"The registry isn't switched on yet.":"The registry is temporarily unavailable. Please try again shortly."); });
+  }
+  function prep(){
+    DATA.items.forEach(function(it){
+      it._t=norm([it.b.join(" "),it.c,it.r,it.k,it.a.join(" "),it.u.join(" "),it.z.join(" ")].join(" | "));
+    });
+  }
+  function counts(key){var m={}; DATA.items.forEach(function(it){var v=key(it); m[v]=(m[v]||0)+1;}); return Object.keys(m).map(function(k){return [k,m[k]];}).sort(function(a,b){return b[1]-a[1];});}
+  var built=false, refs={};
+  function build(){
+    var items=DATA.items, newN=items.filter(function(i){return i.s;}).length;
+    var cos=counts(function(i){return i.c;}), cls=counts(function(i){return i.k;});
+    body.innerHTML="";
+    var st=el("div","brb-stats");
+    [[items.length,"Registered products"],[cos.length,"Companies"],[newN,"New since "+(DATA.baseline||"")],[(DATA.source_updated||"—"),"Source last updated"]].forEach(function(x){
+      var d=el("div","brb-stat"); d.appendChild(el("b",null,x[0])); d.appendChild(el("span",null,x[1])); st.appendChild(d);});
+    body.appendChild(st);
+    var chips=el("div","brb-chips"); chips.setAttribute("aria-label","Top registrants");
+    cos.slice(0,8).forEach(function(c){var b=el("button","brb-chip",short(c[0])+" · "+c[1]); b.type="button"; b.setAttribute("aria-pressed","false"); b.dataset.co=c[0];
+      b.onclick=function(){state.co=state.co===c[0]?"":c[0]; state.shown=20; render();}; chips.appendChild(b);});
+    body.appendChild(chips); refs.chips=chips;
+    var ctl=el("div","brb-ctl");
+    var q=el("input"); q.type="search"; q.placeholder="Search: Bacillus, Koppert, soja, mosca-branca…"; q.setAttribute("aria-label","Search the registry");
+    q.oninput=function(){state.q=q.value; state.shown=20; render();}; ctl.appendChild(q);
+    var sel=el("select"); sel.setAttribute("aria-label","Product class");
+    var o=el("option",null,"All classes ("+items.length+")"); o.value=""; sel.appendChild(o);
+    cls.forEach(function(c){var op=el("option",null,c[0]+" ("+c[1]+")"); op.value=c[0]; sel.appendChild(op);});
+    sel.onchange=function(){state.k=sel.value; state.shown=20; render();}; ctl.appendChild(sel);
+    if(newN){var nb=el("button","brb-chip","New only"); nb.type="button"; nb.setAttribute("aria-pressed","false"); nb.onclick=function(){state.onlyNew=!state.onlyNew; nb.setAttribute("aria-pressed",state.onlyNew); state.shown=20; render();}; ctl.appendChild(nb);}
+    body.appendChild(ctl);
+    refs.n=el("div","brb-n"); body.appendChild(refs.n);
+    refs.list=el("ol","brb-list"); body.appendChild(refs.list);
+    refs.more=el("button","brb-more","Show more"); refs.more.type="button"; refs.more.onclick=function(){state.shown+=30; render();}; body.appendChild(refs.more);
+    var note=el("p","brb-note");
+    note.textContent="Source: MAPA's AGROFIT registry, via Embrapa AgroAPI. MAPA last updated the source data on "+(DATA.source_updated||"an unknown date")+"; this page re-reads it daily and marks a product New when it first appears. Dates show when a product's first document was filed in AGROFIT. Covers formulated biological products; inoculants and biofertilizers are not included. Always confirm a registration on the official AGROFIT page before acting on it.";
+    body.appendChild(note); built=true;
+  }
+  function render(first){
+    if(!built) build();
+    var terms=norm(state.q).split(/\s+/).filter(Boolean);
+    var rows=DATA.items.filter(function(it){
+      if(state.k&&it.k!==state.k) return false; if(state.co&&it.c!==state.co) return false; if(state.onlyNew&&!it.s) return false;
+      for(var i=0;i<terms.length;i++) if(it._t.indexOf(terms[i])<0) return false; return true;});
+    [].forEach.call(refs.chips.children,function(b){b.setAttribute("aria-pressed",b.dataset.co===state.co);});
+    document.getElementById("brb-count").textContent=DATA.items.length+" products · MAPA AGROFIT";
+    refs.n.textContent=rows.length===DATA.items.length?"Showing all "+rows.length+" products":rows.length+" matching product"+(rows.length===1?"":"s");
+    refs.list.innerHTML="";
+    rows.slice(0,state.shown).forEach(function(it){
+      var li=el("li","brb-it"), l1=el("div","brb-l1");
+      l1.appendChild(el("span","brb-name",it.b.length?it.b.join(" · "):"Registration "+it.r));
+      l1.appendChild(el("span","brb-k",it.k)); if(it.s) l1.appendChild(el("span","brb-new","New"));
+      li.appendChild(l1);
+      li.appendChild(el("div","brb-co",it.c+" · Reg. "+it.r));
+      if(it.a.length) li.appendChild(el("div","brb-ai",it.a.join("; ")));
+      var m=el("div","brb-meta"), parts=[];
+      if(it.u.length) parts.push("Crops: "+it.u.slice(0,5).join(", ")+(it.u.length>5?" +"+(it.u.length-5)+" more":""));
+      if(it.z.length) parts.push("Targets: "+it.z.slice(0,5).join(", ")+(it.z.length>5?" …":""));
+      if(it.o) parts.push("Approved for organic farming");
+      if(it.d) parts.push("First filed "+it.d.slice(0,7));
+      m.textContent=parts.join(" · ")+(parts.length?" · ":"");
+      if(it.l){var a=el("a",null,"AGROFIT ↗"); a.href=it.l; a.target="_blank"; a.rel="noopener"; m.appendChild(a);}
+      li.appendChild(m); refs.list.appendChild(li);
+    });
+    if(!rows.length){var e=el("li","brb-msg","No products match. Try a shorter search."); refs.list.appendChild(e);}
+    refs.more.style.display=rows.length>state.shown?"":"none";
+  }
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){ if(es[0].isIntersecting){io.disconnect(); load();} },{rootMargin:"400px"}); io.observe(document.getElementById("br-bio"));
+  } else load();
+})();
+</script>
+</section>
+"""
+
 BRIDGE_EDITS = [
     ('var mcpP=null; if(window.claude&&claude.use){mcpP=claude.use("mcp").catch(function(){return null;});}',
      'var mcpP=null; if(window.claude&&claude.use){mcpP=claude.use("mcp").catch(function(){return null;});}\n'
@@ -360,6 +481,12 @@ def build(edition_path, out, preview=False):
         a, b = panels[pid]
         body = full[a:b]
         body = re.sub(r'(<div class="tabpanel" id="%s")[^>]*>' % pid, r'\1>', body, count=1)  # visible, no tab roles
+        if pid == "p-ag":
+            mk = '<section class="rs" data-reg="ag"></section>'
+            if mk in body:
+                body = body.replace(mk, mk + "\n" + BR_SECTION, 1)
+            else:
+                print("build_site: warning — regulatory marker not found on Agriculture; registry section skipped")
         body = '<main id="main">\n  ' + body.strip() + "\n  </main>\n"
         doc = page_html(title, desc, slug, pid, body, home=(slug == ""))
         path = os.path.join(out, (slug or "overview") + ".html") if preview else \
