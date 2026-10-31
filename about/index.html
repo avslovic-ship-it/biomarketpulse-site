@@ -806,9 +806,10 @@
   .tape .tk.asof .s,.tape.bio .tk.asof .s{color:var(--tk-fg);opacity:1;font-weight:600;font-size:10.5px;letter-spacing:.08em;}
   .tape a.tk:focus-visible{outline-color:var(--hl);}
  </style>
-<style id="sec-tapes">.tabpanel>.sec-tape{margin:0 0 24px;border:1px solid var(--line);box-shadow:var(--shadow);}</style>
 
-<div class="tape" aria-label="Market movers: top 30 stocks by market cap, closing prices and 7-day change"><span class="tape-lbl" aria-hidden="true">Market movers</span><div class="tape-track" id="tape-track"></div></div>
+<div class="tape" id="tape-movers" aria-label="Market movers: top 30 stocks by market cap, closing prices and 7-day change"><span class="tape-lbl" aria-hidden="true">Market movers</span><div class="tape-track" id="tape-track"></div></div>
+<div class="tape bio" hidden aria-label="Top biotech: biotech stocks, closing prices and 7-day change"><span class="tape-lbl" aria-hidden="true">Top biotech</span><div class="tape-track" id="bio-track"></div></div>
+<div class="tape cm" hidden aria-label="Commodities: energy, metals, agricultural and fertilizer prices, 7-day change"><span class="tape-lbl" aria-hidden="true">Commodities</span><div class="tape-track" id="cm-track"></div></div>
 <div class="wrap">
 
   <header class="masthead">
@@ -1702,4 +1703,14 @@
 })();
 </script>
 
+<script>
+/* Section tapes: Agriculture shows only Commodities, Pharma & Biotech only Top biotech, every other view only Market movers */
+(function(){
+  var mv=document.getElementById("tape-movers"),cm=document.querySelector(".tape.cm"),bio=document.querySelector(".tape.bio");
+  function vis(id){var e=document.getElementById(id);return !!(e&&!e.hidden);}
+  function sync(){var ag=vis("p-ag"),ph=vis("p-pharma");if(mv)mv.hidden=ag||ph;if(cm)cm.hidden=!ag;if(bio)bio.hidden=!ph;}
+  sync();
+  if(window.MutationObserver){var o=new MutationObserver(sync);["p-ag","p-pharma"].forEach(function(id){var e=document.getElementById(id);if(e)o.observe(e,{attributes:true,attributeFilter:["hidden"]});});}
+})();
+</script>
 </body></html>
