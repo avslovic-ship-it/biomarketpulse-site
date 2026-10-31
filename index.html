@@ -313,7 +313,7 @@
   .tape::before{left:0;background:linear-gradient(90deg,var(--tk-bg),transparent);}
   .tape::after{right:0;background:linear-gradient(270deg,var(--tk-bg),transparent);}
   .tape-track{display:flex;width:max-content;animation:tape-scroll 95s linear infinite;padding-block:9px;}
-  .tape:hover .tape-track{animation-play-state:paused;}
+  @media (hover:hover) and (pointer:fine){.tape:hover .tape-track{animation-play-state:paused;}}
   @keyframes tape-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .tk{display:flex;align-items:baseline;gap:8px;padding-inline:18px;border-right:1px solid var(--tk-sep);font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:13px;}
   .tk .s{color:var(--tk-sym);font-weight:600;letter-spacing:.03em;}
