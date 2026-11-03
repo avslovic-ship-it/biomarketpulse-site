@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://www.biomarketpulse.com/biocatalysis/">
 <meta name="twitter:card" content="summary">
 <meta name="bmp-api" content="/api.php">
-<meta name="date" content="2026-10-31">
+<meta name="date" content="2026-11-01">
 <style>
   /* multi-page site */
   .tabs .tab{text-decoration:none;display:inline-flex;align-items:center;}
@@ -358,17 +358,6 @@
   .tape.cm a.tk:focus-visible{outline-color:#93690f;}
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   /* Currency table (top of page) */
-  .fxt{margin:-6px 0 22px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);}
-  .fxt-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:8px 12px 0;}
-  .fxt-head b{font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);}
-  .fxt-head span{font:400 11px 'IBM Plex Mono',monospace;color:var(--faint);}
-  .fxt-scroll{overflow-x:auto;}
-  .fxt table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-size:12.5px;}
-  .fxt th,.fxt td{padding:6px 12px;text-align:right;white-space:nowrap;border-top:1px solid var(--line);}
-  .fxt thead th{border-top:0;font-weight:600;font-size:12px;}
-  .fxt thead th a{color:var(--ink);text-decoration:none;} .fxt thead th a:hover{text-decoration:underline;}
-  .fxt th[scope=row]{text-align:left;color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;}
-  .fxt td.up{color:var(--tag-product);} .fxt td.dn{color:var(--tag-risk);}
 
   /* Ask Claude chat */
   .ask-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:8px;
@@ -807,7 +796,7 @@
   .tape a.tk:focus-visible{outline-color:var(--hl);}
  </style>
 
-<div class="tape" id="tape-movers" aria-label="Market movers: top 30 stocks by market cap, closing prices and 7-day change"><span class="tape-lbl" aria-hidden="true">Market movers</span><div class="tape-track" id="tape-track"></div></div>
+<div class="tape" id="tape-movers" aria-label="Market movers: top 30 stocks by market cap and major currency pairs, closing prices and 7-day change"><span class="tape-lbl" aria-hidden="true">Market movers</span><div class="tape-track" id="tape-track"></div></div>
 <div class="tape bio" hidden aria-label="Top biotech: biotech stocks, closing prices and 7-day change"><span class="tape-lbl" aria-hidden="true">Top biotech</span><div class="tape-track" id="bio-track"></div></div>
 <div class="tape cm" hidden aria-label="Commodities: energy, metals, agricultural and fertilizer prices, 7-day change"><span class="tape-lbl" aria-hidden="true">Commodities</span><div class="tape-track" id="cm-track"></div></div>
 <div class="wrap">
@@ -819,10 +808,10 @@
       <p class="sub">The deals, science and markets moving biotech, pharma, synbio and agriculture.</p>
     </div>
     <div class="meta">
-      <span class="date">Saturday, October 31, 2026</span>
+      <span class="date">Sunday, November 1, 2026</span>
       <span>Refreshes daily · 7:30 AM America/Sao_Paulo</span>
-      <span>Edition No. 42</span>
-      <span>7 items · 6 deals · 1 launch · 36 sources</span>
+      <span>Edition No. 43</span>
+      <span>7 items · 6 deals · 1 launch · 41 sources</span>
     </div>
   </header>
   <section class="listen-bar" aria-label="Audio briefing" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:-8px 0 22px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)">
@@ -834,19 +823,14 @@
   </section>
 
 
-  <section class="fxt" aria-labelledby="fxt-h">
-    <div class="fxt-head"><b id="fxt-h">Currencies</b><span id="fxt-asof"></span></div>
-    <div class="fxt-scroll"><table id="fxt"></table></div>
-  </section>
-
   <nav class="tabs" id="tabs" aria-label="Sections">
     <a class="tab" href="/">Market Overview</a>
     <a class="tab" href="/daily-pulse/">Daily Pulse</a>
-    <a class="tab" href="/biocatalysis/" aria-current="page">Biocatalysis <span class="pill">3</span></a>
+    <a class="tab" href="/biocatalysis/" aria-current="page">Biocatalysis <span class="pill">2</span></a>
     <a class="tab" href="/pharma-biotech/">Pharma &amp; Biotech <span class="pill">10</span></a>
-    <a class="tab" href="/agriculture/">Agriculture <span class="pill">9</span></a>
+    <a class="tab" href="/agriculture/">Agriculture <span class="pill">12</span></a>
     <a class="tab" href="/synthetic-biology/">Synthetic Biology <span class="pill">4</span></a>
-    <a class="tab" href="/policy/">Policy &amp; Public Health <span class="pill">8</span></a>
+    <a class="tab" href="/policy/">Policy &amp; Public Health <span class="pill">10</span></a>
     <a class="tab" href="/regulatory/">Regulatory Tracker</a>
     <a class="tab" href="/deep-dive/">Deep Dive</a>
   </nav>
@@ -857,15 +841,15 @@
     <section class="pa">
       <div class="section-head">
         <h2>Biocatalysis Pulse Analysis</h2>
-        <span class="count">3 articles · Oct 14–29</span>
+        <span class="count">2 articles · Oct 21–29</span>
       </div>
       <div class="panel pa-panel">
-        <p class="pa-text">Biocatalysis news stayed thin over the long weekend, but the signal is consistent: enzymatic manufacturing keeps gaining ground in pharma supply chains, and the bottleneck is shifting from chemistry to engineering throughput. Codexis set its Q3 2026 earnings date (Nov 12) against reiterated $72–76M revenue guidance, a near-term test of whether its ECO Synthesis platform's recent oligonucleotide partnerships are converting to revenue. Fundamental research keeps expanding what enzymes can do outside biology's native repertoire: the Baker and Lewis labs' Nature paper on photocatalyst-binding protein scaffolds (carried from last week) remains the clearest demonstration that generative design plus directed evolution can deliver genuinely new-to-nature chemistry. Separately, Cemvita's tie-up with AI-native process-engineering firm Roebling points to a new category of bioprocess-to-plant accelerants aimed at shortening biocatalytic and fermentation scale-up timelines.</p>
+        <p class="pa-text">Biocatalysis news has stayed thin for a second straight edition, with no fresh company or deal news surfacing over the weekend. The standing signal is unchanged: enzymatic manufacturing keeps gaining ground in pharma supply chains, and the bottleneck is shifting from chemistry to engineering throughput. Codexis's Q3 2026 earnings date (Nov 12) against reiterated $72–76M revenue guidance remains the nearest catalyst, a test of whether its ECO Synthesis platform's recent oligonucleotide partnerships are converting to revenue. Fundamental research keeps expanding what enzymes can do outside biology's native repertoire: the Baker and Lewis labs' Nature paper on photocatalyst-binding protein scaffolds remains the clearest demonstration that generative design plus directed evolution can deliver genuinely new-to-nature chemistry, and this week's PubMed feed shows that same design-plus-evolution playbook spreading fast — AI-guided kinetics prediction, phase-separation-modulated photobiocatalysis and imine-reductase tunnel engineering all published within days of each other.</p>
         <h3 class="pa-h">Three actionable insights</h3>
         <ol class="pa-ins">
           <li><b>Watch Codexis's Nov 12 print for ECO Synthesis commercial proof points.</b> Recent siRNA and oligonucleotide partnership announcements need to show up in revenue, not just deal-flow headlines, to validate the platform thesis.</li>
           <li><b>Design is commoditizing; value is moving to data and scale-up.</b> With leading enzyme-design methods now published and partly open-sourced, weight proprietary screening data, reaction scope and process know-how over the design claim itself.</li>
-          <li><b>Bioprocess engineering-as-a-service could shorten the industrial-biotech scale-up gap.</b> The Cemvita/Roebling partnership is an early example of AI-native process engineering firms attaching to biosolutions platforms — watch for similar tie-ups at other platform companies in the coming months.</li>
+          <li><b>AI-guided kinetics and evolution tools are multiplying faster than deal flow.</b> This week's literature (site-attention kinetics prediction, AI-driven Cas-performance evolution) suggests a widening gap between research-tool availability and the commercial biocatalysis deals needed to monetize them — a gap worth watching for consolidation or licensing activity.</li>
         </ol>
       </div>
     </section>
@@ -874,7 +858,7 @@
     <section>
       <div class="section-head">
         <h2>Latest Articles</h2>
-        <span class="count">3 items · newest first</span>
+        <span class="count">2 items · newest first</span>
       </div>
       <div class="items">
         <div class="item">
@@ -893,15 +877,6 @@
             <div class="headline"><a href="https://www.nature.com/articles/s41586-026-11317-6" target="_blank" rel="noopener">Baker and Lewis labs design new-to-nature enzymes around man-made photocatalyst cofactors</a></div>
             <div class="note">Generatively designed protein scaffolds bind one mirror-image form of a metal polypyridine photocatalyst; directed evolution then turns them into efficient, highly enantioselective photocatalysts that recycle and accept cheap racemic cofactor. The clearest demonstration yet that design plus evolution can deliver chemistry no natural enzyme performs.</div>
             <div class="src">Nature (Univ. of Washington / Indiana Univ.)</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Oct 14</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">Partnership</span></div>
-            <div class="headline"><a href="https://www.webull.com/news/15746982920397824" target="_blank" rel="noopener">Cemvita and Roebling partner to accelerate industrial biosolutions from discovery to deployment</a></div>
-            <div class="note">AI-native process-engineering firm Roebling joins Cemvita's Discovery Platform to add techno-economic modeling, starting with Cemvita's FermWorks process, aiming to cut front-end-loading analysis "from months to weeks."</div>
-            <div class="src">Business Wire via Webull</div>
           </div>
         </div>
       </div>
@@ -926,9 +901,9 @@
 
   <footer>
     <div class="sources">
-      <b>Sources:</b> Reuters (via Korea Times, TradingView, Investing.com, Trading Economics, GBM Media), TIME, Rio Times, BioSpace, Benzinga, Fierce Biotech, Fierce Pharma, PharmaShots Weekly, Healio, StockTitan, BioPharma Dive, SEC EDGAR, Genmab, RAPS, Pomegra, Global Agriculture, Growin Agri, Revista Cultivar, Canal Rural, AgRural (via Feed&amp;Food, Forbes Brasil), Conab, Agência Safras, DTN/Progressive Farmer, FertilizerDaily (StoneX), Cantech Letter (BioLumic/IRRI), Nutrition Insight, Panabee, CRISPR Medicine (CARBON Newsletter), FreshPlaza, AgFunderNews, PharmExec, Renaissance Capital, ValueAdd VC / Ropes &amp; Gray, StartupResearcher / BioPharma Dive, MHRA (GOV.UK), STAT, LexisNexis (Council of the EU), WHO, The Lancet, The BMJ, JAMA, Food Manufacture, Lovguiden / EUR-Lex, Blog do Pedlowski, Agribrasilis, AtlasPúblico, ukragroconsult, EMA, FDA/Healio, ANVISA (Mixvale, Agência Brasil), Sun Pharma, EPA and EU/EFSA reports (Global Agriculture, Staphyt, Flavorist), CTNBio (JusRural), B&amp;D Law, SynBioBeta, GlobeNewswire, Webull, NutraIngredients, chemeurope.com, Greenberg Traurig, PubMed; prices from Yahoo Finance; FX and Ibovespa closes from Rio Times and armenpress. Brazilian-market items are drawn partly from Portuguese-language sources and summarized in English.
+      <b>Sources:</b> Reuters (via Korea Times, TradingView, Investing.com, Trading Economics, GBM Media), TIME, Rio Times, BioSpace, Benzinga, Fierce Biotech, Fierce Pharma, PharmaShots Weekly, Healio, StockTitan, BioPharma Dive, SEC EDGAR, Genmab, RAPS, Pomegra, Global Agriculture, Growin Agri, Revista Cultivar, Canal Rural, AgRural (via Feed&amp;Food, Forbes Brasil), Conab, Agência Safras, DTN/Progressive Farmer, FertilizerDaily (StoneX), Cantech Letter (BioLumic/IRRI), Nutrition Insight, Panabee, CRISPR Medicine (CARBON Newsletter), FreshPlaza, AgFunderNews, PharmExec, Renaissance Capital, ValueAdd VC / Ropes &amp; Gray, StartupResearcher / BioPharma Dive, MHRA (GOV.UK), STAT, LexisNexis (Council of the EU), WHO, The Lancet, The BMJ, JAMA, Food Manufacture, Lovguiden / EUR-Lex, Blog do Pedlowski, Agribrasilis, AtlasPúblico, ukragroconsult, EMA, FDA/Healio, ANVISA (Mixvale, Agência Brasil), Sun Pharma, EPA and EU/EFSA reports (Global Agriculture, Staphyt, Flavorist), CTNBio (JusRural), B&amp;D Law, SynBioBeta, GlobeNewswire, Webull, NutraIngredients, chemeurope.com, Greenberg Traurig, PubMed, CDC, Contagion Live, Cada Minuto, O Povo, Pharmaphorum, stockanalysis.com; prices from Yahoo Finance and stockanalysis.com; FX and Ibovespa closes from Rio Times and armenpress. Brazilian-market items are drawn partly from Portuguese-language sources and summarized in English.
     </div>
-    <div>Shared edition · compiled 31 October 2026. Each tab is refreshed daily from the sources above; some items may be carried forward for a day or two when nothing fresher is confirmed.</div>
+    <div>Shared edition · compiled 1 November 2026. Each tab is refreshed daily from the sources above; some items may be carried forward for a day or two when nothing fresher is confirmed.</div>
   </footer>
   <div class="site-foot">
     <nav aria-label="Site"><a href="/">Market Overview</a> <a href="/daily-pulse/">Daily Pulse</a> <a href="/biocatalysis/">Biocatalysis</a> <a href="/pharma-biotech/">Pharma &amp; Biotech</a> <a href="/agriculture/">Agriculture</a> <a href="/synthetic-biology/">Synthetic Biology</a> <a href="/policy/">Policy &amp; Public Health</a> <a href="/regulatory/">Regulatory Tracker</a> <a href="/deep-dive/">Deep Dive</a> <a href="/about/">About</a></nav>
@@ -963,9 +938,9 @@
 </script>
 <script>
 (function(){
-  var D=[["NVDA",210.96,-1.5],["AAPL",347.73,1.2],["GOOGL",320.21,-6.0],["MSFT",524.51,-0.9],["AMZN",248.00,-0.8],["TSM",418.51,1.4],["SPCX",147.49,1.0],["META",642.62,-9.4],["AVGO",321.68,-2.1],["TSLA",372.22,4.9],["BRK.B",542.19,1.9],["LLY",1273.46,1.3],["MU",877.55,-0.1],["WMT",119.89,0.9],["SKHY",137.02,0.4],["JPM",331.58,-2.4],["AMD",516.79,-2.3],["V",407.92,1.3],["XOM",183.21,2.4],["JNJ",263.81,3.2],["ASML",1571.80,-4.2],["MA",623.60,1.0],["ABBV",285.64,0.1],["PLTR",196.75,5.8],["INTC",86.96,-3.2],["COST",1003.32,1.4],["CVX",233.21,3.6],["CSCO",106.50,-0.8],["KO",92.71,-1.3],["PG",161.02,1.1]];
-  // Biotech: Yahoo Finance daily closes, Oct 23, 2026; change vs Oct 16 close (7-day), matching the top tape
-  var B=[["AMGN",439.26,1.6],["GILD",156.04,-0.1],["VRTX",523.93,4.8],["MRNA",200.10,-8.2],["REGN",805.02,1.8],["ARGX",873.71,6.7],["RVMD",186.99,5.1],["BIIB",250.69,7.8],["ALNY",224.03,-3.4],["ROIV",36.49,8.8],["UTHR",587.50,10.2],["INCY",115.71,2.3],["GMAB",43.79,18.4],["BNTX",88.11,0.5],["INSM",93.39,-3.0],["EXEL",64.53,3.7],["NBIX",142.70,5.2],["BBIO",68.56,3.3],["BMRN",55.95,2.3],["ARWR",58.02,3.8],["IONS",42.93,0.0],["CRSP",49.39,0.3],["BEAM",24.05,2.5],["NTLA",11.21,-1.8]];
+  var D=[["NVDA",204.64,-3.0],["AAPL",347.73,1.2],["GOOGL",283.82,-11.4],["MSFT",521.91,-0.5],["AMZN",253.10,2.1],["TSM",424.37,1.4],["SPCX",147.49,1.0],["META",614.99,-4.3],["AVGO",326.08,1.4],["TSLA",399.81,7.4],["BRK.B",542.49,0.1],["LLY",1273.46,1.3],["MU",877.55,-0.1],["WMT",123.51,3.0],["SKHY",137.02,0.4],["JPM",331.58,-2.4],["AMD",560.26,8.4],["V",413.59,1.4],["XOM",187.25,2.2],["JNJ",263.81,3.2],["ASML",1565.90,-0.4],["MA",638.01,2.3],["ABBV",294.89,3.2],["PLTR",184.11,-6.4],["INTC",65.76,-24.4],["COST",1003.32,1.4],["CVX",235.52,1.0],["CSCO",104.51,-1.9],["KO",94.08,1.5],["PG",161.57,0.3]];
+  // Biotech: Yahoo Finance / stockanalysis.com daily closes, Oct 30, 2026; change vs Oct 23 close (7-day), matching the top tape
+  var B=[["AMGN",466.01,6.1],["GILD",170.68,9.4],["VRTX",558.88,6.7],["MRNA",221.72,10.8],["REGN",927.89,15.3],["ARGX",892.87,2.2],["RVMD",191.31,2.3],["BIIB",253.62,1.2],["ALNY",165.00,-26.3],["ROIV",36.91,1.2],["UTHR",598.72,1.9],["INCY",120.39,4.0],["GMAB",43.79,18.4],["BNTX",88.17,0.1],["INSM",112.58,20.5],["EXEL",69.39,7.5],["NBIX",146.10,2.4],["BBIO",74.95,9.3],["BMRN",58.51,4.6],["ARWR",59.90,3.2],["IONS",43.52,1.4],["CRSP",51.42,4.1],["BEAM",27.23,13.2],["NTLA",12.47,11.2]];
   // FX table: [pair, rate, 7-day % chg, yahoo symbol, decimals, 1-day % chg]. Trading Economics closes Fri Oct 30, 2026; EUR/BRL = USD/BRL × EUR/USD; USD/EUR = 1 ÷ EUR/USD
   var FX=[["USD/BRL",5.4376,9.13,"BRL=X",4,1.10],["EUR/BRL",6.0674,8.70,"EURBRL=X",4,0.90],["EUR/USD",1.1158,-0.39,"EURUSD=X",4,-0.20],["USD/EUR",0.8962,0.39,"EUR=X",4,0.20],["USD/CNY",6.6523,-0.26,"CNY=X",4,-0.07],["USD/ARS",1535.03,0.38,"ARS=X",2,-0.22],["USD/INR",94.927,-0.04,"INR=X",3,-0.29],["USD/JPY",157.56,0.44,"JPY=X",2,-0.10],["DXY",101.96,0.15,"DX-Y.NYB",2,-0.07]];
   var FX_ASOF="Close Fri Oct 30 · Trading Economics";
@@ -979,24 +954,14 @@
     var x=dup?' tabindex="-1" aria-hidden="true"':'';
     return '<span class="tk asof"'+(dup?' aria-hidden="true"':'')+'><span class="s">'+label+'</span></span>'+rows.map(function(d){var u=d[2]>=0;return '<a class="tk" href="'+yf(d[3]||d[0])+'" target="_blank" rel="noopener" title="'+d[0]+' on Yahoo Finance"'+x+'><span class="s">'+d[0]+'</span><span class="p">'+f(d[1],d[4])+'</span><span class="c '+(u?'up':'dn')+'">'+(u?'▲':'▼')+' '+Math.abs(d[2]).toFixed(1)+'%</span></a>';}).join("");
   };
-  var t=document.getElementById("tape-track"); if(t) t.innerHTML=build(D,"Close Oct 23 · 7-day chg",false)+build(D,"Close Oct 23 · 7-day chg",true);
-  var b=document.getElementById("bio-track"); if(b) b.innerHTML=build(B,"Close Oct 23 · 7-day chg",false)+build(B,"Close Oct 23 · 7-day chg",true);
+  var t=document.getElementById("tape-track"); if(t) t.innerHTML=build(D,"Close Fri Oct 30 · 7-day chg",false)+build(FX,FX_ASOF,false)+build(D,"Close Fri Oct 30 · 7-day chg",true)+build(FX,FX_ASOF,true);
+  var b=document.getElementById("bio-track"); if(b) b.innerHTML=build(B,"Close Fri Oct 30 · 7-day chg",false)+build(B,"Close Fri Oct 30 · 7-day chg",true);
   var te=function(s){return "https://tradingeconomics.com/commodity/"+s;};
   var buildCM=function(rows,label,dup){
     var x=dup?' tabindex="-1" aria-hidden="true"':'';
     return '<span class="tk asof"'+(dup?' aria-hidden="true"':'')+'><span class="s">'+label+'</span></span>'+rows.map(function(d){var u=d[2]>=0;return '<a class="tk" href="'+te(d[3])+'" target="_blank" rel="noopener" title="'+d[0]+' on Trading Economics"'+x+'><span class="s">'+d[0]+'</span><span class="p">'+f(d[1],d[4])+'</span><span class="u">'+d[5]+'</span><span class="c '+(u?'up':'dn')+'">'+(u?'▲':'▼')+' '+Math.abs(d[2]).toFixed(1)+'%</span></a>';}).join("");
   };
   var c=document.getElementById("cm-track"); if(c) c.innerHTML=buildCM(CM,CM_ASOF,false)+buildCM(CM,CM_ASOF,true);
-  var ft=document.getElementById("fxt");
-  if(ft){
-    var sg=function(v){return (v>0?"+":v<0?"−":"")+Math.abs(v).toFixed(2)+"%";};
-    var cl=function(v){return v>0?"up":v<0?"dn":"";};
-    ft.innerHTML='<thead><tr><th scope="col"><span class="sr">Measure</span></th>'+FX.map(function(r){return '<th scope="col"><a href="'+yf(r[3])+'" target="_blank" rel="noopener">'+r[0]+'</a></th>';}).join("")+'</tr></thead><tbody>'
-      +'<tr><th scope="row">Rate</th>'+FX.map(function(r){return '<td>'+f(r[1],r[4])+'</td>';}).join("")+'</tr>'
-      +'<tr><th scope="row">1 day</th>'+FX.map(function(r){return '<td class="'+cl(r[5])+'">'+(r[5]==null?"—":sg(r[5]))+'</td>';}).join("")+'</tr>'
-      +'<tr><th scope="row">7 days</th>'+FX.map(function(r){return '<td class="'+cl(r[2])+'">'+sg(r[2])+'</td>';}).join("")+'</tr></tbody>';
-    var fa=document.getElementById("fxt-asof"); if(fa) fa.textContent=FX_ASOF;
-  }
 })();
 </script>
 
@@ -1108,10 +1073,10 @@
 (function(){
   // Deal flow: [date label, sort key, window ("24h" also counts in "7d"), type, sector, headline, value, url]
   var DEALS=[
-    ["Oct 30","2026-10-30","24h","IPO","pharma","Bambusa Therapeutics prices its Nasdaq IPO (BBTX)","~$168.8M · $16/sh","https://www.iposcoop.com/?p=39594"],
-    ["Oct 30","2026-10-30","24h","Funding","pharma","Setara launches with $90M, carrying Jazz's Actio programs forward","$90M Series A","https://www.fiercebiotech.com/biotech/setara-raises-90m-series-carrying-actio-torch-following-jazz-acquisition"],
-    ["Oct 29","2026-10-29","24h","IPO","pharma","Aspen Neuroscience prices a $140.6M Nasdaq IPO (ASPE)","~$140.6M · $15/sh","https://www.iposcoop.com/?p=39600"],
-    ["Oct 29","2026-10-29","24h","Funding","pharma","Dren Bio raises $350M for its rare blood cancer therapy","$350M","https://www.biospace.com/drug-development/dren-bio-lands-350m-to-push-rare-blood-cancer-therapy-toward-market"],
+    ["Oct 30","2026-10-30","7d","IPO","pharma","Bambusa Therapeutics prices its Nasdaq IPO (BBTX)","~$168.8M · $16/sh","https://www.iposcoop.com/?p=39594"],
+    ["Oct 30","2026-10-30","7d","Funding","pharma","Setara launches with $90M, carrying Jazz's Actio programs forward","$90M Series A","https://www.fiercebiotech.com/biotech/setara-raises-90m-series-carrying-actio-torch-following-jazz-acquisition"],
+    ["Oct 29","2026-10-29","7d","IPO","pharma","Aspen Neuroscience prices a $140.6M Nasdaq IPO (ASPE)","~$140.6M · $15/sh","https://www.iposcoop.com/?p=39600"],
+    ["Oct 29","2026-10-29","7d","Funding","pharma","Dren Bio raises $350M for its rare blood cancer therapy","$350M","https://www.biospace.com/drug-development/dren-bio-lands-350m-to-push-rare-blood-cancer-therapy-toward-market"],
     ["Oct 28","2026-10-28","7d","Licensing","pharma","Astellas bets up to $1.34B on an option for Audax's immuno-oncology asset DAX-044","$1.34B potential","https://www.biospace.com/deals/astellas-bets-up-to-1-34b-for-option-to-advance-audax-immuno-oncology-asset"],
     ["Oct 28","2026-10-28","7d","Funding","ag","Terradot closes a loan for enhanced rock-weathering carbon removal","$34M senior secured term loan","https://www.gtlaw.com/ar/news/2026/10/press-releases/greenberg-traurig-represents-terradot-in-34m-financing-for-carbon-removal-projects"],
     ["Oct 26","2026-10-26","7d","Funding","pharma","Dragonfleye Therapeutics raises money for its ocular platform","$37.5M private placements","https://finance.yahoo.com/healthcare/articles/dragonfleye-therapeutics-corp-takes-flight-140000934.html"],
@@ -1122,7 +1087,7 @@
     ["Oct 26","2026-10-26","7d","Funding","ag","Volare raises money as it opens a 5,000-tonne insect-protein plant","€7.1M","https://agfundernews.com/finnish-insect-ag-firm-volare-opens-5000-ton-protein-factory-in-finland-explores-2nd-plant"]
   ];
   // Largest headline deal per window, written by hand because values aren't comparable on one basis
-  var BIGGEST={"24h":"<b>Largest:</b> Dren Bio's $350M financing to push its rare blood cancer therapy toward market.","7d":"<b>Largest:</b> Astellas' up-to-$1.34B option on Audax's immuno-oncology asset DAX-044, with Dren Bio's $350M raise and two back-to-back biotech IPOs (Bambusa, Aspen Neuroscience) close behind."};
+  var BIGGEST={"24h":"No new deals announced in the last 24 hours.","7d":"<b>Largest:</b> Astellas' up-to-$1.34B option on Audax's immuno-oncology asset DAX-044, with Dren Bio's $350M raise and two back-to-back biotech IPOs (Bambusa, Aspen Neuroscience) close behind."};
   var TYPES=["M&A","Licensing","Partnership","Funding","IPO"];
   var SECS=[["pharma","Pharma & Biotech"],["ag","Agriculture"],["synbio","Synthetic Biology"]];
   var SN={}; SECS.forEach(function(s){SN[s[0]]=s[1];});
@@ -1140,7 +1105,7 @@
     var wl=w==="24h"?"in the last 24 hours":"in the past 7 days";
     document.getElementById("df-total").textContent=rows.length;
     document.getElementById("df-lbl").textContent="deals "+wl;
-    document.getElementById("df-count").textContent=rows.length+" deals · "+(w==="24h"?"since Fri Oct 30 evening":"Oct 24–31");
+    document.getElementById("df-count").textContent=rows.length+" deals · "+(w==="24h"?"since Sat Oct 31 evening":"Oct 25–Nov 1");
     document.getElementById("df-secs").innerHTML=SECS.map(function(s){return '<div class="df-sec"><i style="background:var(--sec-'+s[0]+')"></i><span>'+s[1]+'</span><b>'+secTot[s[0]]+'</b></div>';}).join("");
     document.getElementById("df-biggest").innerHTML=BIGGEST[w];
     var summary=[];
@@ -1176,16 +1141,16 @@
   // newest = most recently added to PubMed (PubMed, pulled Oct 28); cited = most cited since Jan 2025 (OpenAlex citation counts, Oct 27)
   var PAPERS={
   biocat:{newest:[
-    ["Mild, fast and general biocatalytic deprotection strategies for automated fluorine-18 PET radiotracer synthesis","J Org Chem","2026-10-30","10.1021/acs.joc.6c01636","42843818",null,"Biocatalytic deprotection"],
-    ["Directed evolution of the Cbx1 chromodomain generates a high-affinity trimethyllysine-binding variant","ACS Chem Biol","2026-10-29","10.1021/acschembio.6c00573","42950181",null,"Directed evolution"],
-    ["Recent advances in harnessing PLP-dependent enzymes for biocatalytic C-C bond formation","Curr Opin Chem Biol","2026-10-28","10.1016/j.cbpa.2026.102809","42950694",null,"PLP enzymes"],
-    ["Atroposelective construction of tetra-ortho-substituted dibenz[c,e]azepines using an engineered imine reductase","Angew Chem Int Ed Engl","2026-10-28","10.1002/anie.1024447","42949625",null,"Imine reductases"],
-    ["Template-dependent conformational remodeling induced by matched mutation sets in an artificial metalloenzyme","Phys Chem Chem Phys","2026-10-28","10.1039/d6cp03303b","42852553",null,"Artificial metalloenzymes"],
-    ["JustEvo: a prior-guided adaptive mixture-of-experts framework for multifunctional protein directed evolution","J Chem Theory Comput","2026-10-27","10.1021/acs.jctc.6c01288","42937651",null,"AI-guided evolution"],
-    ["Tunnel engineering of an imine reductase enhances catalytic turnover and remodels product-egress pathways","Int J Biol Macromol","2026-10-26","10.1016/j.ijbiomac.2026.155049","42933612",null,"Imine reductases"],
-    ["Simulating directed evolution with an iterative, physics-based workflow","ACS Omega","2026-10-11","10.1021/acsomega.6c08421","42959945",null,"Computational evolution"],
-    ["Valorization of icariin α-l-rhamnosidase mutant immobilized on UiO-66-NH2 for icariside I production","RSC Adv","2026-10-12","10.1039/d6ra06339j","42866621",null,"Enzyme immobilization"],
-    ["Harnessing natural deep eutectic solvents Pickering emulsion droplets for biocatalytic production of diacylglycerols via glycerolysis","Food Res Int","2026-08-31","10.1016/j.foodres.2026.120585","42914319",null,"Biocatalysis in food"]],
+    ["Enzymatic preparation of chitin oligosaccharides: advances in chitinase engineering, synergistic biocatalysis, and process optimization","Carbohydr Res","2026-10-29","10.1016/j.carres.2026.110138","42966308",null,"Chitinase engineering"],
+    ["SAEKP: a site attention enzyme kinetics prediction method to facilitate enzyme engineering","J Chem Inf Model","2026-10-26","10.1021/acs.jcim.6c01516","42929569",null,"AI-guided engineering"],
+    ["Transglycosidases from Aspergillus genus and their applications in food processing: advances in enzyme mining and smart biocatalysis","Int J Biol Macromol","2026-10-25","10.1016/j.ijbiomac.2026.155040","42927813",null,"Enzyme mining"],
+    ["Liquid-liquid phase separation modulated thylakoid-enzyme interfacial coupling for enhanced light-powered biocatalysis","Angew Chem Int Ed Engl","2026-10-24","10.1002/anie.7079393","42920332",null,"Photobiocatalysis"],
+    ["Magnetically recyclable agar-based Pickering emulsions for green and efficient biocatalytic ester transformations","Int J Biol Macromol","2026-10-23","10.1016/j.ijbiomac.2026.154985","42913759",null,"Enzyme immobilization"],
+    ["De novo design of enantioselective artificial metalloenzyme photocatalysts","Nature","2026-10-21","10.1038/s41586-026-11317-6","42906913",null,"De novo design"],
+    ["A food protein-based CO2/N2-responsive magnetic platform for accelerated Pickering interfacial biocatalysis in flavor ester synthesis","J Agric Food Chem","2026-10-21","10.1021/acs.jafc.6c07667","42904981",null,"Biocatalysis in food"],
+    ["Biocatalytic synthesis of S-adenosyl-l-methionine analogues for allosteric activation of cystathionine-β-synthase","FEBS J","2026-10-21","10.1111/febs.70774","42904577",null,"Cofactor analogues"],
+    ["Imine reductase-catalyzed enantiodivergent synthesis of axially chiral alkylidene cyclohexane amines","Org Biomol Chem","2026-10-21","10.1039/d6ob01378c","42904451",null,"Imine reductases"],
+    ["Reshaping the scissors: from directed evolution to AI-driven design for enhanced Cas performance","Biodes Res","2026-09-30","10.1016/j.bidere.2026.100124","42953289",null,"AI-guided evolution"]],
    cited:[
     ["Nanozymes expanding the boundaries of biocatalysis","Nat Commun","2025-07-24","10.1038/s41467-025-62063-8","40707464",254,"Nanozymes"],
     ["A comprehensive guide to enzyme immobilization: all you need to know","Molecules","2025-02-18","10.3390/molecules30040939","40005249",176,"Immobilization"],
@@ -1204,10 +1169,10 @@
     ["An mRNA-lipid nanoparticle vaccine against H5N1 influenza virus protects lactating dairy cows from infection","Nat Biotechnol","2026-10-28","10.1038/s41587-026-03343-6","42951950",null,"H5N1 vaccine"],
     ["Neoadjuvant durvalumab plus chemotherapy in resectable or borderline resectable non-small-cell lung cancer (MDT-BRIDGE)","Nat Med","2026-10-26","10.1038/s41591-026-04742-7","42934326",null,"Immunotherapy · lung"],
     ["Izalontamab brengitecan versus chemotherapy in EGFR-mutated advanced NSCLC after EGFR-TKI therapy (PANKU-Lung01)","Lancet","2026-10-26","10.1016/S0140-6736(26)02026-X","42933461",null,"Bispecific ADC · lung"],
-    ["Osimertinib-savolitinib in advanced NSCLC after progression during EGFR-TKI therapy (SAFFRON)","N Engl J Med","2026-10-25","10.1056/NEJMoa2611335","42929693",null,"MET inhibitor · lung"],
-    ["Neoadjuvant nivolumab with or without visugromab in muscle-invasive bladder cancer (GDFATHER-NEO)","Nat Med","2026-10-24","10.1038/s41591-026-04740-9","42926233",null,"GDF-15 · bladder"],
-    ["Relatlimab plus nivolumab versus nivolumab for advanced melanoma: 5-year survival and biomarker analyses (RELATIVITY-047)","Nat Med","2026-10-24","10.1038/s41591-026-04756-1","42926136",null,"Immunotherapy · melanoma"],
-    ["Disease-free survival and overall survival after neoadjuvant immunotherapy in mismatch repair-deficient colon cancer (NICHE-2)","Lancet","2026-10-21","10.1016/S0140-6736(26)01602-8","42906564",null,"Immunotherapy · colon"]],
+    ["Sacituzumab tirumotecan versus treatment of physician's choice in previously treated endometrial cancer (TroFuse-005/ENGOT-en23/GOG-3095)","Lancet","2026-10-26","10.1016/S0140-6736(26)02099-4","42933460",null,"ADC · endometrial"],
+    ["Izalontamab brengitecan for HR+/HER2- breast cancer in China (PANKU-Breast01)","Lancet","2026-10-26","10.1016/S0140-6736(26)02096-9","42933459",null,"ADC · breast"],
+    ["Efficacy and safety of mitapivat in patients with sickle cell disease (RISE UP)","Lancet","2026-10-24","10.1016/S0140-6736(26)01480-7","42913682",null,"Pyruvate kinase activator · SCD"],
+    ["Lymph node-targeted, mKRAS-specific amphiphile vaccine in pancreatic cancer: the randomized phase 2 AMPLIFY-7P trial","Nat Med","2026-10-23","10.1038/s41591-026-04734-7","42919966",null,"Cancer vaccine · pancreatic"]],
    cited:[
     ["Phase 3 trial of semaglutide in metabolic dysfunction-associated steatohepatitis","N Engl J Med","2025-04-30","10.1056/NEJMoa2413258","40305708",1088,"GLP-1 · MASH"],
     ["Tirzepatide as compared with semaglutide for the treatment of obesity","N Engl J Med","2025-05-11","10.1056/NEJMoa2416394","40353578",619,"GLP-1 · obesity"],
@@ -1220,16 +1185,16 @@
     ["Trastuzumab deruxtecan or ramucirumab plus paclitaxel in gastric cancer","N Engl J Med","2025-05-31","10.1056/NEJMoa2503119","40454632",119,"ADC"],
     ["Solbinsiran, a GalNAc-conjugated siRNA targeting ANGPTL3, in mixed dyslipidaemia (PROLONG-ANG3)","Lancet","2025-04-02","10.1016/S0140-6736(25)00507-0","40179932",79,"siRNA"]]},
   ag:{newest:[
-    ["Hierarchical Bayesian generalized linear models for predicting Stagonospora nodorum blotch in winter wheat, part II: validation, yield loss and fungicide profitability","Phytopathology","2026-10-30","10.1094/PHYTO-03-26-0081-R","42962079",null,"Fungicide economics"],
+    ["CRISPR/Cas9-mediated mutagenesis of two alleles encoding a glutathione S-transferase confers Fusarium head blight resistance in wheat","Phytopathology","2026-10-31","10.1094/PHYTO-04-26-0143-R","42966625",null,"Gene editing · disease resistance"],
+    ["The xyloglucan endotransglucosylase/hydrolase TaXTH16 enhances wheat drought tolerance and pre-harvest sprouting resistance via ABA-mediated pathways","J Adv Res","2026-10-31","10.1016/j.jare.2026.10.058","42966462",null,"Drought tolerance"],
+    ["The sensitivity and resistance risk of pathogens to phenamacril in Fusarium crown rot of wheat","Phytopathology","2026-10-31","10.1094/PHYTO-06-26-0208-R","42965947",null,"Fungicide resistance"],
+    ["A homolog of Growth Regulating Factor targets protein synthesis genes to regulate seed protein accumulation in soybean","Plant Physiol","2026-10-29","10.1093/plphys/kiag805","42956005",null,"Seed protein · soybean"],
     ["Genome-guided development of a halotolerant endophytic consortium-based biofertilizer enhances rice plant growth and salinity tolerance with reduced chemical fertilizer inputs","Microbiol Res","2026-10-28","10.1016/j.micres.2026.128797","42962551",null,"Biofertilizers"],
-    ["Genome sequence of a commercial nitrogen-fixing microsymbiont of soybean in South Africa","Microbiol Resour Announc","2026-10-28","10.1128/mra.00071-26","42949365",null,"Nitrogen fixation"],
     ["The rhizobial type III effector NopD regulates the GmPP2C-ENOD93 axis to control symbiotic nodulation and yield in soybean","J Agric Food Chem","2026-10-28","10.1021/acs.jafc.6c07326","42949329",null,"Nitrogen fixation"],
-    ["Effectiveness of model-based decision tools for disease control in wheat, potato and grapevine: a multilevel meta-analysis","Pest Manag Sci","2026-10-28","10.1002/ps.71434","42952124",null,"Disease control"],
-    ["Integrating environmental adaptation, breeding, and rhizobia bioinoculants for soybean expansion in Europe","J Exp Bot","2026-10-28","10.1093/jxb/erag539","42947494",null,"Soybean expansion"],
+    ["Lessons from CABBI: advancing vegetative oil production in cover crops through a vertically integrated DBTL framework","Plant Biotechnol J","2026-10-28","10.1111/pbi.70771","42947611",null,"Biofuel crops"],
     ["Early phyllosphere remodeling in maize after herbivory uncovers candidate insecticidal bacteria from feeding-altered taxa","World J Microbiol Biotechnol","2026-10-27","10.1007/s11274-026-05350-w","42934450",null,"Biocontrol"],
-    ["Promoter editing of OsGTL1 improves instantaneous water use efficiency via targeted stomatal reduction in rice","Plant Cell Rep","2026-10-26","10.1007/s00299-026-04032-z","42931860",null,"Gene editing"],
-    ["TaqW-6BL, a novel gene positively regulates grain WE-AX content in wheat","Theor Appl Genet","2026-10-24","10.1007/s00122-026-05417-0","42925420",null,"Gene editing"],
-    ["Lessons from CABBI: advancing vegetative oil production in cover crops through a vertically integrated DBTL framework","Plant Biotechnol J","2026-10-28","10.1111/pbi.70771","42947611",null,"Biofuel crops"]],
+    ["Rewriting wheat karyotypes through centromere-targeted chromosome engineering","Nat Plants","2026-10-23","10.1038/s41477-026-02441-2","42919901",null,"Chromosome engineering"],
+    ["Functional analysis and breeding application of the ZmDLE1 for maize plant height","Plant Sci","2026-10-23","10.1016/j.plantsci.2026.113543","42918343",null,"Gene function · maize"]],
    cited:[
     ["Plant biostimulants to enhance abiotic stress resilience in crops","Int J Mol Sci","2025-01-28","10.3390/ijms26031129","39940896",122,"Biostimulants"],
     ["Plant microbiomes alleviate abiotic stress-associated damage in crops and enhance climate-resilient agriculture","Plants","2025-06-19","10.3390/plants14121890","40573878",71,"Microbiome"],
@@ -1242,16 +1207,16 @@
     ["CRISPR/Cas9: a sustainable technology to enhance climate resilience in major staple crops","Front Genome Ed","2025-03-18","10.3389/fgeed.2025.1533197","40171546",40,"Gene editing"],
     ["Seaweed-derived biostimulants for sustainable crop production: a review","J Biotechnol","2025-09-27","10.1016/j.jbiotec.2025.09.013","41022220",36,"Biostimulants"]]},
   synbio:{newest:[
+    ["End-to-end biomanufacturing of extracellular vesicles","ACS Appl Mater Interfaces","2026-10-30","10.1021/acsami.6c15984","42961823",null,"EV biomanufacturing"],
+    ["Beyond cell factory: in vitro biotransformation (ivBT), a paradigm-shifting biomanufacturing platform","Adv Biochem Eng Biotechnol","2026-10-30","10.1007/10_2026_368","42955337",null,"Cell-free biomanufacturing"],
     ["Metabolic engineering of Saccharomyces cerevisiae for flavonoid synthesis from acetate","J Agric Food Chem","2026-10-28","10.1021/acs.jafc.6c05419","42949331",null,"Metabolic engineering"],
-    ["Metabolic engineering strategies for rare D-allulose production from D-glucose-D-xylose mixtures using Escherichia coli","J Agric Food Chem","2026-10-28","10.1021/acs.jafc.6c01629","42949324",null,"Rare sugars"],
     ["Molecular biology and synthetic biology-guided development of recognition and reporting elements of biosensors","Adv Biochem Eng Biotechnol","2026-10-28","10.1007/10_2026_370","42944860",null,"Biosensors"],
-    ["Biomanufacturing of L-lactic acid from inulin exploiting Kluyveromyces marxianus and engineered Saccharomyces cerevisiae cell factories","Biotechnol Appl Biochem","2026-10-27","10.1002/bab.70218","42947400",null,"Biomanufacturing"],
-    ["Multilevel metabolic engineering of Bacillus amyloliquefaciens for enhanced L-tyrosine production","J Biotechnol","2026-10-27","10.1016/j.jbiotec.2026.10.017","42946311",null,"Amino acid production"],
-    ["Standards in systems and synthetic biology: status, developments, and tools in 2026","J Integr Bioinform","2026-10-27","10.1515/jib-2026-0037","42936890",null,"Standards & tools"],
     ["SynBioFooDB: a comprehensive resource for synthetic biology-driven food biomanufacturing","Nucleic Acids Res","2026-10-27","10.1093/nar/gkag1073","42934175",null,"Food biomanufacturing"],
+    ["Development of isopentenol utilization pathway based on cell-free metabolic engineering and its application in multienzyme cascades synthesis","J Biotechnol","2026-10-23","10.1016/j.jbiotec.2026.10.015","42918582",null,"Cell-free"],
+    ["Efficient production of cyanidin 3-O-glucoside and cyanidin 3-O-rutinoside in Escherichia coli via metabolic engineering and process optimization","J Agric Food Chem","2026-10-21","10.1021/acs.jafc.6c02514","42905006",null,"Pigment biosynthesis"],
     ["Synthetic activation of gibberellin signalling reveals spatial coordination of root growth","Nat Plants","2026-10-22","10.1038/s41477-026-02438-x","42918821",null,"Plant synthetic biology"],
-    ["Design and multidimensional optimization of cell-free system for efficient (2S)-naringenin production","Biodes Res","2026-09-23","10.1016/j.bidere.2026.100111","42857650",null,"Cell-free"],
-    ["Global analysis of thermal and chemical denaturation using CheMelt: thermodynamic dissection of highly thermostable de novo designed proteins","Protein Sci","2026-09-22","10.1002/pro.70800","42813586",null,"AI protein models"]],
+    ["Systems metabolic engineering of a plasmid-free cell factory for high-level cytidine production","Synth Syst Biotechnol","2026-09-22","10.1016/j.synbio.2026.09.003","42861367",null,"Nucleoside production"],
+    ["β-lactoglobulin from precision fermentation and milk exhibit similar protein structure but distinct aggregation behaviour: a multi-length-scale study","Food Res Int","2026-09-15","10.1016/j.foodres.2026.120846","42914272",null,"Precision fermentation"]],
    cited:[
     ["Synthetic biology in natural product biosynthesis","Chem Rev","2025-03-21","10.1021/acs.chemrev.4c00567","40116601",93,"Natural products"],
     ["Advances in genetically engineered microorganisms: transforming food production","Future Foods","2025-03-16","10.1016/j.fufo.2025.100601","",90,"Food"],
@@ -1265,15 +1230,15 @@
     ["Therapeutic engineering of the gut microbiome using synthetic biology and metabolic tools","Arch Microbiol","2025-08-06","10.1007/s00203-025-04417-w","40767874",48,"Microbiome"]]}
   ,policy:{newest:[
     ["Doctor dies from Ebola in DRC as cases exceed 10 000","BMJ","2026-10-30","10.1136/bmj-2026-101297","42963043",null,"Ebola"],
+    ["Global and regional burden of measles and vaccine coverage among children under 5 years, 1990-2023: a Global Burden of Disease Study","Nat Med","2026-10-21","10.1038/s41591-026-04661-7","42907529",null,"Measles burden"],
     ["Is the Pennsylvania measles outbreak the new normal?","JAMA","2026-10-30","10.1001/jama.2026.22533","42961433",null,"Measles"],
-    ["Recommitting to the eradication of measles","BMJ","2026-10-28","10.1136/bmj-2026-101204","42951283",null,"Measles"],
     ["Impact of a large measles outbreak associated with transmission in the Americas and Canada's loss of measles elimination status: descriptive cohort study","BMJ","2026-10-28","10.1136/bmj-2026-101123","42951282",null,"Measles"],
-    ["Ebola: first people vaccinated in phase 2/3 Bundibugyo jab trial as health worker killed","BMJ","2026-10-27","10.1136/bmj-2026-101250","42946374",null,"Ebola"],
+    ["Ebola: first people vaccinated in phase 2/3 Bundibugyo jab trial as health worker killed","BMJ","2026-10-27","10.1136/bmj-2026-101250","42946374",null,"Ebola vaccine"],
     ["Super El Niño threatens a public health emergency in Africa","Lancet","2026-10-27","10.1016/S0140-6736(26)02156-2","42945984",null,"Climate & health"],
-    ["Societies release vaccine recommendations for respiratory virus season","JAMA","2026-10-27","10.1001/jama.2026.20006","42826041",null,"Vaccines"],
-    ["Ebola: Nigeria announces first Bundibugyo case, as numbers continue to rise in Kenya and DRC","BMJ","2026-10-23","10.1136/bmj-2026-101225","42919478",null,"Ebola"],
-    ["Molecular basis of azole fungicide interactions with human estrogen receptor alpha (ERα): an integrated in silico and in vitro toxicological assessment","Arch Toxicol","2026-10-23","10.1007/s00204-026-04582-x","42919944",null,"Food-chain safety"],
-    ["Vaccine target of 100 days isn't fast enough, says CEPI chair, while expert warns of failure to provide basic care in DRC Ebola outbreak","BMJ","2026-10-16","10.1136/bmj-2026-101166","42887901",null,"Preparedness"]],
+    ["Societies release vaccine recommendations for respiratory virus season","JAMA","2026-10-27","10.1001/jama.2026.20006","42826041",null,"Vaccine policy"],
+    ["Chikungunya vaccine withdrawn after safety review","BMJ","2026-10-22","10.1136/bmj-2026-101215","42914158",null,"Vaccine safety"],
+    ["Safety and immunogenicity of an adenoviral-vectored vaccine against Crimean-Congo haemorrhagic fever in the UK (CCHF01): an open-label, first-in-human, non-randomised, phase 1 clinical trial","Lancet Infect Dis","2026-10-23","10.1016/S1473-3099(26)00471-8","42914993",null,"Outbreak preparedness"],
+    ["Molecular basis of azole fungicide interactions with human estrogen receptor alpha (ERα): an integrated in silico and in vitro toxicological assessment","Arch Toxicol","2026-10-23","10.1007/s00204-026-04582-x","42919944",null,"Food-chain safety"]],
   cited:[
     ["The WHO Bacterial Priority Pathogens List 2024: a prioritisation study to guide research, development, and public health strategies against antimicrobial resistance","Lancet Infect Dis","2025-04-14","10.1016/S1473-3099(25)00118-5","40245910",911,"AMR"],
     ["The role of bacterial metabolism in antimicrobial resistance","Nat Rev Microbiol","2025-02-20","10.1038/s41579-025-01155-0","39979446",156,"AMR"],
@@ -1521,13 +1486,15 @@
       ["Oct 7","Litigation","PhRMA sues to stop GLOBE, Medicare Part B's most-favored-nation pricing pilot","https://www.statnews.com/2026/10/07/phrma-sues-over-drug-pricing-model-globe/"],
       ["Sep 18","Policy","Most-favored-nation pricing deals extended to all 50 state Medicaid programs","https://www.whitehouse.gov/fact-sheets/2026/09/fact-sheet-president-donald-j-trump-announces-lower-drug-prices-for-all-50-state-medicaid-programs/"]]},
     {agency:"WHO",region:"Global",items:[
-      ["Oct 30","Assessment","A doctor is among the latest health-worker deaths as DRC's Bundibugyo-virus Ebola case count exceeds 10,000","https://doi.org/10.1136/bmj-2026-101297"],
+      ["Oct 30","Assessment","CDC/WHO update: DRC's Bundibugyo-virus Ebola outbreak passes 10,300 cases and 4,996 deaths; new US travel-attestation rule takes effect Nov 3","https://contagionlive.com/view/ebola-outbreak-tops-10-000-cases-as-cdc-cites-spread-to-kenya-nigeria"],
       ["Oct 9","Guidance","Surveillance and contact-tracing guidance for the Bundibugyo Ebola outbreak in DRC and Uganda, which has no licensed vaccine","https://www.who.int/emergencies/situations/ebola-outbreak---drc-2026"],
-      ["Oct 7","Assessment","Plague cluster in Russia: epidemic risk rated low","https://doi.org/10.1136/bmj-2026-101084"],
-      ["May 23","Adopted","Global Action Plan on Antimicrobial Resistance 2026–2036","https://www.who.int/news/item/25-05-2026-the-world-health-assembly-adopts-updated-global-action-plan-on-antimicrobial-resistance-(2026-2036)"]]},
+      ["Oct 7","Assessment","Plague cluster in Russia: epidemic risk rated low","https://doi.org/10.1136/bmj-2026-101084"]]},
     {agency:"National Audit Office",region:"UK",items:[
+      ["Oct 31","Policy","Leaked DHSC/industry minutes point to a 7-year VPAG pricing deal (2029–2035) and a raised NICE cost-effectiveness threshold","https://pharmaphorum.com/market-access/uks-next-pricing-and-access-scheme-last-7-years"],
       ["Oct 15","Review","Investigation into the costs of the US–UK drug pricing deal","https://doi.org/10.1136/bmj-2026-101148"]]},
     {agency:"MAPA · ANVISA",region:"Brazil",items:[
+      ["Oct 29","Registered","Five new liraglutide/semaglutide GLP-1 pens approved, bringing Brazil's 2026 tally to roughly 20","https://www.cadaminuto.com.br/noticia/2026/10/29/anvisa-aprova-cinco-novas-canetas-para-diabetes-e-obesidade-numero-de-medicamentos-autorizados-chega-a-20-em-2026"],
+      ["Oct 26","Approved","Cejemly (sugemalimab, Steincares) cleared for first-line metastatic NSCLC","https://www.opovo.com.br/noticias/brasil/2026/10/27/anvisa-aprova-novo-medicamento-para-cancer-de-pulmao-metastatico.html"],
       ["Oct 26","Registered","New pesticide registrations include actives no longer approved in the EU, widening the gap in residue rules","https://blogdopedlowski.com/2026/10/26/brasil-continua-abrindo-as-portas-para-agrotoxicos-rejeitados-na-europa-dois-atos-do-ministerio-da-agricultura-revelam-a-dimensao-do-problema/"]]}]
   };
   // Regulatory tracker: [product, company, sector, region, agency, use, stage 0-3, status, next milestone, date ISO|"", date label, url, outcome]
@@ -1597,7 +1564,7 @@
   var board=document.getElementById("rt-board"); if(!board) return;
   var F={sector:"",region:""};
   var STAGES=[["01","Development & data"],["02","Filed · under review"],["03","Expert opinion"],["04","Decision"]];
-  var TODAY=new Date("2026-10-31T12:00:00Z"), END=new Date("2027-01-09T12:00:00Z");
+  var TODAY=new Date("2026-11-01T12:00:00Z"), END=new Date("2027-01-10T12:00:00Z");
   function setF(k,v){F[k]=v;[].slice.call(document.querySelectorAll('.rt-seg[data-f="'+k+'"] button')).forEach(function(b){b.setAttribute("aria-pressed",b.dataset.v===v?"true":"false");});render();}
   [].slice.call(document.querySelectorAll(".rt-seg")).forEach(function(g){
     g.addEventListener("click",function(e){var b=e.target.closest("button");if(b)setF(g.dataset.f,b.dataset.v);});

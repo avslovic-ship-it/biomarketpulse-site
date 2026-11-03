@@ -503,6 +503,9 @@ def build(edition_path, out, preview=False):
         body = full[a:b]
         body = re.sub(r'(<div class="tabpanel" id="%s")[^>]*>' % pid, r'\1>', body, count=1)  # visible, no tab roles
         if pid == "p-ag":
+            # The edition links out to the live search tool (for the claude.ai artifact, which has
+            # no backend of its own); the site has the real tool right there, so drop the link-out line.
+            body = re.sub(r'\s*<p class="art-rs-link"[^>]*>.*?</p>', '', body, count=1, flags=re.S)
             mk = '<section class="rs" data-reg="ag"></section>'
             if mk in body:
                 body = body.replace(mk, mk + "\n" + BR_SECTION, 1)
