@@ -1,0 +1,42 @@
+name: Patent feed
+
+# Nightly: fetch the newest patents per BioMarket Pulse section from EPO Open Patent Services
+# into data/patents.json. The daily BioMarket Pulse edition reads that file.
+on:
+  schedule:
+    - cron: "17 8 * * *"   # 05:17 São Paulo, before the 07:39 edition
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: patent-feed
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch patents
+        env:
+          EPO_OPS_KEY: ${{ secrets.EPO_OPS_KEY }}
+          EPO_OPS_SECRET: ${{ secrets.EPO_OPS_SECRET }}
+        run: python tools/fetch_patents.py data/patents.json
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain data/patents.json)" ]; then
+            git config user.name "biomarketpulse-bot"
+            git config user.email "biomarketpulse-bot@users.noreply.github.com"
+            git add data/patents.json
+            git commit -m "Patent feed $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          else
+            echo "No changes."
+          fi
