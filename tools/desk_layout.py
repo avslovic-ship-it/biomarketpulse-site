@@ -1,4 +1,4 @@
-"""Research-desk page template for BioMarket Pulse.
+"""Research-desk page template for BioMarket Pulse (design direction D).
 
 build_site.py calls apply_desk_layout() for every page whose panel id is in
 DESKS. The template only rearranges and restyles what the daily edition
@@ -45,7 +45,7 @@ DESKS = {
     },
 }
 
-# Non-desk pages get the same frame (header, side menu, colours) with their content unchanged.
+# Non-desk pages get the same frame (header, desk tabs, title band) with their content unchanged.
 # slug -> (eyebrow, title, subtitle)
 SHELL = {
     "": ("Free market overview", "Market Overview", "Stock moves, sector heatmap, catalyst calendar and today's signals"),
@@ -71,116 +71,185 @@ DESK_NAV = [
 DISCOVER_NAV = [("deep-dive", "Deep Dive"), ("", "Market Overview"), ("daily-pulse", "Daily Pulse")]
 REG_KEY = {"p-biocat": "biocat", "p-pharma": "pharma", "p-ag": "ag", "p-synbio": "synbio", "p-policy": "policy"}
 
+
+# Desk identity colours (validated categorical set: blue, orange, teal, violet)
+DESK_COLOR = {"p-biocat": "#C8691E", "p-pharma": "#1F5FC4", "p-ag": "#0E9384", "p-brbio": "#0E9384",
+              "p-synbio": "#7D5BC0", "p-policy": "#4A5B6C", "p-reg": "#0E2236"}
+
+# Article types -> four groups for the "at a glance" bar (fixed order, fixed colours)
+ART_GROUPS = [
+    ("Deals", "#1F5FC4", {"M&A", "Licensing", "Funding", "IPO", "Partnership", "Acquisition", "Deal", "Deals"}),
+    ("Clinical, research and risk", "#C8691E", None),          # everything not matched elsewhere
+    ("Approvals and launches", "#0E9384", {"Approval", "Regulatory", "New product", "New products", "Launch", "Product"}),
+    ("Ended or terminated", "#7D5BC0", {"Terminated", "Deal ended", "Deals ended", "Ended"}),
+]
+
+# Groups for the overview well plate (the edition's biotech universe)
+PLATE_GROUPS = [["Large-cap biotech", ["AMGN", "GILD", "VRTX", "REGN"]], ["Neuro", ["BIIB", "NBIX"]],
+                ["RNA medicines", ["ALNY", "IONS", "ARWR"]], ["mRNA & vaccines", ["MRNA", "BNTX"]],
+                ["Gene editing", ["CRSP", "BEAM", "NTLA"]], ["Oncology", ["RVMD", "EXEL", "INCY", "GMAB"]],
+                ["Immunology & rare", ["ARGX", "INSM", "BMRN", "BBIO", "UTHR", "ROIV"]]]
+
+FONT_LINK = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap">')
+
 DESK_CSS = r"""<style id="desk-layout">
-/* Research desk layout — navy brand strip, teal accents, quiet light surfaces */
+/* Direction D: deal-sheet type, well-plate colours. Green = up, orange = down, blue = brand. */
 body.desk{
-  --ink:#172b43; --muted:#566678; --faint:#7d8a96; --line:#dce3e7; --line-strong:#c5d0d6;
-  --paper:#eef2f4; --surface:#ffffff; --surface-2:#f5f7f8; --rule:#20354d;
-  --accent:#13837e; --accent-ink:#106d69; --accent-tint:#e6f2f0;
-  --hl:#13837e; --hl-ink:#106d69; --hl-tint:#e6f2f0;
-  --tk-bg:#14273d; --tk2-bg:#14273d; --tk-fg:#dce8ee; --tk-sym:#7fd6cc; --tk-up:#62d6a6; --tk-down:#ff9d90; --tk-sep:#25405c;
-  --dk-navy:#172b43; --dk-teal:#13837e; --dk-soft:#e6f2f0;
-  background:var(--paper); color:#26384a;
+  --ink:#0E2236; --muted:#4A5B6C; --faint:#5F6D7A; --line:#D9E0E6; --line-strong:#C3CDD6;
+  --paper:#F7F9FB; --surface:#FFFFFF; --surface-2:#F0F4F7; --rule:#0E2236;
+  --accent:#1F5FC4; --accent-ink:#174C9E; --accent-tint:#E6EEFB;
+  --hl:#1F5FC4; --hl-ink:#174C9E; --hl-tint:#E6EEFB;
+  --up:#1E7A4C; --down:#B4560F;
+  --tk-bg:#0E2236; --tk2-bg:#0E2236; --tk-fg:#E4ECF5; --tk-sym:#FFFFFF; --tk-up:#7FE0A8; --tk-down:#F3B489; --tk-sep:#1C3550;
+  --f-sans:'Schibsted Grotesk',system-ui,sans-serif; --f-display:'Schibsted Grotesk',system-ui,sans-serif;
+  background:var(--paper); color:var(--ink);
 }
-body.desk .tape,body.desk .tape.bio{background:var(--tk-bg);border-bottom:2px solid var(--dk-teal);}
+body.desk, body.desk *:not(svg):not(svg *){font-family:'Schibsted Grotesk',system-ui,sans-serif !important;}
+body.desk .up,body.desk .pos{color:var(--up);} body.desk .dn,body.desk .down,body.desk .neg{color:var(--down);}
+body.desk .tape,body.desk .tape.bio{background:var(--tk-bg);border-bottom:1px solid #1C3550;}
 body.desk .tape::before,body.desk .tape.bio::before{background:linear-gradient(90deg,var(--tk-bg),transparent);}
 body.desk .tape::after,body.desk .tape.bio::after{background:linear-gradient(270deg,var(--tk-bg),transparent);}
-body.desk .tape-lbl{background:var(--tk-bg);color:var(--tk-fg);}
-body.desk .wrap{max-width:1240px;margin:18px auto 40px;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;}
-body.desk a:focus-visible,body.desk button:focus-visible,body.desk summary:focus-visible{outline:2px solid var(--dk-teal);outline-offset:2px;border-radius:3px;}
+body.desk .tape-lbl{background:var(--tk-bg);color:#9FB2C8;text-transform:none;letter-spacing:0;font-size:13px;}
+body.desk .tk{min-height:24px;}
+body.desk .wrap{max-width:none;margin:0;padding:0;background:transparent;border:0;}
+body.desk a:focus-visible,body.desk button:focus-visible,body.desk summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+body.desk *{text-transform:none !important;}
+body.desk :is(h3,h4,h5,.gl,.count,.tag,.rs-go,.bm .n,.tape-lbl,small,label,.lbl,.kicker,.k){letter-spacing:normal !important;}
+body.desk .hm .tile{border-radius:10px;overflow:hidden;}
+body.desk .rt-axis{overflow:clip;overflow-clip-margin:16px;}
+body.desk :is(.v,.d,.w,.pct,.price,td,.when){font-variant-numeric:tabular-nums;}
 
-/* top header */
-.dk-top{display:flex;justify-content:space-between;align-items:center;gap:12px 20px;flex-wrap:wrap;padding:14px 24px;border-bottom:1px solid var(--line);}
-.dk-brand{font:700 22px/1.1 var(--f-sans);letter-spacing:-.035em;color:#14273d;text-decoration:none;}
-.dk-brand span{color:var(--dk-teal);}
-.dk-gnav{display:flex;gap:6px 18px;align-items:center;flex-wrap:wrap;font-size:13px;}
-.dk-gnav a{color:#516274;text-decoration:none;}
-.dk-gnav a:hover{color:var(--dk-navy);text-decoration:underline;}
-.dk-gnav a[aria-current]{color:var(--dk-teal);font-weight:600;}
-.dk-acct{background:#eaf2f3;color:#34505e;border-radius:5px;padding:6px 10px;font-size:12px;}
+/* header + desk tabs */
+.dk-top{background:var(--ink);color:#E4ECF5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 32px;padding:16px 48px;}
+.dk-brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:24px;font-weight:800;letter-spacing:-.03em;}
+.dk-mark{display:grid;grid-template-columns:repeat(3,8px);gap:3px;}
+.dk-mark i{width:8px;height:8px;border-radius:50%;display:block;}
+.dk-gnav{display:flex;flex-wrap:wrap;gap:4px 26px;font-size:15px;align-items:center;}
+.dk-gnav a{color:#BFD0E6;text-decoration:none;padding:6px 0;font-weight:500;}
+.dk-gnav a:hover{color:#fff;}
+.dk-gnav a[aria-current]{color:#fff;font-weight:700;}
+.dk-acct{font-size:12px;color:#9FB2C8;border:1px solid #2A4562;border-radius:999px;padding:4px 10px;}
+.dk-desks{display:flex;gap:0 4px;overflow-x:auto;scrollbar-width:thin;background:#fff;border-bottom:1px solid var(--line);padding:0 36px;}
+.dk-desks a{display:flex;align-items:center;gap:8px;padding:14px 12px 11px;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;}
+.dk-desks a:hover{color:var(--ink);}
+.dk-desks a[aria-current]{color:var(--ink);}
+.dk-desks i{width:10px;height:10px;border-radius:50%;display:block;flex:0 0 auto;}
+.dk-desks small{font-size:12px;color:var(--faint);font-weight:500;}
 
-/* shell */
-.dk-shell{display:grid;grid-template-columns:212px minmax(0,1fr);}
-.dk-side{min-width:0;background:var(--surface-2);border-right:1px solid var(--line);padding:18px 12px;}
-.dk-side-inner{position:sticky;top:12px;}
-.dk-side-t{font:700 10.5px var(--f-sans);text-transform:uppercase;letter-spacing:.13em;color:#7d8a96;margin:4px 9px 8px;}
-.dk-side a{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:8px 10px;margin:2px 0;border-radius:6px;color:#506174;text-decoration:none;font-size:13.5px;}
-.dk-side a:hover{background:#ebf0f2;color:var(--dk-navy);}
-.dk-side a[aria-current="page"]{background:var(--dk-soft);color:#106d69;font-weight:700;}
-.dk-side a small{font-size:11.5px;color:#7d8a96;font-weight:500;white-space:nowrap;}
-.dk-side a[aria-current="page"] small{color:#106d69;}
-.dk-side-rule{height:1px;background:var(--line);margin:14px 8px;}
-body.desk main#main{padding:20px 26px 26px;min-width:0;}
+/* title band */
+.dk-hero{background:var(--ink);color:#fff;}
+.dk-hero-in{max-width:1344px;margin:0 auto;padding:36px 48px 40px;display:flex;flex-wrap:wrap;gap:28px 56px;align-items:flex-end;}
+.dk-hero-main{flex:1 1 460px;min-width:0;}
+.dk-crumb{font-size:13px;color:#9FB2C8;margin:0 0 14px;}
+.dk-crumb a{color:#9FB2C8;text-decoration:none;} .dk-crumb a:hover{color:#fff;text-decoration:underline;}
+.dk-eyebrow{font-size:16px;font-weight:600;color:#9CC0FF;margin:0 0 8px;}
+.dk-hero h1{margin:0;font-size:clamp(44px,6.4vw,88px);line-height:.95;font-weight:900;letter-spacing:-.045em;color:#fff;max-width:16ch;}
+.dk-topics{margin:16px 0 0;font-size:18px;color:#CFDCEA;max-width:60ch;line-height:1.45;}
+.dk-hero .listen-bar{margin:22px 0 0 !important;padding:10px 14px !important;border:1px solid #2A4562 !important;border-radius:16px !important;background:#132C45 !important;color:#E4ECF5 !important;max-width:620px;}
+.dk-hero .listen-bar div{color:#CFDCEA !important;} .dk-hero .listen-bar a{color:#9CC0FF !important;}
+.dk-glance{flex:1 1 420px;display:grid;gap:22px;min-width:0;}
+.dk-glance h2{margin:0 0 10px;font-size:15px;font-weight:700;color:#fff;}
+.dk-stack{display:flex;gap:3px;border-radius:5px;overflow:hidden;height:18px;}
+.dk-stack span{display:block;height:100%;}
+.dk-leg{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px;color:#DCE6F2;}
+.dk-leg span{display:flex;align-items:center;gap:8px;} .dk-leg i{width:12px;height:12px;border-radius:3px;display:block;}
+.dk-agency{display:grid;gap:8px;}
+.dk-agency div{display:flex;align-items:center;gap:12px;font-size:15px;}
+.dk-agency b{flex:0 0 120px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dk-agency .dots{display:flex;flex-wrap:wrap;gap:5px;} .dk-agency .dots i{width:14px;height:14px;border-radius:50%;background:#7FA9EC;display:block;}
+.dk-agency em{font-style:normal;color:#CFDCEA;font-variant-numeric:tabular-nums;}
 
-/* desk head */
-.dk-crumb{font-size:12px;color:#7d8a96;margin-bottom:10px;}
-.dk-crumb a{color:#7d8a96;text-decoration:none;} .dk-crumb a:hover{text-decoration:underline;}
-.dk-crumb b{color:var(--dk-teal);font-weight:600;}
-.dk-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
-.dk-eyebrow{color:var(--dk-teal);font:700 11px var(--f-sans);letter-spacing:.13em;text-transform:uppercase;}
-.dk-head h1{font:700 34px/1.08 var(--f-display);letter-spacing:-.02em;margin:6px 0;color:var(--dk-navy);}
-.dk-topics{font-size:13.5px;color:var(--muted);margin:0;}
-.dk-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.dk-plan{padding:6px 10px;border-radius:5px;background:var(--dk-soft);color:#146c69;font-size:12px;font-weight:600;}
+/* main column */
+body.desk main#main{max-width:1344px;margin:0 auto;padding:28px 48px 56px;min-width:0;}
+body.desk section{margin-bottom:44px;min-width:0;}
+body.desk .section-head{border:0;padding:0;margin-bottom:12px;display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap;}
+body.desk h2{white-space:normal;overflow-wrap:break-word;min-width:0;max-width:100%;}
+body.desk .section-head h2{font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin:0;}
+body.desk .section-head .count{font-size:15px;font-weight:500;color:var(--muted);}
+body.desk .section-head .desc{font-size:15px;color:var(--muted);flex-basis:100%;}
+.dk-kicker{display:none;}
 
-/* desk watchlist */
-.dk-watch{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:thin;border-block:1px solid var(--line);margin:0 0 16px;padding:9px 0;}
-.dk-watch .q{flex:0 0 auto;padding:0 14px;border-right:1px solid var(--line);font-size:12px;color:#6b7885;text-decoration:none;min-width:96px;}
-.dk-watch .q:last-child{border-right:0;}
-.dk-watch .q b{display:block;font-size:13px;color:#26384a;}
-.dk-watch a.q:hover b{color:var(--dk-teal);text-decoration:underline;}
-.dk-watch .q.lbl{min-width:0;color:#7d8a96;font-size:11px;text-transform:uppercase;letter-spacing:.06em;align-self:center;}
-.dk-watch .up{color:#16816e;} .dk-watch .dn{color:#b65b51;}
+/* watchlist chips */
+.dk-watch{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 40px;}
+.dk-watch .q{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);padding:8px 16px 8px 8px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px var(--line);font-size:14px;min-height:44px;box-sizing:border-box;}
+.dk-watch .q i{width:28px;height:28px;border-radius:50%;display:block;flex:0 0 auto;}
+.dk-watch .q b{font-size:15px;font-weight:800;}
+.dk-watch .q span{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;}
+.dk-watch a.q:hover{box-shadow:0 0 0 2px var(--accent);}
+.dk-watch .lbl{align-self:center;font-size:14px;color:var(--muted);padding:0 6px;}
 
-/* audio (existing player, restyled) */
-body.desk .listen-bar{margin:0 0 18px !important;padding:10px 14px !important;border:0 !important;border-radius:6px !important;background:var(--surface-2) !important;}
-
-/* sections */
-body.desk .section-head{border-top:2px solid var(--rule);border-bottom:0;padding-top:10px;margin-bottom:8px;display:flex;align-items:baseline;gap:6px 12px;flex-wrap:wrap;}
-body.desk .section-head h2{font:700 19px/1.25 var(--f-display);letter-spacing:-.01em;color:var(--dk-navy);margin:0;}
-body.desk .section-head .count{font:600 11px var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:#7b8995;}
-body.desk .section-head .desc{font-size:12.5px;color:var(--muted);}
-body.desk section{margin-bottom:22px;min-width:0;}
-.dk-kicker{display:block;width:100%;order:-1;font:600 11px var(--f-sans);letter-spacing:.08em;text-transform:uppercase;color:#7b8995;}
-
-.dk-analysis{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.85fr);gap:24px;margin-bottom:6px;}
-body.desk .pa-text{font-size:15px;line-height:1.62;color:#3c4e60;margin:0;max-width:none;}
-body.desk .pa-ins{display:grid;grid-template-columns:1fr;gap:10px;}
-body.desk .pa-ins li{background:transparent;border:0;border-left:3px solid #62aaa2;border-radius:0;padding:3px 0 3px 12px;font-size:13.5px;color:#566678;}
+/* analysis + insights */
+.dk-analysis{display:flex;flex-wrap:wrap;gap:28px 48px;margin-bottom:16px;}
+.dk-analysis>section:first-child{flex:3 1 520px;} .dk-analysis>section:last-child{flex:2 1 340px;}
+body.desk .pa-text{font-size:19px;line-height:1.65;color:var(--ink);margin:0;max-width:66ch;}
+body.desk .pa-ins{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:0;margin:0;list-style:none;}
+body.desk .pa-ins li{background:#fff;border:0;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.55;color:var(--muted);box-shadow:0 0 0 1px var(--line);}
 body.desk .pa-ins li::before{content:none;}
-body.desk .pa-ins li b{color:#22384c;}
+body.desk .pa-ins li b{display:block;color:var(--ink);font-size:19px;font-weight:800;line-height:1.25;letter-spacing:-.01em;margin-bottom:8px;}
 
-/* regulatory snapshot, grouped by agency */
-body.desk .rs .section-head a.rs-go{margin-left:auto;font:600 12px var(--f-sans);letter-spacing:0;text-transform:none;color:var(--dk-teal);}
-body.desk .rs-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;}
-body.desk .rs-card{background:var(--surface-2);border:0;border-radius:6px;padding:11px 12px 4px;}
-body.desk .rs-card h3{font-size:13.5px;color:#345067;}
-body.desk .rs-card li{grid-template-columns:52px 1fr;}
-body.desk .rs-card .t{font-size:13px;color:#3c4e60;}
+/* regulatory snapshot */
+body.desk .rs .section-head a.rs-go{margin-left:auto;font-size:15px;font-weight:700;color:var(--accent);}
+body.desk .rs-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;}
+body.desk .rs-card{background:#fff;border:0;border-radius:16px;padding:16px 18px 8px;box-shadow:0 0 0 1px var(--line);}
+body.desk .rs-card h3{font-size:16px;font-weight:800;color:var(--ink);}
+body.desk .rs-card .t{font-size:14px;color:var(--ink);}
 
 /* articles + papers */
-.dk-lower{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:28px;}
-.dk-filters{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px;}
-.dk-filters button{font:inherit;font-size:12px;color:#566678;background:transparent;border:1px solid var(--line);padding:4px 10px;border-radius:999px;cursor:pointer;}
-.dk-filters button:hover{border-color:#9fb3bd;}
-.dk-filters button[aria-pressed="true"]{background:var(--dk-soft);border-color:#b5dbd6;color:#106d69;font-weight:600;}
-.dk-filters .n{opacity:.75;margin-left:3px;}
-body.desk .item{grid-template-columns:62px 1fr;gap:12px;padding:11px 0;}
-body.desk .item .when{font-size:11.5px;}
-body.desk .item .headline{font-size:14.5px;color:#24394e;}
-body.desk .item .note{font-size:13px;}
-body.desk .pp-sec .section-head .desc{flex-basis:100%;}
-body.desk .seg button[aria-pressed="true"]{background:var(--dk-navy);color:#fff;border-color:var(--dk-navy);}
-body.desk .pp-list li{padding:9px 0;}
-body.desk .pp-t{font-size:14px;color:#26384a;}
+.dk-lower{display:flex;flex-wrap:wrap;gap:28px 48px;}
+.dk-lower>section:first-child{flex:3 1 520px;} .dk-lower>section:nth-child(2){flex:2 1 360px;}
+.dk-filters{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 8px;}
+.dk-filters button{font:inherit;font-size:14px;font-weight:600;color:var(--muted);background:#fff;border:0;box-shadow:0 0 0 1px var(--line);padding:8px 14px;border-radius:999px;cursor:pointer;min-height:36px;}
+.dk-filters button:hover{color:var(--ink);}
+.dk-filters button[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:none;}
+.dk-filters .n{opacity:.7;margin-left:6px;}
+body.desk .item{grid-template-columns:110px minmax(0,1fr);gap:4px 20px;padding:16px 0;border-top:1px solid var(--line);}
+body.desk .item .when{font-size:14px;color:var(--muted);}
+body.desk .item .headline{font-size:19px;font-weight:700;line-height:1.3;}
+body.desk .item .headline a{color:var(--ink);}
+body.desk .item .note{font-size:15px;line-height:1.55;color:var(--muted);}
+body.desk .tag{border-radius:6px;font-size:12px;font-weight:700;padding:3px 8px;}
+body.desk .seg button{min-height:36px;border-radius:999px;}
+body.desk .seg button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
+body.desk .pp-list li{padding:12px 0;border-top:1px solid var(--line);}
+body.desk .pp-t{font-size:16px;font-weight:700;color:var(--ink);}
+
+/* overview infographics */
+.dk-panel{background:#fff;border-radius:22px;padding:10px 32px 22px;box-shadow:0 0 0 1px var(--line);}
+.dk-deals{list-style:none;margin:0;padding:0;}
+.dk-deals li{display:grid;gap:8px;padding:18px 0;border-top:1px solid var(--line);}
+.dk-deals li:first-child{border-top:0;}
+.dk-deals .row1{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline;}
+.dk-deals .row1 a{font-size:19px;font-weight:700;color:var(--ink);text-decoration:none;}
+.dk-deals .row1 a:hover{text-decoration:underline;}
+.dk-deals .row1 span{font-size:15px;color:var(--muted);}
+.dk-deals .row2{display:flex;align-items:center;gap:14px;}
+.dk-deals .bar{height:26px;border-radius:0 6px 6px 0;max-width:72%;min-width:6px;}
+.dk-deals .amt{font-size:24px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.dk-legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--muted);padding-top:12px;}
+.dk-legend span{display:flex;align-items:center;gap:8px;} .dk-legend i{display:block;width:18px;height:12px;border-radius:3px;}
+.dk-legend i.c{width:12px;height:12px;border-radius:50%;}
+.dk-plate-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:8px 0;border-top:1px solid var(--line);}
+.dk-plate-row:first-child{border-top:0;}
+.dk-plate-row>div:first-child{flex:0 0 160px;font-size:14px;color:var(--muted);}
+.dk-wells{display:flex;flex-wrap:wrap;gap:8px;}
+.dk-well{width:60px;height:60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;box-shadow:inset 0 0 0 1px rgba(14,34,54,.08);}
+.dk-well b{font-size:12px;font-weight:700;} .dk-well span{font-size:11px;font-variant-numeric:tabular-nums;}
+.dk-well:hover{box-shadow:0 0 0 3px var(--accent);}
+.dk-sub{margin:6px 0 18px;font-size:16px;color:var(--muted);}
+.dk-h2{margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.15;}
+body.desk .bm{border-radius:14px;}
+.dk-mv{position:relative;background:#EEF2F5;border-radius:4px;height:8px;margin-top:8px;}
+.dk-mv::before{content:"";position:absolute;left:50%;top:-3px;width:1px;height:14px;background:#9AA8B5;}
+.dk-mv i{position:absolute;top:0;height:8px;display:block;}
 
 /* sources + footer */
-.dk-sources{border-top:1px solid var(--line);padding-top:10px;margin-top:6px;}
-.dk-sources summary{font-size:13px;color:#566678;cursor:pointer;font-weight:600;}
-.dk-sources .dk-src-body{font-size:12.5px;color:#6b7885;line-height:1.6;margin-top:8px;}
+.dk-sources{border-top:1px solid var(--line);padding-top:12px;margin-top:8px;}
+.dk-sources summary{font-size:15px;color:var(--muted);cursor:pointer;font-weight:600;min-height:32px;}
+.dk-sources .dk-src-body{font-size:14px;color:var(--muted);line-height:1.6;margin-top:8px;}
 .dk-sources .dk-src-body p{margin:0 0 8px;}
-body.desk footer{border-top:1px solid var(--line);margin:0;padding:12px 26px;font-size:12px;color:#7d8a96;}
-body.desk .site-foot{margin:0;padding:12px 26px 18px;}
+body.desk footer{max-width:1344px;margin:0 auto;border-top:1px solid var(--line);padding:16px 48px;font-size:13px;color:var(--faint);}
+body.desk .site-foot{max-width:1344px;margin:0 auto;padding:12px 48px 28px;}
 
 /* Stock chart popup: momentum trends in a full-width row under the chart, snapshot stays beside it */
 body.desk .scm-body{grid-template-columns:minmax(0,1fr) 230px;grid-template-rows:auto 1fr auto auto;row-gap:0;column-gap:18px;}
@@ -196,60 +265,112 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
   body.desk .scm-side>h4:first-of-type{margin-top:14px;}
 }
 
-@media (max-width:900px){
-  .dk-shell{grid-template-columns:minmax(0,1fr);}
-  .dk-side{border-right:0;border-bottom:1px solid var(--line);padding:6px;}
-  .dk-side-inner{position:static;display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;}
-  .dk-side-t,.dk-side-rule{display:none;}
-  .dk-side a{white-space:nowrap;flex:0 0 auto;}
-  .dk-analysis,.dk-lower{grid-template-columns:1fr;gap:4px;}
-}
-@media (max-width:620px){
-  body.desk .wrap{margin:0;border-radius:0;border-inline:0;}
-  .dk-top{padding:12px 16px;}
-  body.desk main#main{padding:16px;}
-  .dk-head h1{font-size:28px;}
+@media (max-width:760px){
+  .dk-top{padding:12px 16px;} .dk-gnav{gap:2px 16px;font-size:14px;}
+  .dk-desks{padding:0 8px;}
+  .dk-hero-in{padding:24px 16px 28px;}
+  body.desk main#main{padding:20px 16px 40px;}
   body.desk footer,body.desk .site-foot{padding-inline:16px;}
-  body.desk .item{grid-template-columns:1fr;gap:2px;}
+  body.desk .item{grid-template-columns:1fr;}
+  .dk-panel{padding:6px 16px 16px;border-radius:16px;}
+  .dk-plate-row>div:first-child{flex-basis:100%;}
+  .dk-well{width:52px;height:52px;}
+  .dk-deals .bar{max-width:58%;}
 }
+@media (prefers-reduced-motion:reduce){body.desk *{scroll-behavior:auto !important;}}
 </style>
 """
 
 DESK_JS = r"""<script>
-/* Research desk: watchlist, article filters, tracker link, tapes */
+/* Direction D: watchlist chips, overview well plate + tile move bars, agency dots, filters, tracker link */
 (function(){
   var cfg=%(cfg)s;
   var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
   var yf=function(s){return "https://finance.yahoo.com/quote/"+encodeURIComponent(s.replace(".B","-B"))+"/";};
+  var pct=function(v){return (v>=0?"+":"−")+Math.abs(v).toFixed(1)+"%%";};
+  function well(v){var a=Math.abs(v);
+    if(v==null||isNaN(v)) return ["#E3E8ED","#0E2236"];
+    if(a<1) return ["#E3E8ED","#0E2236"];
+    if(v>0) return a<3?["#D3EEDD","#0E2236"]:a<6?["#7CC79A","#0E2236"]:["#1E7A4C","#FFFFFF"];
+    return a<3?["#F8DCC4","#0E2236"]:a<6?["#EDA56A","#0E2236"]:["#B4560F","#FFFFFF"];}
+  var T=window.HH_TAPES||{};
 
-  /* Site-wide tape stays on Market movers; this desk's own watchlist is shown in the page */
+  /* desks: site-wide tape stays on market movers */
   var mv=document.getElementById("tape-movers"),cm=document.querySelector(".tape.cm"),bio=document.querySelector(".tape.bio");
   function tapes(){if(mv)mv.hidden=false;if(cm)cm.hidden=true;if(bio)bio.hidden=true;}
   if(cfg.desk){tapes(); setTimeout(tapes,0);}
 
-  /* Watchlist */
+  /* watchlist chips */
   var w=document.getElementById("dk-watch");
   if(w){
-    var T=window.HH_TAPES||{}, rows=[], asof="";
+    var rows=[];
     if(cfg.watch_tape&&T[cfg.watch_tape]){
       rows=T[cfg.watch_tape].map(function(d){return cfg.watch_tape==="cm"?{s:d[0],p:d[1],c:d[2],u:"https://tradingeconomics.com/commodity/"+d[3]}:{s:d[0],p:d[1],c:d[2]};});
-      var lb=document.querySelector("#"+(cfg.watch_tape==="bio"?"bio":cfg.watch_tape==="cm"?"cm":"tape")+"-track .tk.asof .s"); asof=lb?lb.textContent:"";
     } else {
       var all={}; Object.keys(T).forEach(function(k){(T[k]||[]).forEach(function(d){if(typeof d[1]==="number"&&!all[d[0]])all[d[0]]=d;});});
       rows=cfg.watch.map(function(x){var d=all[x[0]];return {s:x[0],n:x[1],p:d?d[1]:null,c:d?d[2]:null};});
-      if(rows.some(function(r){return r.p!=null;})){var lb2=document.querySelector("#tape-track .tk.asof .s");asof=lb2?lb2.textContent:"";}
     }
-    var h=asof?'<span class="q lbl">'+esc(asof)+'</span>':'<span class="q lbl">Watchlist · quote links</span>';
-    h+=rows.map(function(r){
-      var body=r.p!=null?'<span class="'+(r.c>=0?'up':'dn')+'">'+(r.c>=0?'+':'−')+Math.abs(r.c).toFixed(1)+'%%</span> · 7D'
-                        :esc(r.n||"")+' · quote ↗';
-      return '<a class="q" href="'+(r.u||yf(r.s))+'" target="_blank" rel="noopener" title="'+esc(r.s)+(r.u?' on Trading Economics':' on Yahoo Finance')+'"><b>'+esc(r.s)+'</b>'+body+'</a>';
+    w.innerHTML=rows.map(function(r){
+      var f=well(r.c), val=r.c!=null?pct(r.c)+" 7d":esc(r.n||"")+", quote";
+      return '<a class="q" href="'+(r.u||yf(r.s))+'" target="_blank" rel="noopener" title="'+esc(r.s)+(r.u?' on Trading Economics':' on Yahoo Finance')+'"><i aria-hidden="true" style="background:'+f[0]+'"></i><b>'+esc(r.s)+'</b><span>'+val+'</span></a>';
     }).join("");
-    h+='<span class="q lbl">'+rows.length+(cfg.watch_tape==="cm"?' markets':' names')+'</span>';
-    w.innerHTML=h;
   }
 
-  /* Article type filters */
+  /* overview well plate */
+  var pl=document.getElementById("dk-plate");
+  if(pl&&T.bio){
+    var V={}; T.bio.forEach(function(d){V[d[0]]=d[2];});
+    var h=cfg.plate.map(function(g){
+      var ws=g[1].filter(function(s){return V[s]!=null;}).map(function(s){var f=well(V[s]);
+        return '<a class="dk-well" href="'+yf(s)+'" target="_blank" rel="noopener" title="'+s+' '+pct(V[s])+' over 7 days" style="background:'+f[0]+';color:'+f[1]+'"><b>'+s+'</b><span>'+pct(V[s])+'</span></a>';}).join("");
+      return ws?'<div class="dk-plate-row"><div>'+esc(g[0])+'</div><div class="dk-wells">'+ws+'</div></div>':"";
+    }).join("");
+    if(h){pl.querySelector(".dk-plate-body").innerHTML=h; pl.hidden=false;}
+  }
+
+
+  /* sector heatmap: same green/orange steps as the well plate, kept on redraw */
+  var hm=document.getElementById("hm");
+  function recolor(){
+    if(!hm) return;
+    [].forEach.call(hm.querySelectorAll(".tile"),function(t){
+      var c=t.querySelector(".c"), tb=t.querySelector(".tb"); if(!c||!tb) return;
+      var m=/([+\u2212-])\s*([\d.]+)/.exec(c.textContent); if(!m) return;
+      var v=parseFloat(m[2])*(m[1]==="+"?1:-1), f=well(v);
+      tb.style.background=f[0]; [].forEach.call(t.querySelectorAll(".t,.c"),function(x){x.style.color=f[1];});
+    });
+    [["lg-dn",-7],["lg-0",0],["lg-up",7]].forEach(function(x){var e=document.getElementById(x[0]); if(e) e.style.background=well(x[1])[0];});
+  }
+  if(hm){ recolor(); new MutationObserver(recolor).observe(hm,{childList:true}); }
+
+  /* overview tiles: seven-day move bar */
+  function bars(){
+    [].forEach.call(document.querySelectorAll(".bm"),function(a){
+      if(a.querySelector(".dk-mv")) return;
+      var t=(a.querySelector(".w")||{}).textContent||""; var m=/([+−-])\s*([\d.,]+)\s*(%%|bp)/.exec(t); if(!m) return;
+      var v=parseFloat(m[2].replace(",",""))*(m[1]==="+"?1:-1), sc=m[3]==="bp"?20:15, wd=Math.min(Math.abs(v)/sc*50,50);
+      var bar=document.createElement("div"); bar.className="dk-mv"; bar.setAttribute("aria-hidden","true");
+      bar.innerHTML='<i style="'+(v>=0?'left:50%%;border-radius:0 3px 3px 0;background:#1E7A4C':'right:50%%;border-radius:3px 0 0 3px;background:#B4560F')+';width:'+wd.toFixed(1)+'%%"></i>';
+      a.appendChild(bar);
+    });
+  }
+  bars(); setTimeout(bars,300);
+
+  /* desk: regulatory actions by agency (from the rendered snapshot) */
+  var ag=document.getElementById("dk-agency");
+  function agency(){
+    if(!ag) return;
+    var cards=[].slice.call(document.querySelectorAll(".rs-card"));
+    if(!cards.length){ag.parentNode.hidden=true;return;}
+    var tot=0, h=cards.map(function(c){var n=c.querySelectorAll("li").length; tot+=n;
+      var name=((c.querySelector("h3")||{}).innerText||"").split("\n")[0].trim();
+      var dots=""; for(var i=0;i<Math.min(n,24);i++) dots+="<i></i>";
+      return '<div><b>'+esc(name)+'</b><span class="dots" aria-hidden="true">'+dots+'</span><em>'+n+'</em></div>';}).join("");
+    ag.innerHTML=h; var t=document.getElementById("dk-agency-t"); if(t) t.textContent=tot+" regulatory action"+(tot===1?"":"s")+" by agency";
+  }
+  setTimeout(agency,50);
+
+  /* article type filters */
   var fb=document.querySelector(".dk-filters");
   if(fb){
     var items=[].slice.call(fb.parentNode.querySelectorAll(".items .item"));
@@ -262,18 +383,15 @@ DESK_JS = r"""<script>
     });
   }
 
-  /* Regulatory snapshot: link into the full tracker page, filtered to this desk */
+  /* regulatory snapshot: link into the full tracker, filtered to this desk */
   var rs=document.querySelector(".rs[data-reg]");
-  if(rs){
-    var head=rs.querySelector(".section-head");
-    if(head&&cfg.desk){
-      var old=head.querySelector(".rs-go"), a=document.createElement("a");
-      a.className="rs-go"; a.href=cfg.tracker; a.textContent="Open full tracker →";
-      if(old) old.replaceWith(a); else head.appendChild(a);
-      var c=head.querySelector(".count"); if(c&&!head.querySelector(".dk-kicker")){var k=document.createElement("span");k.className="dk-kicker";k.textContent="Cross-agency watch";head.insertBefore(k,head.firstChild);}
-    }
-  }
-  var pl=document.querySelector(".pp-list"); if(pl) pl.setAttribute("aria-live","polite");
+  if(rs&&cfg.desk){ setTimeout(function(){
+    var head=rs.querySelector(".section-head"); if(!head) return;
+    var old=head.querySelector(".rs-go"), a=document.createElement("a");
+    a.className="rs-go"; a.href=cfg.tracker; a.textContent="Open the full tracker";
+    if(old) old.replaceWith(a); else head.appendChild(a);
+  },0); }
+  var ppl=document.querySelector(".pp-list"); if(ppl) ppl.setAttribute("aria-live","polite");
 })();
 </script>
 """
@@ -354,30 +472,114 @@ def _analysis(pa):
         '</div>\n')
 
 
+
+def _money(t):
+    best = 0.0
+    for m in re.finditer(r"\$\s?([\d.,]+)\s*(B|M|bn|billion|million)\b", t):
+        v = float(m.group(1).replace(",", ""))
+        best = max(best, v * 1000 if m.group(2) in ("B", "bn", "billion") else v)
+    return best
+
+
+def _fmt_money(m):
+    return f"${m/1000:.1f}B".replace(".0B", "B") if m >= 1000 else f"${m:.0f}M"
+
+
+def _deals(panel):
+    """Deals with a headline value from the edition's Today's Signals cards."""
+    out = []
+    for c in re.findall(r'<div class="signal-card[^"]*">(.*?)\n\s*</div>\s*(?=<div class="signal-card|</div>)', panel, re.S):
+        tag = re.search(r'class="tag[^"]*">([^<]+)', c)
+        tag = html.unescape(tag.group(1)).strip() if tag else ""
+        if tag not in ("M&A", "Licensing", "Acquisition", "Deal"):
+            continue
+        hl = re.search(r'class="headline">(.*?)</div>', c, re.S)
+        link = re.search(r'href="([^"]+)"', hl.group(1)) if hl else None
+        head = html.unescape(re.sub(r"<[^>]+>", "", hl.group(1))).strip() if hl else ""
+        val = re.search(r'class="value">(.*?)</div>', c, re.S)
+        val = html.unescape(re.sub(r"<[^>]+>", "", val.group(1))).strip() if val else ""
+        src = re.search(r'class="src">(.*?)</div>', c, re.S)
+        src = html.unescape(re.sub(r"<[^>]+>", "", src.group(1))).strip() if src else ""
+        amt = _money(val) or _money(head)
+        if amt:
+            out.append({"tag": tag, "head": head, "val": val, "src": src, "amt": amt, "url": link.group(1) if link else "#"})
+    out.sort(key=lambda d: -d["amt"])
+    return out
+
+
+def _deal_block(deals):
+    mx = deals[0]["amt"]
+    rows = []
+    for d in deals:
+        acq = d["tag"] != "Licensing"
+        w = max(d["amt"] / mx * 100, 2)
+        rows.append(
+            f'<li><div class="row1"><a href="{html.escape(d["url"])}" target="_blank" rel="noopener">{html.escape(d["head"])}</a>'
+            f'<span>{html.escape(d["tag"])}, {html.escape(d["src"])}</span></div>'
+            f'<div class="row2"><div class="bar" style="width:{w:.1f}%;background:{"#1F5FC4" if acq else "#7FA9EC"}"></div>'
+            f'<span class="amt">{html.escape(d["val"] if len(d["val"]) < 26 else ("up to " if not acq else "") + _fmt_money(d["amt"]))}</span></div></li>')
+    return ('<section aria-labelledby="dk-deals-h"><h2 class="dk-h2" id="dk-deals-h">Deal flow in this edition</h2>'
+            '<p class="dk-sub">M&amp;A and licensing with a disclosed value, sized by headline value. Licensing figures are "up to" totals including milestones.</p>'
+            f'<div class="dk-panel"><ul class="dk-deals">{"".join(rows)}</ul>'
+            '<div class="dk-legend"><span><i style="background:#1F5FC4"></i>Acquisition or bid</span><span><i style="background:#7FA9EC"></i>Licensing</span></div></div></section>\n')
+
+
+def _plate_block():
+    leg = "".join(f'<span><i class="c" style="background:{c}"></i>{t}</span>' for c, t in
+                  [("#B4560F", "down 6% or more"), ("#EDA56A", "down 3–6%"), ("#E3E8ED", "within 1%"), ("#7CC79A", "up 3–6%"), ("#1E7A4C", "up 6% or more")])
+    return ('<section id="dk-plate" aria-labelledby="dk-plate-h" hidden><h2 class="dk-h2" id="dk-plate-h">The week in biotech stocks</h2>'
+            '<p class="dk-sub">Each circle is one stock we track, colored by its seven-day move. Tap one for its quote.</p>'
+            f'<div class="dk-panel"><div class="dk-plate-body"></div><div class="dk-legend" style="border-top:1px solid var(--line)">{leg}</div></div></section>\n')
+
+
+def _glance(arts):
+    labels = [html.unescape(l).strip() for l in re.findall(r'<span class="tag [a-z]+">([^<]+)</span>', arts)]
+    if not labels:
+        return ""
+    counts = []
+    for name, col, members in ART_GROUPS:
+        if members is None:
+            continue
+        counts.append([name, col, sum(1 for l in labels if l in members)])
+    known = set().union(*[m for _, _, m in ART_GROUPS if m])
+    counts.insert(1, [ART_GROUPS[1][0], ART_GROUPS[1][1], sum(1 for l in labels if l not in known)])
+    counts = [c for c in counts if c[2]]
+    stack = "".join(f'<span style="flex:{n} 1 0;background:{col}" title="{html.escape(nm)}: {n}"></span>' for nm, col, n in counts)
+    leg = "".join(f'<span><i style="background:{col}"></i>{html.escape(nm)} <b>{n}</b></span>' for nm, col, n in counts)
+    aria = ", ".join(f"{nm} {n}" for nm, _, n in counts)
+    return (f'<div class="dk-glance"><div><h2>{len(labels)} article{"s" if len(labels) != 1 else ""} in this edition</h2>'
+            f'<div class="dk-stack" role="img" aria-label="{html.escape(aria)}">{stack}</div><div class="dk-leg">{leg}</div></div>'
+            '<div><h2 id="dk-agency-t">Regulatory actions by agency</h2><div class="dk-agency" id="dk-agency"></div></div></div>')
+
+
 def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview):
-    """Research-desk look for one built page: a full desk for panels in DESKS,
-    the shared frame (header, side menu, colours) for every other page."""
+    """Direction D look for one built page: a full desk for panels in DESKS,
+    the shared frame (header, desk tabs, title band) for every other page."""
     import json
     is_desk = pid in DESKS
     cfg = DESKS.get(pid)
     shell = SHELL.get(slug)
     if not is_desk and shell is None:
         return doc
-    cur_slug = None if is_desk else slug
     doc = re.sub(r"<body(?![^>]*class=)", '<body class="desk"', doc, count=1)
-    # audio player is moved into the page body, not duplicated
     doc, listen = _cut(doc, r'\s*<section class="listen-bar".*?</section>')
-    # masthead + section tabs -> brand bar with site navigation
-    gnav = [("", "Market Overview"), ("daily-pulse", "Daily Pulse"), ("biocatalysis", "Research desks"),
-            ("regulatory", "Regulatory Tracker"), ("about", "About")]
+    gnav = [("", "Market overview"), ("daily-pulse", "Daily pulse"), ("biocatalysis", "Research desks"),
+            ("regulatory", "Regulatory tracker"), ("about", "About")]
     def is_cur(s):
         return (s == "biocatalysis" and is_desk) or (not is_desk and s == slug)
-    links = "".join(
-        f'<a href="{_href(s, preview)}"{" aria-current=\"true\"" if is_cur(s) else ""}>{html.escape(l)}</a>'
-        for s, l in gnav)
-    top = (f'<header class="dk-top"><a class="dk-brand" href="{_href("", preview)}">BioMarket <span>Pulse</span></a>'
-           f'<nav class="dk-gnav" aria-label="Site">{links}' + ('<span class="dk-acct">Sandbox preview · accounts not connected</span>' if preview else "") + '</nav></header>\n')
-    doc = re.sub(r'<header class="masthead">.*?</header>', lambda m: top, doc, count=1, flags=re.S)
+    links = "".join(f'<a href="{_href(s, preview)}"{" aria-current=\"true\"" if is_cur(s) else ""}>{html.escape(l)}</a>' for s, l in gnav)
+    mark = "".join(f'<i style="background:{c}"></i>' for c in ("#1F5FC4", "#7CC79A", "#3A5470", "#EDA56A", "#1E7A4C", "#CFE0FA"))
+    top = (f'<header class="dk-top"><a class="dk-brand" href="{_href("", preview)}"><span class="dk-mark" aria-hidden="true">{mark}</span>BioMarket Pulse</a>'
+           f'<nav class="dk-gnav" aria-label="Site">{links}' + ('<span class="dk-acct">Sandbox preview</span>' if preview else "") + '</nav></header>\n')
+    tabs = []
+    for dslug, dpid, dl in DESK_NAV:
+        n = counts.get(dpid)
+        cur = dpid == pid or (not is_desk and dslug == slug)
+        col = DESK_COLOR.get(dpid, "#4A5B6C")
+        tabs.append(f'<a href="{_href(dslug, preview)}"' + (f' aria-current="page" style="border-bottom-color:{col}"' if cur else "") +
+                    f'><i aria-hidden="true" style="background:{col}"></i>{html.escape(dl)}' + (f' <small>{n}</small>' if n else "") + '</a>')
+    tabs = '<nav class="dk-desks" aria-label="Research desks">' + "".join(tabs) + '</nav>\n'
+    doc = re.sub(r'<header class="masthead">.*?</header>', lambda m: top + tabs, doc, count=1, flags=re.S)
     doc = re.sub(r'\s*<nav class="tabs" id="tabs".*?</nav>\s*<script>\(function\(\)\{var c=document\.querySelector\(\'\.tabs.*?</script>',
                  "", doc, count=1, flags=re.S)
     doc, src = _cut(doc, r'\s*<div class="sources">.*?</div>(?=\s*<div>)')
@@ -386,64 +588,58 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
         return doc
     panel = m.group(1)
 
-    side = ['<aside class="dk-side" aria-label="Research desks"><div class="dk-side-inner">',
-            '<div class="dk-side-t">Research desks</div>']
-    for dslug, dpid, dl in DESK_NAV:
-        n = counts.get(dpid)
-        cur = ' aria-current="page"' if (dpid == pid or dslug == cur_slug) else ""
-        side.append(f'<a href="{_href(dslug, preview)}"{cur}>{html.escape(dl)}{f"<small>{n} items</small>" if n else ""}</a>')
-    side.append('<div class="dk-side-rule"></div><div class="dk-side-t">Discover</div>')
-    for dslug, dl in DISCOVER_NAV:
-        cur = ' aria-current="page"' if dslug == cur_slug else ""
-        side.append(f'<a href="{_href(dslug, preview)}"{cur}>{html.escape(dl)}</a>')
-    side.append("</div></aside>")
-
     if is_desk:
         kind, title, sub = cfg["kind"], label, " · ".join(html.escape(t) for t in cfg["topics"])
     else:
         kind, title, sub = shell[0], shell[1], html.escape(shell[2])
-    eyebrow = " · ".join(x for x in (kind, f"Edition No. {edition_no}" if edition_no else "", date_label) if x)
-    crumb_mid = "Research desks&nbsp; / &nbsp;" if is_desk else ""
-    head = (f'<nav class="dk-crumb" aria-label="Breadcrumb"><a href="{_href("", preview)}">BioMarket Pulse</a>&nbsp; / &nbsp;{crumb_mid}<b>{html.escape(title)}</b></nav>\n'
-            f'<div class="dk-head"><div><div class="dk-eyebrow">{html.escape(eyebrow)}</div><h1>{html.escape(title)}</h1>'
-            + (f'<p class="dk-topics">{sub}</p>' if sub else "") + '</div>'
-            + ('<div class="dk-actions"><span class="dk-plan">Free during preview</span></div>' if (is_desk and preview) else "") + '</div>\n')
-    if is_desk and (cfg["watch"] or cfg["watch_tape"]):
-        head += f'<div class="dk-watch" id="dk-watch" aria-label="{html.escape(label)} watchlist"></div>\n'
+    eyebrow = ", ".join(x for x in (kind, f"edition {edition_no}" if edition_no else "", date_label) if x)
+    crumb = (f'<nav class="dk-crumb" aria-label="Breadcrumb"><a href="{_href("", preview)}">BioMarket Pulse</a> / '
+             + ("Research desks / " if is_desk else "") + f'<span aria-current="page">{html.escape(title)}</span></nav>')
+
+    deals = _deals(panel) if slug == "" else []
+    h1 = title
+    if slug == "" and len(deals) >= 2:
+        total = sum(d["amt"] for d in deals)
+        h1 = f"{len(deals)} deals, {_fmt_money(total)} in headline value"
+        sub = html.escape("Market overview: deal flow, how the biotech stocks we track moved, markets and today's signals.")
+
+    secs = _top_sections(panel) if is_desk else []
+    arts = next((s for s in secs if "<h2>Latest Articles</h2>" in s), "")
+    glance = _glance(arts) if is_desk else ""
+    hero = (f'<div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main">{crumb}'
+            f'<p class="dk-eyebrow">{html.escape(eyebrow)}</p><h1>{html.escape(h1)}</h1>'
+            + (f'<p class="dk-topics">{sub}</p>' if sub else "") + listen.strip() + f'</div>{glance}</div></div>\n')
 
     sources = ""
     if src:
         body = re.sub(r'^\s*<div class="sources">|</div>\s*$', "", src.strip())
-        sources = ('<details class="dk-sources"><summary>Sources &amp; methodology · refreshed with each edition</summary>'
+        sources = ('<details class="dk-sources"><summary>Sources and methodology, refreshed with each edition</summary>'
                    f'<div class="dk-src-body"><p>{body}</p>'
-                   f'<p>Compiled each morning as part of edition No. {edition_no}. Every article, regulatory action and paper links to its original source. '
-                   f'See <a href="{_href("about", preview)}">About &amp; methodology</a>.</p></div></details>\n')
+                   f'<p>Compiled each morning as part of edition {edition_no}. Every article, regulatory action and paper links to its original source. '
+                   f'See <a href="{_href("about", preview)}">About and methodology</a>.</p></div></details>\n')
 
     if is_desk:
-        secs = _top_sections(panel)
         pa = next((s for s in secs if s.startswith('<section class="pa"')), "")
         rs = next((s for s in secs if 'class="rs"' in s[:40]), "")
         pp = next((s for s in secs if s.startswith('<section class="pp-sec"')), "")
-        arts = next((s for s in secs if "<h2>Latest Articles</h2>" in s), "")
         ai = secs.index(arts) if arts else len(secs)
-        early = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i < ai]  # e.g. Brazil registry search
+        early = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i < ai]
         late = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i > ai]
-        loose = panel
-        for s_ in secs:
-            loose = loose.replace(s_, "")
-        loose = re.sub(r'</?div class="tabpanel"[^>]*>|</div>\s*<!-- /p-[a-z]+ -->|<!--.*?-->', "", loose, flags=re.S).strip()
-        if loose.strip("</div>\n "):
-            print(f"desk_layout: warning — {pid} has content outside its sections; kept below the desk modules")
-        content = (_analysis(pa) + rs + "\n" + "\n".join(early) +
+        watch = (f'<div class="dk-watch" id="dk-watch" aria-label="{html.escape(label)} watchlist"></div>\n'
+                 if (cfg["watch"] or cfg["watch_tape"]) else "")
+        content = (watch + _analysis(pa) + rs + "\n" + "\n".join(early) +
                    '<div class="dk-lower">\n' + _filters(arts) + "\n" + pp + "\n</div>\n" + "\n".join(late))
     else:
         content = panel
-    new_main = ('\n' + "".join(side) + '\n<main id="main">\n' + head + listen.strip() + "\n" + content + sources + "</main>\n")
-    doc = doc[:m.start()] + '<div class="dk-shell">' + new_main + "</div>" + doc[m.end():]
+        if slug == "":
+            content = (_deal_block(deals) if len(deals) >= 2 else "") + _plate_block() + content
+    new_main = '\n<main id="main">\n' + content + sources + "</main>\n"
+    doc = doc[:m.start()] + hero + new_main + doc[m.end():]
 
     js_cfg = {"watch": cfg["watch"] if is_desk else [], "watch_tape": cfg["watch_tape"] if is_desk else None,
-              "desk": is_desk, "tracker": _href("regulatory", preview) + "?sector=" + REG_KEY.get(pid, "")}
-    doc = doc.replace("</head>", DESK_CSS + "</head>", 1)
+              "desk": is_desk, "plate": PLATE_GROUPS if slug == "" else [],
+              "tracker": _href("regulatory", preview) + "?sector=" + REG_KEY.get(pid, "")}
+    doc = doc.replace("</head>", FONT_LINK + DESK_CSS + "</head>", 1)
     doc = doc.replace("</body>", DESK_JS % {"cfg": json.dumps(js_cfg)} + "</body>", 1)
     return doc
 
