@@ -179,6 +179,19 @@ body.desk .bm{border-radius:14px;}
 .dk-mv::before{content:"";position:absolute;left:50%;top:-3px;width:1px;height:14px;background:#9AA8B5;}
 .dk-mv i{position:absolute;top:0;height:8px;display:block;}
 
+/* in-site quote panel */
+.dk-q{position:fixed;inset:0;background:rgba(14,34,54,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000;}
+.dk-q[hidden]{display:none;}
+.dk-q-box{position:relative;background:#fff;border-radius:20px;padding:28px 28px 24px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(14,34,54,.35);}
+.dk-q-box h2{margin:0 40px 12px 0;font-size:26px;font-weight:800;letter-spacing:-.02em;}
+.dk-q-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:#F0F4F7;font-size:24px;cursor:pointer;color:var(--ink);}
+.dk-q-big{margin:0;font-size:34px;font-weight:800;font-variant-numeric:tabular-nums;}
+.dk-q-chg{margin:4px 0 0;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;}
+.dk-q-note{margin:6px 0 0;font-size:14px;color:var(--muted);}
+.dk-q-msg{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line);font-size:15px;line-height:1.5;color:var(--muted);}
+/* the chart popup no longer links out */
+body.desk .scm-panel a[href*="finance.yahoo.com"]{display:none;}
+
 /* sources + footer */
 .dk-sources{border-top:1px solid var(--line);padding-top:12px;margin-top:8px;}
 .dk-sources summary{font-size:15px;color:var(--muted);cursor:pointer;font-weight:600;min-height:32px;}
@@ -2269,7 +2282,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
 <script>
 /* Direction D: watchlist chips, overview well plate + tile move bars, agency dots, filters, tracker link */
 (function(){
-  var cfg={"watch": [], "watch_tape": null, "desk": true, "plate": [], "tracker": "/regulatory/?sector=policy"};
+  var cfg={"watch": [], "watch_tape": null, "page_tape": null, "desk": true, "plate": [], "tracker": "/regulatory/?sector=policy"};
   var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
   var yf=function(s){return "https://finance.yahoo.com/quote/"+encodeURIComponent(s.replace(".B","-B"))+"/";};
   var pct=function(v){return (v>=0?"+":"−")+Math.abs(v).toFixed(1)+"%";};
@@ -2282,7 +2295,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
 
   /* desks: site-wide tape stays on market movers */
   var mv=document.getElementById("tape-movers"),cm=document.querySelector(".tape.cm"),bio=document.querySelector(".tape.bio");
-  function tapes(){if(mv)mv.hidden=false;if(cm)cm.hidden=true;if(bio)bio.hidden=true;}
+  function tapes(){var c=cfg.page_tape==="cm"; if(mv)mv.hidden=c; if(cm)cm.hidden=!c; if(bio)bio.hidden=true;}
   if(cfg.desk){tapes(); setTimeout(tapes,0);}
 
   /* watchlist chips */
@@ -2354,6 +2367,61 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
     ag.innerHTML=h; var t=document.getElementById("dk-agency-t"); if(t) t.textContent=tot+" regulatory action"+(tot===1?"":"s")+" by agency";
   }
   setTimeout(agency,50);
+
+
+  /* every stock, index, commodity and currency stays on the site:
+     names with chart data open the candlestick chart (the edition's own handler);
+     anything else opens this panel with the latest figures from the page */
+  var QSEL='a[href*="finance.yahoo.com/quote/"],a[href*="tradingeconomics.com/"]';
+  var dlg=null;
+  function closeQ(){ if(dlg){ dlg.hidden=true; if(dlg._from) dlg._from.focus(); } }
+  function openQ(a){
+    var href=a.getAttribute("href")||"", sym="";
+    var m=/quote\/([^\/?#]+)/.exec(href); if(m) sym=decodeURIComponent(m[1]);
+    var tm=/tradingeconomics\.com\/(?:commodity\/)?([^\/?#]+)/.exec(href);
+    var lines=(a.innerText||"").split(/\n+/).map(function(x){return x.trim();}).filter(Boolean);
+    var name=(a.getAttribute("title")||"").replace(/ on (Yahoo Finance|Trading Economics)$/,"").trim()||lines[0]||sym;
+    var row=null, asof="";
+    Object.keys(T).forEach(function(k){(T[k]||[]).forEach(function(d){
+      if(row) return;
+      if((sym&&(d[0]===sym||d[3]===sym||String(d[0]).replace(/\./g,"-")===sym))||(tm&&d[3]===tm[1])||d[0]===name){row=d; var lb=document.querySelector("#"+(k==="top"?"tape":k)+"-track .tk.asof .s"); asof=lb?lb.textContent:"";}
+    });});
+    if(!dlg){
+      dlg=document.createElement("div"); dlg.className="dk-q"; dlg.hidden=true;
+      dlg.innerHTML='<div class="dk-q-box" role="dialog" aria-modal="true" aria-labelledby="dk-q-h"><button type="button" class="dk-q-x" aria-label="Close">×</button><h2 id="dk-q-h"></h2><div class="dk-q-body"></div></div>';
+      document.body.appendChild(dlg);
+      dlg.addEventListener("click",function(e){ if(e.target===dlg||e.target.closest(".dk-q-x")) closeQ(); });
+      document.addEventListener("keydown",function(e){ if(e.key==="Escape"&&dlg&&!dlg.hidden) closeQ(); });
+    }
+    var body="";
+    if(row&&typeof row[1]==="number"){
+      var unit=(row[5]&&typeof row[5]==="string")?" "+row[5]:"";
+      body+='<p class="dk-q-big">'+row[1].toLocaleString("en-US",{maximumFractionDigits:4})+esc(unit)+'</p>';
+      if(typeof row[2]==="number") body+='<p class="dk-q-chg" style="color:'+(row[2]>=0?"#1E7A4C":"#B4560F")+'">'+pct(row[2])+' over 7 days</p>';
+      if(asof) body+='<p class="dk-q-note">'+esc(asof)+'</p>';
+    } else if(lines.length>1){
+      body+='<p class="dk-q-big">'+esc(lines[1])+'</p>'+(lines.length>2?'<p class="dk-q-chg">'+esc(lines.slice(2).join(", "))+'</p>':'');
+    }
+    body+='<p class="dk-q-msg">A candlestick chart for '+esc(name)+' isn’t in today’s data yet. It will open here once the daily update adds its price history.</p>';
+    dlg.querySelector("#dk-q-h").textContent=name;
+    dlg.querySelector(".dk-q-body").innerHTML=body;
+    dlg._from=a; dlg.hidden=false; dlg.querySelector(".dk-q-x").focus();
+  }
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest(QSEL); if(!a) return;
+    if(a.closest(".scm-panel")){ e.preventDefault(); return; }
+    if(e.defaultPrevented) return;          /* the candlestick chart already opened */
+    e.preventDefault(); openQ(a);
+  });
+  /* quote links no longer open new tabs */
+  function local(){ [].forEach.call(document.querySelectorAll(QSEL),function(a){a.removeAttribute("target");}); }
+  local(); setTimeout(local,400);
+  /* wording that pointed people off the site */
+  [].forEach.call(document.querySelectorAll("p,span,div,small"),function(el){
+    if(el.children.length) return;
+    var t=el.textContent;
+    if(/Yahoo Finance quote|tile for Yahoo Finance/.test(t)) el.textContent=t.replace("for its Yahoo Finance quote","for its chart").replace("tap any tile for Yahoo Finance","tap any tile for its chart");
+  });
 
   /* article type filters */
   var fb=document.querySelector(".dk-filters");
