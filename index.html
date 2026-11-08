@@ -141,6 +141,20 @@ body.desk .pp-t{font-size:14px;color:#26384a;}
 body.desk footer{border-top:1px solid var(--line);margin:0;padding:12px 26px;font-size:12px;color:#7d8a96;}
 body.desk .site-foot{margin:0;padding:12px 26px 18px;}
 
+/* Stock chart popup: momentum trends in a full-width row under the chart, snapshot stays beside it */
+body.desk .scm-body{grid-template-columns:minmax(0,1fr) 230px;grid-template-rows:auto 1fr auto auto;row-gap:0;column-gap:18px;}
+body.desk .scm-side{display:contents;}
+body.desk .scm-chart-wrap{grid-column:1;grid-row:1 / 3;}
+body.desk .scm-side>h4:first-of-type{grid-column:2;grid-row:1;}
+body.desk #scm-stats{grid-column:2;grid-row:2;align-self:start;}
+body.desk .scm-side>h4:last-of-type{grid-column:1 / -1;grid-row:3;margin-top:16px;}
+body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;}
+@media (max-width:760px){
+  body.desk .scm-body{grid-template-columns:minmax(0,1fr);grid-template-rows:none;}
+  body.desk .scm-chart-wrap,body.desk .scm-side>h4:first-of-type,body.desk .scm-side>h4:last-of-type,body.desk #scm-stats,body.desk #scm-trends{grid-column:1;grid-row:auto;}
+  body.desk .scm-side>h4:first-of-type{margin-top:14px;}
+}
+
 @media (max-width:900px){
   .dk-shell{grid-template-columns:minmax(0,1fr);}
   .dk-side{border-right:0;border-bottom:1px solid var(--line);padding:6px;}
