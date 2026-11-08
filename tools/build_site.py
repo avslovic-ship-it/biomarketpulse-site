@@ -14,6 +14,9 @@ viewing without a web server.
 """
 import datetime, html, json, os, re, sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from desk_layout import apply_layout, apply_tracker_link
+
 SITE = "https://www.biomarketpulse.com"
 NAME = "BioMarket Pulse"
 
@@ -34,6 +37,9 @@ PAGES = [
     ("agriculture", "p-ag", "Agriculture",
      "Agriculture — Global and Brazil ag-biotech intelligence | BioMarket Pulse",
      "Crop protection, seeds, biologicals, gene editing and fertilizer news, Brazil harvest and export data, and ag regulatory decisions from EPA, the EU, MAPA and CTNBio."),
+    ("brazil-crop-protection", "p-brbio", "Brazil Crop Protection",
+     "Brazil Crop Protection — MAPA AGROFIT registry search (beta) | BioMarket Pulse",
+     "Search Brazil's MAPA AGROFIT crop-protection registry in English: products, active ingredients, companies and registered crops, with a dashboard for each product."),
     ("synthetic-biology", "p-synbio", "Synthetic Biology",
      "Synthetic Biology — Biomanufacturing and protein design | BioMarket Pulse",
      "AI protein design, biomanufacturing, precision fermentation and synbio funding, with daily analysis, regulatory actions and new research."),
@@ -383,7 +389,7 @@ def site_footer(preview):
 
 HASH_REDIRECT = """<script>
 /* Old one-page links (/#pharma) go to the new page for that section. */
-(function(){var m={overview:"%s",daily:"%s",biocat:"%s",pharma:"%s",ag:"%s",synbio:"%s",policy:"%s",reg:"%s",deep:"%s"};
+(function(){var m={overview:"%s",daily:"%s",biocat:"%s",pharma:"%s",ag:"%s",brbio:"%s",synbio:"%s",policy:"%s",reg:"%s",deep:"%s"};
 var h=(location.hash||"").replace(/^#/,"");if(m[h]&&h!=="overview"){location.replace(m[h]);}})();
 </script>
 """
@@ -513,6 +519,9 @@ def build(edition_path, out, preview=False):
                 print("build_site: warning — regulatory marker not found on Agriculture; registry section skipped")
         body = '<main id="main">\n  ' + body.strip() + "\n  </main>\n"
         doc = page_html(title, desc, slug, pid, body, home=(slug == ""))
+        doc = apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
+        if pid == "p-reg":
+            doc = apply_tracker_link(doc)
         path = os.path.join(out, (slug or "overview") + ".html") if preview else \
             os.path.join(out, slug, "index.html") if slug else os.path.join(out, "index.html")
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -542,6 +551,7 @@ def build(edition_path, out, preview=False):
 </main>
 """
     doc = page_html(ABOUT[1] + " | " + NAME, ABOUT[2], ABOUT[0], None, about_body)
+    doc = apply_layout(doc, None, "about", "", counts, date_label, edition_no, preview)
     path = os.path.join(out, "about.html") if preview else os.path.join(out, "about", "index.html")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, "w", encoding="utf-8").write(doc)
@@ -550,6 +560,7 @@ def build(edition_path, out, preview=False):
     # Product dashboard page (one page; the product comes from ?r=REGISTRATION)
     prod_body = '<main id="main">\n' + open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "product_page.html"), encoding="utf-8").read() + "\n</main>\n"
     doc = page_html("Product dashboard | " + NAME, "Registration details, active ingredients, registered uses and market context for a crop-protection product registered in Brazil.", "product", None, prod_body)
+    doc = apply_layout(doc, None, "product", "", counts, date_label, edition_no, preview)
     path = os.path.join(out, "product.html") if preview else os.path.join(out, "product", "index.html")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, "w", encoding="utf-8").write(doc)
@@ -560,6 +571,7 @@ def build(edition_path, out, preview=False):
   <p>That page isn't here. Try <a href="{href('', preview)}">today's Market Overview</a> or pick a section above.</p></section></main>
 """
     doc = page_html("Page not found | " + NAME, "Page not found.", "404", None, nf_body)
+    doc = apply_layout(doc, None, "404", "", counts, date_label, edition_no, preview)
     doc = doc.replace('<link rel="canonical" href="' + SITE + '/404/">\n', '<meta name="robots" content="noindex">\n')
     open(os.path.join(out, "404.html"), "w", encoding="utf-8").write(doc)
     written.append(os.path.join(out, "404.html"))
