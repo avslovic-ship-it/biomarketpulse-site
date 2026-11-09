@@ -287,6 +287,189 @@ def apply_bridge(page):
     return page[:i] + BRIDGE_JS + page[i:]
 
 
+# ---------------------------------------------------------------- freshness
+# Everything shown must be current. These limits are enforced at build time, whatever the edition holds.
+MAX_ARTICLE_DAYS = 7      # Latest Articles, Today's Signals
+MAX_REG_PAST_DAYS = 30    # Regulatory Snapshot items already in the past ("Upcoming" items always stay)
+MAX_PAPER_DAYS = 60       # "Newest" research papers, by publication date
+_MON = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
+
+
+def _label_date(label, today):
+    """'Nov 4' / 'Nov 4, 2026' / 'Aug' -> date (year inferred so the date is not in the future by > 2 months)."""
+    m = re.search(r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?(?:\s+(\d{1,2}))?(?:,?\s+(\d{4}))?", label or "")
+    if not m:
+        return None
+    mon, day = _MON[m.group(1)], int(m.group(2) or 1)
+    year = int(m.group(3)) if m.group(3) else today.year
+    try:
+        d = datetime.date(year, mon, day)
+    except ValueError:
+        return None
+    if not m.group(3) and (d - today).days > 62:
+        d = d.replace(year=year - 1)
+    return d
+
+
+def _blocks(page, start_pat):
+    """(start, end) of each <div ...> block whose opening tag matches start_pat, balanced on <div>."""
+    out = []
+    for m in re.finditer(start_pat, page):
+        depth, pos = 0, m.start()
+        for t in re.finditer(r"<(/?)div\b[^>]*>", page[pos:]):
+            depth += -1 if t.group(1) else 1
+            if depth == 0:
+                out.append((pos, pos + t.end()))
+                break
+    return out
+
+
+def enforce_freshness(page, today):
+    if not today:
+        print("build_site: warning — no edition date; freshness limits not applied")
+        return page
+    dropped = {"articles": 0, "signals": 0, "reg": 0, "papers": 0}
+    # Latest Articles and Today's Signals: drop items older than MAX_ARTICLE_DAYS
+    for kind, pat, date_pat in (("articles", r'<div class="item">', r'<div class="when">([^<]*)</div>'),
+                                ("signals", r'<div class="signal-card[^"]*">', r'<div class="src">[^<]*·\s*([^<]*)</div>')):
+        for a, b in reversed(_blocks(page, pat)):
+            dm = re.search(date_pat, page[a:b])
+            d = _label_date(dm.group(1), today) if dm else None
+            if d and (today - d).days > MAX_ARTICLE_DAYS:
+                page = page[:a] + page[b:]
+                dropped[kind] += 1
+    # empty article lists say so; "N items" counts follow what is left
+    def fix_list(m):
+        body = m.group(0)
+        n = len(re.findall(r'<div class="item">', body))
+        body = re.sub(r'(<span class="count">)\d+ items?', lambda c: f"{c.group(1)}{n} item{'s' if n != 1 else ''}", body, count=1)
+        if n == 0 and '<div class="items">' in body:
+            body = body.replace('<div class="items">', f'<div class="items"><p class="items-empty" style="color:var(--muted);padding:12px 0">No new articles in the last {MAX_ARTICLE_DAYS} days.</p>', 1)
+        return body
+    page = re.sub(r'<section>\s*<div class="section-head">\s*<h2>Latest Articles</h2>.*?</section>', fix_list, page, flags=re.S)
+    # Regulatory Snapshot data (var REGS): past items older than MAX_REG_PAST_DAYS go
+    rm = re.search(r"var REGS=\{.*?\n\s*\};", page, re.S)
+    if rm:
+        regs = rm.group(0)
+        item = r'\["((?:[^"\\]|\\.)*)","((?:[^"\\]|\\.)*)","(?:[^"\\]|\\.)*","(?:[^"\\]|\\.)*"\]'
+        def keep(m):
+            d = _label_date(m.group(1), today)
+            if m.group(2) != "Upcoming" and d and (today - d).days > MAX_REG_PAST_DAYS:
+                dropped["reg"] += 1
+                return ""
+            return m.group(0)
+        new = re.sub(item + r",?\s*", lambda m: keep(m) and (m.group(0)), regs)
+        new = re.sub(r",(\s*)\]", r"\1]", new)
+        new = re.sub(r"items:\[\s*\]", 'items:[["—","Status","No actions in the last %d days",""]]' % MAX_REG_PAST_DAYS, new)
+        page = page.replace(regs, new, 1)
+    # Newest research papers: publication date within MAX_PAPER_DAYS
+    pm = re.search(r"var PAPERS=\{.*?\n\s*\};", page, re.S)
+    if pm:
+        papers = pm.group(0)
+        row_re = re.compile(r'\[(?:"(?:[^"\\]|\\.)*"|null|true|false|-?[\d.]+|\s|,)*\]')
+        out, pos = [], 0
+        for nm in re.finditer(r"newest:\[", papers):
+            start = nm.end() - 1
+            depth, i, instr = 0, start, False
+            while i < len(papers):
+                c = papers[i]
+                if instr:
+                    if c == "\\":
+                        i += 1
+                    elif c == '"':
+                        instr = False
+                elif c == '"':
+                    instr = True
+                elif c == "[":
+                    depth += 1
+                elif c == "]":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                i += 1
+            inner = papers[start + 1:i]
+            rows = [r.group(0) for r in row_re.finditer(inner)]
+            keep = []
+            for r in rows:
+                dm = re.match(r'\["(?:[^"\\]|\\.)*","(?:[^"\\]|\\.)*","(\d{4}-\d{2}(?:-\d{2})?)"', r)
+                try:
+                    d = datetime.date.fromisoformat(dm.group(1) if len(dm.group(1)) == 10 else dm.group(1) + "-01") if dm else None
+                except ValueError:
+                    d = None
+                if d and (today - d).days > MAX_PAPER_DAYS:
+                    dropped["papers"] += 1
+                else:
+                    keep.append(r)
+            out.append(papers[pos:start + 1] + ("\n    " + ",\n    ".join(keep) if keep else ""))
+            pos = i
+        out.append(papers[pos:])
+        page = page.replace(papers, "".join(out), 1)
+    # Five Things and Lead story: show each item's publication date (taken from the same link elsewhere in the edition)
+    dates = {}
+    for m in re.finditer(r'<div class="when">([^<]*)</div>.*?<a href="([^"]+)"', page, re.S):
+        dates.setdefault(m.group(2), m.group(1).strip())
+    for m in re.finditer(r'<a href="([^"]+)"[^>]*>[^<]*</a></div>\s*<div class="value">.*?<div class="src">[^<]*·\s*([^<]*)</div>', page, re.S):
+        dates.setdefault(m.group(1), m.group(2).strip())
+    for m in re.finditer(r'\["([A-Z][a-z]{2} \d{1,2})","\d{4}-\d{2}-\d{2}","[^"]*","[^"]*","[^"]*","(?:[^"\\]|\\.)*","(?:[^"\\]|\\.)*","([^"]+)"\]', page):
+        dates.setdefault(m.group(2), m.group(1))
+    def five(m):
+        li = m.group(0)
+        if 'class="dt"' in li:
+            return li
+        a = re.search(r'<a href="([^"]+)"[^>]*>[^<]*</a>', li)
+        if a and a.group(1) in dates:
+            li = li[:a.end()] + f' · <span class="dt">{dates[a.group(1)]}</span>' + li[a.end():]
+        return li
+    page = re.sub(r'(?<=<ol class="five">).*?(?=</ol>)', lambda m: re.sub(r"<li>.*?</li>", five, m.group(0), flags=re.S), page, count=1, flags=re.S)
+    lm = re.search(r'<span class="kicker">Lead story</span>\s*<div class="hl"><a href="([^"]+)"', page)
+    if lm and lm.group(1) in dates:
+        page = page.replace('<span class="kicker">Lead story</span>', f'<span class="kicker">Lead story · {dates[lm.group(1)]}</span>', 1)
+    print("build_site: freshness — dropped %(articles)d articles, %(signals)d signals, %(reg)d regulatory items, %(papers)d papers" % dropped)
+    return page
+
+
+def count_articles(page, panels):
+    """Pill counts from the articles actually shown."""
+    return {pid: str(len(re.findall(r'<div class="item">', page[a:b]))) for pid, (a, b) in panels.items()}
+
+
+# Fallback for the Deep Dive page when an edition no longer carries that tab
+DEEP_FALLBACK = """<div class="tabpanel" id="p-deep">
+    <section>
+      <div class="section-head">
+        <h2>Deep Dive</h2>
+        <span class="count">company or sector</span>
+        <span class="desc">Competitors, a funding &amp; activity heat map, and news highlights</span>
+      </div>
+      <div class="panel dd-search">
+        <form id="dd-form" class="dd-form" role="search">
+          <input id="dd-q" type="search" placeholder="Type a company (e.g. Arzeda) or a sector (e.g. ag biologicals)…" aria-label="Company or sector" autocomplete="off">
+          <button type="submit" id="dd-go">Analyze</button>
+        </form>
+        <div class="dd-sugs" id="dd-sugs"><span>Try:</span>
+          <button type="button">Ginkgo Bioworks</button><button type="button">Ag biologicals</button><button type="button">Antibody-drug conjugates</button><button type="button">Precision fermentation</button>
+        </div>
+        <div class="dd-recent" id="dd-recent"></div>
+        <div class="dd-off" id="dd-off" hidden>Deep Dive runs on Claude, so it works when this page is opened in Claude (claude.ai or the Claude app) with Claude access allowed.</div>
+      </div>
+      <div id="dd-status" class="dd-status" aria-live="polite"></div>
+      <div id="dd-out"></div>
+    </section>
+  </div>
+"""
+
+
+def split_subdesk(body, sub_id):
+    """An edition may carry a folded section as <div class="subdesk" id="p-biocat"> inside its host tab.
+    Returns (host body without it, its inner content or "")."""
+    for a, b in _blocks(body, r'<div class="subdesk" id="%s"[^>]*>' % sub_id):
+        inner = body[a:b]
+        inner = re.sub(r'^<div class="subdesk"[^>]*>\s*(<div class="subdesk-head">.*?</div>\s*)?', "", inner, count=1, flags=re.S)
+        inner = re.sub(r"</div>\s*$", "", inner)
+        return body[:a] + body[b:], inner
+    return body, ""
+
+
 # ---------------------------------------------------------------- page pieces
 def find_panels(page):
     starts = [(m.start(), m.group(1)) for m in re.finditer(r'<div class="tabpanel" id="(p-[a-z]+)"', page)]
@@ -304,7 +487,7 @@ def find_panels(page):
 
 def nav_counts(page):
     counts = {}
-    for m in re.finditer(r'aria-controls="(p-[a-z]+)"[^>]*>[^<]*<span class="pill">(\d+)</span>', page):
+    for m in re.finditer(r'aria-controls="(p-[a-z]+)"[^>]*>(?:<i [^>]*></i>)?[^<]*<span class="pill">(\d+)</span>', page):
         counts[m.group(1)] = m.group(2)
     return counts
 
@@ -536,8 +719,17 @@ def build(edition_path, out, preview=False):
     full = add_listen_bar(full, out, preview)
     full = drop_heatmap(full)
     full = add_fundamentals(full)
+    if 'id="p-deep"' not in full:
+        i = full.find("<footer", full.rfind('<div class="tabpanel"'))
+        full = full[:i] + DEEP_FALLBACK + "\n  " + full[i:]
+    _d, _e, _iso = edition_meta(full)
+    full = enforce_freshness(full, datetime.date.fromisoformat(_iso) if _iso else None)
     panels, first, end_all = find_panels(full)
     counts = nav_counts(full)
+    shown = count_articles(full, panels)
+    for pid in list(counts):
+        if pid in shown:
+            counts[pid] = shown[pid]
     for sub, (host, *_r) in SUBDESKS.items():  # a folded section's articles count toward its host desk
         if sub in counts and host in counts:
             counts[host] = str(int(counts[host]) + int(counts.pop(sub)))
@@ -578,6 +770,12 @@ def build(edition_path, out, preview=False):
         a, b = panels[pid]
         body = full[a:b]
         body = re.sub(r'(<div class="tabpanel" id="%s")[^>]*>' % pid, r'\1>', body, count=1)  # visible, no tab roles
+        body, _brbio = split_subdesk(body, "p-brbio")   # the site has its own registry search on Agriculture
+        folded = {}
+        for sub in SUBDESKS:
+            body, inner = split_subdesk(body, sub)
+            if inner:
+                folded[sub] = inner
         if pid == "p-ag":
             # The edition links out to the live search tool (for the claude.ai artifact, which has
             # no backend of its own); the site has the real tool right there, so drop the link-out line.
@@ -591,7 +789,11 @@ def build(edition_path, out, preview=False):
         doc = page_html(title, desc, slug, pid, body, home=(slug == ""))
         subs = []
         for sub, (host, anchor, stitle, kicker) in SUBDESKS.items():
-            if host == pid and sub in panels:
+            if host != pid:
+                continue
+            if sub in folded:
+                subs.append((anchor, stitle, kicker, folded[sub]))
+            elif sub in panels:
                 sa, sb = panels[sub]
                 sbody = re.sub(r'^<div class="tabpanel" id="%s"[^>]*>' % sub, "", full[sa:sb].strip(), count=1)
                 sbody = re.sub(r'</div>(\s*<!--[^>]*-->)?\s*$', "", sbody)

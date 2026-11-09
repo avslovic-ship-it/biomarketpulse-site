@@ -541,6 +541,14 @@
   .tabs .tab[aria-current="page"] .pill{background:var(--accent-tint);color:var(--accent-ink);border-color:var(--accent-tint);}
   .tabs .tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
   .tabpanel[hidden]{display:none;}
+  .tabs .tdot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;display:block;}
+  .tabs .tdot.dia{width:7px;height:7px;border-radius:1px;transform:rotate(45deg);margin:0 1px;}
+  .tabs .tab.taux{font-weight:500;}
+  .tabs .tsep{flex:0 0 1px;align-self:center;height:18px;background:var(--line-strong,#C3CDD6);margin:0 8px;}
+  .subdesk{margin-top:36px;padding-top:20px;border-top:3px solid var(--line-strong,#C3CDD6);}
+  .subdesk>.subdesk-head .kicker{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+  .subdesk>.subdesk-head h2{margin:4px 0 14px;}
+  .subdesk .beta{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-tint);padding:2px 7px;border-radius:3px;vertical-align:middle;}
   .panel-intro{
     font-size:13.5px;color:var(--muted);line-height:1.55;max-width:78ch;margin:0 0 22px;
     border-left:3px solid var(--accent);padding:2px 0 2px 14px;
@@ -795,14 +803,13 @@
   <nav class="tabs" id="tabs" role="tablist" aria-label="Sections">
     <button type="button" role="tab" id="t-overview" aria-controls="p-overview" aria-selected="true">Market Overview</button>
     <button type="button" role="tab" id="t-daily"    aria-controls="p-daily"    aria-selected="false">Daily Pulse</button>
-    <button type="button" role="tab" id="t-biocat"   aria-controls="p-biocat"   aria-selected="false">Biocatalysis <span class="pill">2</span></button>
-    <button type="button" role="tab" id="t-pharma"   aria-controls="p-pharma"   aria-selected="false">Pharma &amp; Biotech <span class="pill">11</span></button>
-    <button type="button" role="tab" id="t-ag"       aria-controls="p-ag"       aria-selected="false">Agriculture <span class="pill">14</span></button>
-    <button type="button" role="tab" id="t-brbio"    aria-controls="p-brbio"    aria-selected="false">Brazil Crop Protection <span class="pill">Beta</span></button>
-    <button type="button" role="tab" id="t-synbio"   aria-controls="p-synbio"   aria-selected="false">Synthetic Biology <span class="pill">5</span></button>
-    <button type="button" role="tab" id="t-policy"   aria-controls="p-policy"   aria-selected="false">Policy &amp; Public Health <span class="pill">10</span></button>
-    <button type="button" role="tab" id="t-reg"      aria-controls="p-reg"      aria-selected="false">Regulatory Tracker</button>
-    <button type="button" role="tab" id="t-deep"     aria-controls="p-deep"     aria-selected="false">Deep Dive</button>
+    <button type="button" role="tab" id="t-pharma"   aria-controls="p-pharma"   aria-selected="false"><i class="tdot" aria-hidden="true" style="background:#1F5FC4"></i>Pharma &amp; Biotech <span class="pill">11</span></button>
+    <button type="button" role="tab" id="t-synbio"   aria-controls="p-synbio"   aria-selected="false"><i class="tdot" aria-hidden="true" style="background:#7D5BC0"></i>Synthetic Biology <span class="pill">3</span></button>
+    <button type="button" role="tab" id="t-ag"       aria-controls="p-ag"       aria-selected="false"><i class="tdot" aria-hidden="true" style="background:#0E9384"></i>Agriculture <span class="pill">14</span></button>
+    <span class="tsep" aria-hidden="true"></span>
+    <button type="button" role="tab" id="t-policy"   aria-controls="p-policy"   aria-selected="false" class="taux"><i class="tdot dia" aria-hidden="true" style="background:#4A5B6C"></i>Policy <span class="pill">6</span></button>
+    <button type="button" role="tab" id="t-reg"      aria-controls="p-reg"      aria-selected="false" class="taux"><i class="tdot dia" aria-hidden="true" style="background:#0E2236"></i>Regulatory</button>
+    <button type="button" role="tab" id="t-ontology" aria-controls="p-ontology" aria-selected="false" class="taux"><i class="tdot dia" aria-hidden="true" style="background:#7D5BC0"></i>Ontology <span class="pill">Beta</span></button>
   </nav>
 
   <div class="tabpanel" id="p-overview" role="tabpanel" aria-labelledby="t-overview">
@@ -874,13 +881,7 @@
         <div class="src">BioPharmaWatch · Nov 4–5</div>
       </div>
 
-      <div class="signal-card">
-        <span class="tag market">IPO</span>
-        <div class="headline"><a href="https://capital.com/en-ae/news/syngenta-ipo-aims-for-valuation-of-at-least-66-billion" target="_blank" rel="noopener">Syngenta targets ≥$66B valuation for a Hong Kong IPO</a></div>
-        <div class="value">≥$66B valuation sought</div>
-        <div class="note">A listing at that size would rank among the Hong Kong exchange's largest and could reset agrochemical-sector comparables for peers including Bayer and Corteva.</div>
-        <div class="src">Capital.com (Reuters) · Oct 27</div>
-      </div>
+      
 
       <div class="signal-card" style="border-left-color:var(--tag-risk)">
         <span class="tag risk">Risk</span>
@@ -942,15 +943,15 @@
       <span class="kicker">Before you start your day</span>
       <h2>Five Things</h2>
       <ol class="five">
-        <li><div><b>AstraZeneca reportedly bids ~$10B for Rhythm Pharmaceuticals,</b> sending shares to their best day in roughly 16 months; analysts expect rival bidders. <a href="https://wsau.com/2026/11/04/astrazeneca-made-10-billion-bid-for-obesity-drugmaker-rhythm-wsj-reports/" target="_blank" rel="noopener">Reuters (via WSAU)</a></div></li>
-        <li><div><b>ANVISA approves Brazil's first oral semaglutide (Wegovy pill),</b> converting Novo Nordisk's injectable GLP-1 into tablet form locally. <a href="https://www.jornaldocomercio.com/geral/2026/11/1269233-caneta-emagrecedora-em-pilula-anvisa-aprova-versao-em-comprimido-do-wegovy.html" target="_blank" rel="noopener">Jornal do Comércio</a></div></li>
-        <li><div><b>DRC's Ebola outbreak tops 10,500 cases and 5,100 deaths,</b> with a new study pinning its worse trajectory than Uganda's on weaker surveillance capacity. <a href="https://www.ecdc.europa.eu/en/public-health-events/2026-eip-00026/2026-11-03" target="_blank" rel="noopener">ECDC</a></div></li>
-        <li><div><b>US measles cases reach 5,182 for 2026</b> across 47 jurisdictions and 43 outbreaks, keeping the country's elimination status at risk. <a href="https://www.cdc.gov/measles/data-research" target="_blank" rel="noopener">CDC</a></div></li>
+        <li><div><b>AstraZeneca reportedly bids ~$10B for Rhythm Pharmaceuticals,</b> sending shares to their best day in roughly 16 months; analysts expect rival bidders. <a href="https://wsau.com/2026/11/04/astrazeneca-made-10-billion-bid-for-obesity-drugmaker-rhythm-wsj-reports/" target="_blank" rel="noopener">Reuters (via WSAU)</a> · <span class="dt">Nov 5</span></div></li>
+        <li><div><b>ANVISA approves Brazil's first oral semaglutide (Wegovy pill),</b> converting Novo Nordisk's injectable GLP-1 into tablet form locally. <a href="https://www.jornaldocomercio.com/geral/2026/11/1269233-caneta-emagrecedora-em-pilula-anvisa-aprova-versao-em-comprimido-do-wegovy.html" target="_blank" rel="noopener">Jornal do Comércio</a> · <span class="dt">Nov 4</span></div></li>
+        <li><div><b>DRC's Ebola outbreak tops 10,500 cases and 5,100 deaths,</b> with a new study pinning its worse trajectory than Uganda's on weaker surveillance capacity. <a href="https://www.ecdc.europa.eu/en/public-health-events/2026-eip-00026/2026-11-03" target="_blank" rel="noopener">ECDC</a> · <span class="dt">Nov 3</span></div></li>
+        <li><div><b>US measles cases reach 5,182 for 2026</b> across 47 jurisdictions and 43 outbreaks, keeping the country's elimination status at risk. <a href="https://www.cdc.gov/measles/data-research" target="_blank" rel="noopener">CDC</a> · <span class="dt">Nov 6</span></div></li>
         <li><div><b>Syngenta targets a ≥$66B valuation for a Hong Kong IPO,</b> a listing that would rank among the exchange's largest and could reset agrochemical-sector comparables. <a href="https://capital.com/en-ae/news/syngenta-ipo-aims-for-valuation-of-at-least-66-billion" target="_blank" rel="noopener">Capital.com (Reuters)</a></div></li>
       </ol>
     </div>
     <div class="panel lead">
-      <span class="kicker">Lead story</span>
+      <span class="kicker">Lead story · Nov 5</span>
       <div class="hl"><a href="https://wsau.com/2026/11/04/astrazeneca-made-10-billion-bid-for-obesity-drugmaker-rhythm-wsj-reports/" target="_blank" rel="noopener">AstraZeneca's reported ~$10B bid for Rhythm Pharmaceuticals signals a new round of obesity-asset consolidation</a></div>
       <p class="dek">AstraZeneca has made an unsolicited approach worth roughly $10 billion for Rhythm Pharmaceuticals, the obesity-drug maker behind setmelanotide and bivamelagon, according to Reuters reporting on a Wall Street Journal story. Shares jumped on the news to their best single-day gain in about 16 months, and William Blair analysts said they expect additional bidders to emerge given the strategic value of Rhythm's rare-obesity and broader metabolic-disease pipeline. The approach lands in the same week Novo Nordisk pushed its oral semaglutide tablet into Brazil via an ANVISA approval and the EU's CHMP backed Lilly's oral GLP-1 orforglipron — underscoring how central obesity/metabolic assets have become to pharma's deal calculus.</p>
       <h3>Why it matters</h3>
@@ -1000,66 +1001,7 @@
 
   </div><!-- /p-daily -->
 
-  <div class="tabpanel" id="p-biocat" role="tabpanel" aria-labelledby="t-biocat" hidden>
-    <section class="pa">
-      <div class="section-head">
-        <h2>Biocatalysis Pulse Analysis</h2>
-        <span class="count">2 articles · Oct 29–Nov 5</span>
-      </div>
-      <div class="panel pa-panel">
-        <p class="pa-text">Biocatalysis deal and regulatory news stayed thin for a third straight window, with no confirmed new transaction, funding round or agency decision from the usual enzyme-platform names. Codexis's Q3 2026 print, due November 12, is now the key near-term data point for the sector — its CodeEvolver platform and ECO Synthesis oligonucleotide-manufacturing push will be tested against reiterated $72–76M revenue guidance. The EU's two-decade-old Food Enzymes Regulation remains unadopted, leaving European enzyme approvals under a patchwork Novel Food/additive framework that continues to create planning uncertainty for Novonesis and peers. FDA's GRAS Notice Inventory shows a steady trickle of "no questions" letters for industrial enzymes (including a glucose oxidase and a cellulase notice), evidence the conventional GRAS pathway keeps functioning even as the agency moves to make self-affirmation notification mandatory. Academic output remains the sector's most reliable signal, with continued momentum in AI-guided and computational enzyme (re)design.</p>
-        <h3 class="pa-h">Three actionable insights</h3>
-        <ol class="pa-ins">
-          <li><b>Codexis's Nov 12 print is the key catalyst to watch.</b> Its Q3 results against reiterated $72–76M guidance, and any update on ECO Synthesis siRNA/oligonucleotide deal conversion, are the next real test of whether enzyme-platform demand is accelerating.</li>
-          <li><b>EU regulatory stasis is a quiet risk, not a non-event.</b> With the Food Enzymes Regulation still unadopted after nearly 20 years, any company entering EU food-enzyme markets in 2027 should plan around the fragmented Novel Food/additive route rather than wait for harmonized rules.</li>
-          <li><b>AI-enzyme-design is the real growth signal right now, not deal flow.</b> With Arzeda, Cradle and Enzymaster all quiet again, the more reliable forward indicator is the literature — ML-guided active-site redesign and de novo computational enzyme engineering are maturing fast enough to watch for licensing or spin-out activity in 2027.</li>
-        </ol>
-      </div>
-    </section>
 
-    <section class="rs" data-reg="biocat"></section>
-    <section>
-      <div class="section-head">
-        <h2>Latest Articles</h2>
-        <span class="count">2 items · newest first</span>
-      </div>
-      <div class="items">
-        <div class="item">
-          <div class="when">Nov 2</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">Commercial</span></div>
-            <div class="headline"><a href="https://agfundernews.com/fooditive-in-advanced-talks-to-commercialize-low-cal-rare-sugar-5-kdf" target="_blank" rel="noopener">Fooditive nears deal to commercialize a biocatalytic rare sugar</a></div>
-            <div class="note">5-keto-D-fructose, made via whole-cell biocatalysis from apple/pear side-streams, is piloted at 75m³ in Italy with a scale-up to 200m³ planned, pending an FDA GRAS response.</div>
-            <div class="src">AgFunderNews</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Oct 29</div>
-          <div class="body">
-            <div class="row1"><span class="tag market">Market</span></div>
-            <div class="headline"><a href="https://www.globenewswire.com/news-release/2026/10/29/3391348/24825/en/codexis-to-report-third-quarter-2026-financial-results-on-november-12.html" target="_blank" rel="noopener">Codexis sets Q3 2026 earnings date for November 12</a></div>
-            <div class="note">Codexis reiterates its enzymatic-manufacturing positioning (CodeEvolver platform, ECO Synthesis for RNAi/oligonucleotide therapeutics) ahead of its next print, against reiterated $72–76M 2026 revenue guidance.</div>
-            <div class="src">GlobeNewswire / Codexis</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="pp-sec" data-sec="biocat">
-      <div class="section-head">
-        <h2>Research Papers</h2>
-        <span class="count pp-count"></span>
-        <span class="desc">Biocatalysis, enzyme engineering and artificial enzymes</span>
-      </div>
-      <div class="pp-top"><div class="seg pp-seg" role="group" aria-label="Paper list">
-        <button type="button" data-pw="newest" aria-pressed="true">Newest</button>
-        <button type="button" data-pw="cited" aria-pressed="false">Most cited</button>
-      </div><span class="pp-hint">Ask the Pulse can find papers on any subject</span></div>
-      <ol class="pp-list"></ol>
-      <div class="pp-note">Newest: most recently added to PubMed — refreshed live from PubMed when you open the tab (needs the PubMed connector; otherwise the morning edition's list is shown). Most cited: papers published since January 2025, ranked by OpenAlex citation counts as of Oct 27. Titles link to the paper (DOI).</div>
-    </section>
-
-  </div><!-- /p-biocat -->
 
   <div class="tabpanel" id="p-ag" role="tabpanel" aria-labelledby="t-ag" hidden>
     <section class="pa">
@@ -1229,151 +1171,7 @@
       <div class="pp-note">Newest: most recently added to PubMed — refreshed live from PubMed when you open the tab (needs the PubMed connector; otherwise the morning edition's list is shown). Most cited: papers published since January 2025, ranked by OpenAlex citation counts as of Oct 27. Titles link to the paper (DOI).</div>
     </section>
 
-  </div><!-- /p-ag -->
-
-  <div class="tabpanel" id="p-pharma" role="tabpanel" aria-labelledby="t-pharma" hidden>
-    <section class="pa">
-      <div class="section-head">
-        <h2>Pharma &amp; Biotech Pulse Analysis</h2>
-        <span class="count">11 articles · Nov 3–Nov 6</span>
-      </div>
-      <div class="panel pa-panel">
-        <p class="pa-text">Obesity/metabolic disease dominated this week's dealmaking and regulatory news, but China-sourced oncology licensing ran right alongside it: AstraZeneca's reported ~$10B unsolicited bid for Rhythm Pharmaceuticals signals Big Pharma still wants GLP-1-adjacent pipelines even as Novo Nordisk pushed oral semaglutide into Brazil via ANVISA's approval of the Wegovy pill. Boehringer Ingelheim's up-to-$7.4B oncology biologics license from Sino Biopharmaceutical and AbbVie's up-to-$1.47B revival of Nxera Pharma's shelved EP4 agonist for IBD both closed within a day of each other, alongside Evommune's up-to-$1.1B in-license of Hinova's EVO-570 and ANI's ~$560M Egetis acquisition — four separate licensing/M&amp;A deals inside a single week. Agios's mitapivat sNDA was reclassified a "major amendment," pushing its sickle-cell decision to February 2027 and triggering cuts of more than 100 R&amp;D jobs, while Novartis both disclosed nine tumor cases in Zolgensma-treated patients and quietly exited its ~$772M–$800M BrainTransporter collaboration with BioArctic roughly 14 months after signing. T-Therapeutics closed an oversubscribed $133M Series B for its bispecific pipeline, and Merck and Moderna reported manufacturing success in 99% of patients for their personalized mRNA cancer vaccine ahead of a planned filing.</p>
-        <h3 class="pa-h">Three actionable insights</h3>
-        <ol class="pa-ins">
-          <li><b>China-sourced licensing is now routine deal flow, not a one-off.</b> Boehringer, AbbVie and Evommune all in-licensed Chinese- or China-linked assets within days of each other, all biobucks-heavy with modest upfronts — a standing pipeline-replenishment channel, not an occasional opportunistic buy.</li>
-          <li><b>Watch for a bidding war on Rhythm.</b> AstraZeneca's ~$10B approach could draw rival bidders per analysts; investors with exposure to mid-cap obesity names should model a takeout-premium scenario rather than organic growth alone.</li>
-          <li><b>Early platform-collaboration terminations are a leading indicator worth tracking.</b> Novartis walking away from BioArctic's BrainTransporter just 14 months in, right as it also discloses a Zolgensma safety signal, suggests Big Pharma is pruning early-stage bets faster when translational signal is slow.</li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="rs" data-reg="pharma"></section>
-    <section>
-      <div class="section-head">
-        <h2>Latest Articles</h2>
-        <span class="count">11 items · newest first</span>
-      </div>
-      <div class="items">
-        <div class="item">
-          <div class="when">Nov 6</div>
-          <div class="body">
-            <div class="row1"><span class="tag risk">Risk</span></div>
-            <div class="headline"><a href="https://www.sec.gov/Archives/edgar/data/0001439222/000143922226000129/agio-110526xfyxex991earnin.htm" target="_blank" rel="noopener">Agios cuts more than 100 R&amp;D jobs after FDA delays mitapivat decision to Feb 2027</a></div>
-            <div class="note">FDA reclassified an updated safety submission for the sickle-cell-disease sNDA as a "major amendment," pushing the PDUFA date from Nov 1 to Feb 1, 2027; Agios will cut more than 35% of its R&amp;D staff by year-end.</div>
-            <div class="src">SEC 8-K (Agios)</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 6</div>
-          <div class="body">
-            <div class="row1"><span class="tag clinical">Clinical</span></div>
-            <div class="headline"><a href="https://www.biospace.com/latest-news-press-releases" target="_blank" rel="noopener">Merck and Moderna report manufacturing success in 99% of patients for their personalized mRNA cancer vaccine</a></div>
-            <div class="note">The intismeran autogene manufacturing results underpin the companies' adjuvant-melanoma filing strategy despite mixed Phase 3 efficacy data presented at ESMO.</div>
-            <div class="src">BioSpace</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 5</div>
-          <div class="body">
-            <div class="row1"><span class="tag risk">Safety</span></div>
-            <div class="headline"><a href="https://www.biospace.com/latest-news-press-releases" target="_blank" rel="noopener">Novartis confirms nine tumor cases in patients treated with gene therapy Zolgensma</a></div>
-            <div class="note">The disclosure adds to a gene-therapy safety overhang as regulators and physicians weigh benefit-risk for the one-time SMA treatment.</div>
-            <div class="src">BioSpace</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 5</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">M&amp;A</span></div>
-            <div class="headline"><a href="https://wsau.com/2026/11/04/astrazeneca-made-10-billion-bid-for-obesity-drugmaker-rhythm-wsj-reports/" target="_blank" rel="noopener">AstraZeneca reportedly bids ~$10B for Rhythm Pharmaceuticals</a></div>
-            <div class="note">An unsolicited offer for the obesity-drug maker sent Rhythm shares to their best day in roughly 16 months; William Blair analysts expect additional bidders to emerge.</div>
-            <div class="src">Reuters (via WSAU)</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 5</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">M&amp;A</span></div>
-            <div class="headline"><a href="https://www.rttnews.com/3710325/ani-offers-560-mln-to-acquire-egetis-expand-rare-disease-business.aspx" target="_blank" rel="noopener">ANI Pharmaceuticals agrees to buy Egetis Therapeutics</a></div>
-            <div class="note">A 27% premium to Egetis's 60-day volume-weighted price expands ANI's rare-disease portfolio; the Swedish biotech's acceptance period runs Nov 20–Dec 18.</div>
-            <div class="src">RTTNews</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 5</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">Funding</span></div>
-            <div class="headline"><a href="https://www.biospace.com/drug-development/t-time-british-biotech-pours-133m-into-the-pot-for-bispecifics" target="_blank" rel="noopener">T-Therapeutics closes oversubscribed $133M Series B</a></div>
-            <div class="note">The UK bispecifics biotech's round, backed by Big Pharma-linked investors, funds its T-cell engager pipeline toward the next clinical milestones.</div>
-            <div class="src">BioSpace / FierceBiotech</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 4–5</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">Licensing</span></div>
-            <div class="headline"><a href="https://www.biopharmawatch.com/news/EVMN/evommune-license-evo570-hinova-pharmaceuticals" target="_blank" rel="noopener">Evommune licenses Hinova's oral molecular-glue degrader EVO-570 for up to $1.1B</a></div>
-            <div class="note">$30M upfront ($20M cash plus $10M in warrants) buys rights to the VAV1-directed degrader, plus milestones and royalties, after setbacks in Evommune's own pipeline.</div>
-            <div class="src">BioPharmaWatch</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 4</div>
-          <div class="body">
-            <div class="row1"><span class="tag product">Approval</span></div>
-            <div class="headline"><a href="https://www.jornaldocomercio.com/geral/2026/11/1269233-caneta-emagrecedora-em-pilula-anvisa-aprova-versao-em-comprimido-do-wegovy.html" target="_blank" rel="noopener">ANVISA approves Brazil's first oral semaglutide (Wegovy pill)</a></div>
-            <div class="note">Novo Nordisk's tablet-form GLP-1 for obesity/overweight with comorbidities converts what had only been available as an injectable pen locally.</div>
-            <div class="src">Jornal do Comércio</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 4</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">Licensing</span></div>
-            <div class="headline"><a href="https://finance.yahoo.com/healthcare/articles/boehringer-signs-oncology-deal-sino-123916037.html" target="_blank" rel="noopener">Boehringer Ingelheim licenses six oncology biologics from Sino Biopharmaceutical</a></div>
-            <div class="note">Five preclinical ADC/T-cell-engager cancer programs come from Sino's LaNova Medicines unit and one from Beijing Tide, plus royalties, in one of the week's largest biotech licensing deals.</div>
-            <div class="src">Yahoo Finance (Reuters)</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 4</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">Licensing</span></div>
-            <div class="headline"><a href="https://www.biospace.com/deals/abbvie-bets-up-to-1-47b-for-nxeras-discarded-ibd-program" target="_blank" rel="noopener">AbbVie licenses Nxera Pharma's shelved EP4 receptor agonist for IBD</a></div>
-            <div class="note">Up to $1.47B revives a program Nxera had shelved, as AbbVie rebuilds its post-Humira immunology pipeline.</div>
-            <div class="src">BioSpace</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Nov 3</div>
-          <div class="body">
-            <div class="row1"><span class="tag risk">Terminated</span></div>
-            <div class="headline"><a href="https://www.pharmexec.com/view/novartis-exits-braintransporter-deal-bioarctic-14-months-signing" target="_blank" rel="noopener">Novartis exits its ~$772M–$800M BrainTransporter deal with BioArctic</a></div>
-            <div class="note">The neuroscience blood-brain-barrier collaboration ends roughly 14 months after signing, with no termination payment disclosed.</div>
-            <div class="src">PharmExec / FierceBiotech / BioSpace</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="pp-sec" data-sec="pharma">
-      <div class="section-head">
-        <h2>Research Papers</h2>
-        <span class="count pp-count"></span>
-        <span class="desc">Clinical trials and drug papers in NEJM, Lancet, Nature Medicine and peers</span>
-      </div>
-      <div class="pp-top"><div class="seg pp-seg" role="group" aria-label="Paper list">
-        <button type="button" data-pw="newest" aria-pressed="true">Newest</button>
-        <button type="button" data-pw="cited" aria-pressed="false">Most cited</button>
-      </div><span class="pp-hint">Ask the Pulse can find papers on any subject</span></div>
-      <ol class="pp-list"></ol>
-      <div class="pp-note">Newest: most recently added to PubMed — refreshed live from PubMed when you open the tab (needs the PubMed connector; otherwise the morning edition's list is shown). Most cited: papers published since January 2025, ranked by OpenAlex citation counts as of Oct 27. Titles link to the paper (DOI).</div>
-    </section>
-
-  </div><!-- /p-pharma -->
-
-  <div class="tabpanel" id="p-brbio" role="tabpanel" aria-labelledby="t-brbio" hidden>
+    <div class="subdesk" id="p-brbio" style="border-top-color:#0E9384"><div class="subdesk-head"><span class="kicker">Part of Agriculture · MAPA AGROFIT registry, chemical and biological products</span><h2>Brazil Crop Protection <span class="beta">Beta</span></h2></div>
   <section>
     <div class="brb-pane">
     <style>
@@ -1702,9 +1500,154 @@
       }};
     })();
     </script>
-    </div>
   </section>
   </div><!-- /p-brbio -->
+
+    </div><!-- /p-ag -->
+
+  <div class="tabpanel" id="p-pharma" role="tabpanel" aria-labelledby="t-pharma" hidden>
+    <section class="pa">
+      <div class="section-head">
+        <h2>Pharma &amp; Biotech Pulse Analysis</h2>
+        <span class="count">11 articles · Nov 3–Nov 6</span>
+      </div>
+      <div class="panel pa-panel">
+        <p class="pa-text">Obesity/metabolic disease dominated this week's dealmaking and regulatory news, but China-sourced oncology licensing ran right alongside it: AstraZeneca's reported ~$10B unsolicited bid for Rhythm Pharmaceuticals signals Big Pharma still wants GLP-1-adjacent pipelines even as Novo Nordisk pushed oral semaglutide into Brazil via ANVISA's approval of the Wegovy pill. Boehringer Ingelheim's up-to-$7.4B oncology biologics license from Sino Biopharmaceutical and AbbVie's up-to-$1.47B revival of Nxera Pharma's shelved EP4 agonist for IBD both closed within a day of each other, alongside Evommune's up-to-$1.1B in-license of Hinova's EVO-570 and ANI's ~$560M Egetis acquisition — four separate licensing/M&amp;A deals inside a single week. Agios's mitapivat sNDA was reclassified a "major amendment," pushing its sickle-cell decision to February 2027 and triggering cuts of more than 100 R&amp;D jobs, while Novartis both disclosed nine tumor cases in Zolgensma-treated patients and quietly exited its ~$772M–$800M BrainTransporter collaboration with BioArctic roughly 14 months after signing. T-Therapeutics closed an oversubscribed $133M Series B for its bispecific pipeline, and Merck and Moderna reported manufacturing success in 99% of patients for their personalized mRNA cancer vaccine ahead of a planned filing.</p>
+        <h3 class="pa-h">Three actionable insights</h3>
+        <ol class="pa-ins">
+          <li><b>China-sourced licensing is now routine deal flow, not a one-off.</b> Boehringer, AbbVie and Evommune all in-licensed Chinese- or China-linked assets within days of each other, all biobucks-heavy with modest upfronts — a standing pipeline-replenishment channel, not an occasional opportunistic buy.</li>
+          <li><b>Watch for a bidding war on Rhythm.</b> AstraZeneca's ~$10B approach could draw rival bidders per analysts; investors with exposure to mid-cap obesity names should model a takeout-premium scenario rather than organic growth alone.</li>
+          <li><b>Early platform-collaboration terminations are a leading indicator worth tracking.</b> Novartis walking away from BioArctic's BrainTransporter just 14 months in, right as it also discloses a Zolgensma safety signal, suggests Big Pharma is pruning early-stage bets faster when translational signal is slow.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="rs" data-reg="pharma"></section>
+    <section>
+      <div class="section-head">
+        <h2>Latest Articles</h2>
+        <span class="count">11 items · newest first</span>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="when">Nov 6</div>
+          <div class="body">
+            <div class="row1"><span class="tag risk">Risk</span></div>
+            <div class="headline"><a href="https://www.sec.gov/Archives/edgar/data/0001439222/000143922226000129/agio-110526xfyxex991earnin.htm" target="_blank" rel="noopener">Agios cuts more than 100 R&amp;D jobs after FDA delays mitapivat decision to Feb 2027</a></div>
+            <div class="note">FDA reclassified an updated safety submission for the sickle-cell-disease sNDA as a "major amendment," pushing the PDUFA date from Nov 1 to Feb 1, 2027; Agios will cut more than 35% of its R&amp;D staff by year-end.</div>
+            <div class="src">SEC 8-K (Agios)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 6</div>
+          <div class="body">
+            <div class="row1"><span class="tag clinical">Clinical</span></div>
+            <div class="headline"><a href="https://www.biospace.com/latest-news-press-releases" target="_blank" rel="noopener">Merck and Moderna report manufacturing success in 99% of patients for their personalized mRNA cancer vaccine</a></div>
+            <div class="note">The intismeran autogene manufacturing results underpin the companies' adjuvant-melanoma filing strategy despite mixed Phase 3 efficacy data presented at ESMO.</div>
+            <div class="src">BioSpace</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 5</div>
+          <div class="body">
+            <div class="row1"><span class="tag risk">Safety</span></div>
+            <div class="headline"><a href="https://www.biospace.com/latest-news-press-releases" target="_blank" rel="noopener">Novartis confirms nine tumor cases in patients treated with gene therapy Zolgensma</a></div>
+            <div class="note">The disclosure adds to a gene-therapy safety overhang as regulators and physicians weigh benefit-risk for the one-time SMA treatment.</div>
+            <div class="src">BioSpace</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 5</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">M&amp;A</span></div>
+            <div class="headline"><a href="https://wsau.com/2026/11/04/astrazeneca-made-10-billion-bid-for-obesity-drugmaker-rhythm-wsj-reports/" target="_blank" rel="noopener">AstraZeneca reportedly bids ~$10B for Rhythm Pharmaceuticals</a></div>
+            <div class="note">An unsolicited offer for the obesity-drug maker sent Rhythm shares to their best day in roughly 16 months; William Blair analysts expect additional bidders to emerge.</div>
+            <div class="src">Reuters (via WSAU)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 5</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">M&amp;A</span></div>
+            <div class="headline"><a href="https://www.rttnews.com/3710325/ani-offers-560-mln-to-acquire-egetis-expand-rare-disease-business.aspx" target="_blank" rel="noopener">ANI Pharmaceuticals agrees to buy Egetis Therapeutics</a></div>
+            <div class="note">A 27% premium to Egetis's 60-day volume-weighted price expands ANI's rare-disease portfolio; the Swedish biotech's acceptance period runs Nov 20–Dec 18.</div>
+            <div class="src">RTTNews</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 5</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">Funding</span></div>
+            <div class="headline"><a href="https://www.biospace.com/drug-development/t-time-british-biotech-pours-133m-into-the-pot-for-bispecifics" target="_blank" rel="noopener">T-Therapeutics closes oversubscribed $133M Series B</a></div>
+            <div class="note">The UK bispecifics biotech's round, backed by Big Pharma-linked investors, funds its T-cell engager pipeline toward the next clinical milestones.</div>
+            <div class="src">BioSpace / FierceBiotech</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 4–5</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">Licensing</span></div>
+            <div class="headline"><a href="https://www.biopharmawatch.com/news/EVMN/evommune-license-evo570-hinova-pharmaceuticals" target="_blank" rel="noopener">Evommune licenses Hinova's oral molecular-glue degrader EVO-570 for up to $1.1B</a></div>
+            <div class="note">$30M upfront ($20M cash plus $10M in warrants) buys rights to the VAV1-directed degrader, plus milestones and royalties, after setbacks in Evommune's own pipeline.</div>
+            <div class="src">BioPharmaWatch</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 4</div>
+          <div class="body">
+            <div class="row1"><span class="tag product">Approval</span></div>
+            <div class="headline"><a href="https://www.jornaldocomercio.com/geral/2026/11/1269233-caneta-emagrecedora-em-pilula-anvisa-aprova-versao-em-comprimido-do-wegovy.html" target="_blank" rel="noopener">ANVISA approves Brazil's first oral semaglutide (Wegovy pill)</a></div>
+            <div class="note">Novo Nordisk's tablet-form GLP-1 for obesity/overweight with comorbidities converts what had only been available as an injectable pen locally.</div>
+            <div class="src">Jornal do Comércio</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 4</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">Licensing</span></div>
+            <div class="headline"><a href="https://finance.yahoo.com/healthcare/articles/boehringer-signs-oncology-deal-sino-123916037.html" target="_blank" rel="noopener">Boehringer Ingelheim licenses six oncology biologics from Sino Biopharmaceutical</a></div>
+            <div class="note">Five preclinical ADC/T-cell-engager cancer programs come from Sino's LaNova Medicines unit and one from Beijing Tide, plus royalties, in one of the week's largest biotech licensing deals.</div>
+            <div class="src">Yahoo Finance (Reuters)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 4</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">Licensing</span></div>
+            <div class="headline"><a href="https://www.biospace.com/deals/abbvie-bets-up-to-1-47b-for-nxeras-discarded-ibd-program" target="_blank" rel="noopener">AbbVie licenses Nxera Pharma's shelved EP4 receptor agonist for IBD</a></div>
+            <div class="note">Up to $1.47B revives a program Nxera had shelved, as AbbVie rebuilds its post-Humira immunology pipeline.</div>
+            <div class="src">BioSpace</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="when">Nov 3</div>
+          <div class="body">
+            <div class="row1"><span class="tag risk">Terminated</span></div>
+            <div class="headline"><a href="https://www.pharmexec.com/view/novartis-exits-braintransporter-deal-bioarctic-14-months-signing" target="_blank" rel="noopener">Novartis exits its ~$772M–$800M BrainTransporter deal with BioArctic</a></div>
+            <div class="note">The neuroscience blood-brain-barrier collaboration ends roughly 14 months after signing, with no termination payment disclosed.</div>
+            <div class="src">PharmExec / FierceBiotech / BioSpace</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pp-sec" data-sec="pharma">
+      <div class="section-head">
+        <h2>Research Papers</h2>
+        <span class="count pp-count"></span>
+        <span class="desc">Clinical trials and drug papers in NEJM, Lancet, Nature Medicine and peers</span>
+      </div>
+      <div class="pp-top"><div class="seg pp-seg" role="group" aria-label="Paper list">
+        <button type="button" data-pw="newest" aria-pressed="true">Newest</button>
+        <button type="button" data-pw="cited" aria-pressed="false">Most cited</button>
+      </div><span class="pp-hint">Ask the Pulse can find papers on any subject</span></div>
+      <ol class="pp-list"></ol>
+      <div class="pp-note">Newest: most recently added to PubMed — refreshed live from PubMed when you open the tab (needs the PubMed connector; otherwise the morning edition's list is shown). Most cited: papers published since January 2025, ranked by OpenAlex citation counts as of Oct 27. Titles link to the paper (DOI).</div>
+    </section>
+
+  </div><!-- /p-pharma -->
+
+
 
   <div class="tabpanel" id="p-synbio" role="tabpanel" aria-labelledby="t-synbio" hidden>
     <section class="pa">
@@ -1727,7 +1670,7 @@
     <section>
       <div class="section-head">
         <h2>Latest Articles</h2>
-        <span class="count">5 items · newest first</span>
+        <span class="count">2 items · newest first</span>
       </div>
       <div class="items">
         <div class="item">
@@ -1748,33 +1691,9 @@
             <div class="src">SynBioBeta</div>
           </div>
         </div>
-        <div class="item">
-          <div class="when">Oct 22</div>
-          <div class="body">
-            <div class="row1"><span class="tag product">Regulatory</span></div>
-            <div class="headline"><a href="https://www.synbiobeta.com/read/usda-greenlights-the-first-engineered-microbe-that-makes-antibodies-in-the-gut" target="_blank" rel="noopener">USDA grants BiomEdit the first-ever conditional license for an engineered gut microbe</a></div>
-            <div class="note">The CPerf LLV Lactobacillus reuteri strain secretes anti-toxin nanobodies and is licensed for broiler-chicken necrotic-enteritis control.</div>
-            <div class="src">SynBioBeta</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Oct 21</div>
-          <div class="body">
-            <div class="row1"><span class="tag deal">AI Protein Design</span></div>
-            <div class="headline"><a href="https://agfundernews.com/exclusive-quercus-biosolutions-closes-5m-seed-round-to-target-resistant-weeds-with-designer-proteins" target="_blank" rel="noopener">Quercus Biosolutions raises $5M seed to extend AI-designed mini-proteins into herbicide-resistant-weed control</a></div>
-            <div class="note">The seed round moves AI-protein-design tooling from pharma applications into crop-protection use cases.</div>
-            <div class="src">AgFunderNews</div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="when">Oct 21</div>
-          <div class="body">
-            <div class="row1"><span class="tag market">AI Protein Design</span></div>
-            <div class="headline"><a href="https://www.synbiobeta.com/read/latent-y-automates-antibody-design-work-that-slows-down-early-drug-development" target="_blank" rel="noopener">Latent-Y launches AI tooling to automate antibody-design steps that bottleneck early drug development</a></div>
-            <div class="note">The platform targets workflow steps that commonly slow early-stage antibody discovery programs.</div>
-            <div class="src">SynBioBeta</div>
-          </div>
-        </div>
+        
+        
+        
       </div>
     </section>
     <section class="pp-sec" data-sec="synbio">
@@ -1791,12 +1710,65 @@
       <div class="pp-note">Newest: most recently added to PubMed — refreshed live from PubMed when you open the tab (needs the PubMed connector; otherwise the morning edition's list is shown). Most cited: papers published since January 2025, ranked by OpenAlex citation counts as of Oct 27. Titles link to the paper (DOI).</div>
     </section>
 
+      <div class="subdesk" id="p-biocat" style="border-top-color:#7D5BC0"><div class="subdesk-head"><span class="kicker">Part of Synthetic Biology · enzyme engineering, artificial enzymes, catalytic chemistry</span><h2>Biocatalysis &amp; enzymes</h2></div>
+    <section class="pa">
+      <div class="section-head">
+        <h2>Biocatalysis Pulse Analysis</h2>
+        <span class="count">2 articles · Oct 29–Nov 5</span>
+      </div>
+      <div class="panel pa-panel">
+        <p class="pa-text">Biocatalysis deal and regulatory news stayed thin for a third straight window, with no confirmed new transaction, funding round or agency decision from the usual enzyme-platform names. Codexis's Q3 2026 print, due November 12, is now the key near-term data point for the sector — its CodeEvolver platform and ECO Synthesis oligonucleotide-manufacturing push will be tested against reiterated $72–76M revenue guidance. The EU's two-decade-old Food Enzymes Regulation remains unadopted, leaving European enzyme approvals under a patchwork Novel Food/additive framework that continues to create planning uncertainty for Novonesis and peers. FDA's GRAS Notice Inventory shows a steady trickle of "no questions" letters for industrial enzymes (including a glucose oxidase and a cellulase notice), evidence the conventional GRAS pathway keeps functioning even as the agency moves to make self-affirmation notification mandatory. Academic output remains the sector's most reliable signal, with continued momentum in AI-guided and computational enzyme (re)design.</p>
+        <h3 class="pa-h">Three actionable insights</h3>
+        <ol class="pa-ins">
+          <li><b>Codexis's Nov 12 print is the key catalyst to watch.</b> Its Q3 results against reiterated $72–76M guidance, and any update on ECO Synthesis siRNA/oligonucleotide deal conversion, are the next real test of whether enzyme-platform demand is accelerating.</li>
+          <li><b>EU regulatory stasis is a quiet risk, not a non-event.</b> With the Food Enzymes Regulation still unadopted after nearly 20 years, any company entering EU food-enzyme markets in 2027 should plan around the fragmented Novel Food/additive route rather than wait for harmonized rules.</li>
+          <li><b>AI-enzyme-design is the real growth signal right now, not deal flow.</b> With Arzeda, Cradle and Enzymaster all quiet again, the more reliable forward indicator is the literature — ML-guided active-site redesign and de novo computational enzyme engineering are maturing fast enough to watch for licensing or spin-out activity in 2027.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="rs" data-reg="biocat"></section>
+    <section>
+      <div class="section-head">
+        <h2>Latest Articles</h2>
+        <span class="count">1 item · newest first</span>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="when">Nov 2</div>
+          <div class="body">
+            <div class="row1"><span class="tag deal">Commercial</span></div>
+            <div class="headline"><a href="https://agfundernews.com/fooditive-in-advanced-talks-to-commercialize-low-cal-rare-sugar-5-kdf" target="_blank" rel="noopener">Fooditive nears deal to commercialize a biocatalytic rare sugar</a></div>
+            <div class="note">5-keto-D-fructose, made via whole-cell biocatalysis from apple/pear side-streams, is piloted at 75m³ in Italy with a scale-up to 200m³ planned, pending an FDA GRAS response.</div>
+            <div class="src">AgFunderNews</div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="pp-sec" data-sec="biocat">
+      <div class="section-head">
+        <h2>Research Papers</h2>
+        <span class="count pp-count"></span>
+        <span class="desc">Biocatalysis, enzyme engineering and artificial enzymes</span>
+      </div>
+      <div class="pp-top"><div class="seg pp-seg" role="group" aria-label="Paper list">
+        <button type="button" data-pw="newest" aria-pressed="true">Newest</button>
+        <button type="button" data-pw="cited" aria-pressed="false">Most cited</button>
+      </div><span class="pp-hint">Ask the Pulse can find papers on any subject</span></div>
+      <ol class="pp-list"></ol>
+      <div class="pp-note">Newest: most recently added to PubMed — refreshed live from PubMed when you open the tab (needs the PubMed connector; otherwise the morning edition's list is shown). Most cited: papers published since January 2025, ranked by OpenAlex citation counts as of Oct 27. Titles link to the paper (DOI).</div>
+    </section>
+
+  </div><!-- /p-biocat -->
+
     </div><!-- /p-synbio -->
 
   <div class="tabpanel" id="p-policy" role="tabpanel" aria-labelledby="t-policy" hidden>
     <section class="pa">
       <div class="section-head">
-        <h2>Policy &amp; Public Health Pulse Analysis</h2>
+        <h2>Policy Pulse Analysis</h2>
         <span class="count">10 articles · Oct 26–Nov 6</span>
       </div>
       <div class="panel pa-panel">
@@ -1813,7 +1785,7 @@
     <section>
       <div class="section-head">
         <h2>Latest Articles</h2>
-        <span class="count">10 items · newest first</span>
+        <span class="count">6 items · newest first</span>
       </div>
       <div class="items">
         <div class="item"><div class="when">Nov 6</div><div class="body">
@@ -1846,26 +1818,10 @@
           <div class="headline"><a href="https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON623" target="_blank" rel="noopener">WHO reports first-ever human case of Shamonda virus, in France</a></div>
           <div class="note">An immunocompromised man in rural eastern France died of encephalitis Oct 8 after infection with Shamonda virus, previously known only as a livestock pathogen; animal transmission has been confirmed in 54 French departments since July.</div>
           <div class="src">WHO Disease Outbreak News</div></div></div>
-        <div class="item"><div class="when">Oct 31</div><div class="body">
-          <div class="row1"><span class="tag market">Policy</span><span class="rg">UK</span></div>
-          <div class="headline"><a href="https://pharmaphorum.com/market-access/uks-next-pricing-and-access-scheme-last-7-years" target="_blank" rel="noopener">Leaked DHSC/industry minutes point to a 7-year VPAG pricing deal (2029–2035)</a></div>
-          <div class="note">The leaked minutes also point to a raised NICE cost-effectiveness threshold as part of the next pricing and access scheme.</div>
-          <div class="src">Pharmaphorum</div></div></div>
-        <div class="item"><div class="when">Oct 29</div><div class="body">
-          <div class="row1"><span class="tag product">Registered</span><span class="rg">Brazil</span></div>
-          <div class="headline"><a href="https://www.cadaminuto.com.br/noticia/2026/10/29/anvisa-aprova-cinco-novas-canetas-para-diabetes-e-obesidade-numero-de-medicamentos-autorizados-chega-a-20-em-2026" target="_blank" rel="noopener">Five new liraglutide/semaglutide GLP-1 pens approved by ANVISA</a></div>
-          <div class="note">The approvals bring Brazil's 2026 tally of authorized diabetes/obesity pens to roughly 20.</div>
-          <div class="src">Cada Minuto</div></div></div>
-        <div class="item"><div class="when">Oct 26</div><div class="body">
-          <div class="row1"><span class="tag risk">Pesticides</span><span class="rg">Brazil</span></div>
-          <div class="headline"><a href="https://blogdopedlowski.com/2026/10/26/brasil-continua-abrindo-as-portas-para-agrotoxicos-rejeitados-na-europa-dois-atos-do-ministerio-da-agricultura-revelam-a-dimensao-do-problema/" target="_blank" rel="noopener">Brazil registers another 72 pesticide products, several banned in the EU</a></div>
-          <div class="note">Two Agriculture Ministry acts published Oct 26 add technical products including atrazine and chlorothalonil, widening the gap with European residue rules.</div>
-          <div class="src">Blog do Pedlowski</div></div></div>
-        <div class="item"><div class="when">Oct 26</div><div class="body">
-          <div class="row1"><span class="tag risk">Pesticides</span><span class="rg">EU</span></div>
-          <div class="headline"><a href="https://www.lovguiden.dk/en/det-offentlige/eur-lex-eu-tidende/2026-10-26-eu-forlaenger-godkendelsen-af-26-aktivstoffer-i-plantebeskyttelsesmidler" target="_blank" rel="noopener">EU extends approval of 26 pesticide active substances pending renewal review</a></div>
-          <div class="note">Implementing Regulation (EU) 2026/2348 postpones expiry dates 3–42 months for actives including buprofezin and emamectin, highlighting the review backlog from the other side of the Brazil/EU residue-rule gap.</div>
-          <div class="src">EUR-Lex (via Lovguiden)</div></div></div>
+        
+        
+        
+        
       </div>
     </section>
     <section class="pp-sec" data-sec="policy">
@@ -1886,7 +1842,7 @@
   <div class="tabpanel" id="p-reg" role="tabpanel" aria-labelledby="t-reg" hidden>
     <section>
       <div class="section-head">
-        <h2>Regulatory Tracker</h2>
+        <h2>Regulatory</h2>
         <span class="count" id="rt-count"></span>
         <span class="desc">Where products stand with FDA, EMA, ANVISA, EPA, EFSA, CTNBio and others</span>
       </div>
@@ -1918,7 +1874,125 @@
     </section>
   </div><!-- /p-reg -->
 
-  <div class="tabpanel" id="p-deep" role="tabpanel" aria-labelledby="t-deep" hidden>
+  <div class="tabpanel" id="p-ontology" role="tabpanel" aria-labelledby="t-ontology" hidden>
+<style>
+
+.on-chain{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px 0;margin:0 0 20px;}
+.on-node{flex:1 1 170px;min-width:0;text-align:left;font:inherit;background:#fff;border:0;border-radius:16px;padding:16px 16px 18px;box-shadow:0 0 0 1px var(--line);cursor:pointer;display:flex;flex-direction:column;gap:6px;color:var(--ink);min-height:44px;}
+.on-node:hover{box-shadow:0 0 0 2px var(--c);}
+.on-node[aria-pressed="true"]{box-shadow:0 0 0 2px var(--c),0 6px 18px rgba(14,34,54,.10);}
+.on-node b{font-size:18px;font-weight:800;line-height:1.2;letter-spacing:-.01em;}
+.on-sub{font-size:14px;color:var(--muted);line-height:1.4;}
+.on-type{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--c);margin:0;}
+.on-type i{width:10px;height:10px;border-radius:50%;background:var(--c);display:block;}
+.on-edge{flex:0 0 92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 4px;text-align:center;font-size:12px;line-height:1.25;color:var(--muted);}
+.on-card{background:#fff;border-radius:20px;padding:24px 28px;box-shadow:0 0 0 1px var(--line);}
+.on-card h3{margin:6px 0 4px;font-size:28px;font-weight:800;letter-spacing:-.02em;}
+.on-lead{margin:0 0 16px;font-size:17px;color:var(--muted);}
+.on-facts{border-collapse:collapse;width:100%;max-width:820px;font-size:15px;}
+.on-facts th{text-align:left;font-weight:700;color:var(--ink);padding:10px 16px 10px 0;width:150px;vertical-align:top;border-top:1px solid var(--line);}
+.on-facts td{padding:10px 0;border-top:1px solid var(--line);line-height:1.5;}
+.on-rel{margin:14px 0 0;font-size:15px;line-height:1.5;}
+.on-src-h{margin:18px 0 6px;font-size:14px;font-weight:700;color:var(--muted);}
+.on-src{margin:0;padding-left:18px;font-size:14px;line-height:1.7;}
+.on-panel{background:#fff;border-radius:20px;padding:18px 24px 14px;box-shadow:0 0 0 1px var(--line);}
+.on-table{border-collapse:collapse;width:100%;font-size:15px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line);}
+.on-table th,.on-table td{text-align:left;padding:12px 16px;border-top:1px solid var(--line);vertical-align:top;line-height:1.45;}
+.on-table thead th{border-top:0;background:#F0F4F7;font-size:14px;}
+.on-table tbody th{font-weight:700;white-space:nowrap;}
+.on-scroll{overflow-x:auto;}
+.in-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;margin-top:6px;}
+.in-card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 0 0 1px var(--line);border-top:4px solid var(--c);}
+.in-card[hidden]{display:none;}
+.in-card h3{margin:6px 0 8px;font-size:21px;font-weight:800;line-height:1.25;letter-spacing:-.01em;}
+.in-body{margin:0;font-size:15.5px;line-height:1.6;}
+.in-h{margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--muted);}
+.in-path{display:flex;flex-wrap:wrap;align-items:center;gap:6px;}
+.in-node{display:inline-flex;flex-direction:column;background:#F0F4F7;border-radius:10px;padding:6px 10px;font-size:13.5px;font-weight:600;line-height:1.3;}
+.in-node small{font-size:11.5px;font-weight:600;color:var(--muted);}
+.in-edge{font-size:12.5px;color:var(--muted);}
+.in-watch{margin:0;font-size:15px;line-height:1.5;}
+.in-rules-h{margin:36px 0 4px;font-size:22px;font-weight:800;letter-spacing:-.01em;}
+@media (max-width:760px){.in-grid{grid-template-columns:minmax(0,1fr);}}
+.on-qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;list-style:none;padding:0;margin:0;}
+.on-qs li{background:#fff;border-radius:16px;padding:18px 20px;box-shadow:0 0 0 1px var(--line);font-size:16px;line-height:1.45;}
+.on-qs b{display:block;font-size:17px;margin-bottom:6px;}
+@media (max-width:760px){.on-chain{flex-direction:column;}.on-edge{flex-basis:auto;flex-direction:row;padding:6px 0;}.on-edge svg{transform:rotate(90deg);}.on-card{padding:20px;}.on-facts th{width:110px;}}
+
+.dk-h2{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.15;}
+.dk-sub{margin:6px 0 18px;font-size:15px;color:var(--muted);}
+.dk-filters{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 8px;}
+.dk-filters button{font:inherit;font-size:14px;font-weight:600;color:var(--muted);background:#fff;border:0;box-shadow:0 0 0 1px var(--line);padding:8px 14px;border-radius:999px;cursor:pointer;min-height:36px;}
+.dk-filters button:hover{color:var(--ink);}
+.dk-filters button[aria-pressed="true"]{background:var(--ink);color:#fff;box-shadow:none;}
+#p-ontology section{margin-bottom:34px;}
+.onto-intro{margin:0 0 26px;} .onto-intro h2{margin:4px 0 6px;font-size:30px;} .onto-intro p{margin:0;color:var(--muted);font-size:15.5px;max-width:80ch;}
+</style>
+<div class="onto-intro"><span class="kicker">Ontology · beta</span><h2>One thread from patent to price</h2><p>How BioMarket Pulse can link its datasets, from a Novo Nordisk patent to the stock move, and turn the links into R&D, M&A and investment insights.</p></div>
+
+<section aria-labelledby="on-chain-h"><h2 class="dk-h2" id="on-chain-h">The chain</h2>
+<p class="dk-sub">Five entities, four typed links. Select any one to see its facts, its links and its sources.</p>
+<div class="on-chain"><button type="button" class="on-node" data-k="patent" aria-pressed="true" aria-controls="on-detail" style="--c:#7D5BC0">
+<span class="on-type"><i aria-hidden="true"></i>Patent</span><b>US 12,514,822 B2</b><span class="on-sub">Oral dosing of GLP-1 compounds</span></button><div class="on-edge" aria-hidden="true"><span>claims the dose tested in</span><svg viewBox="0 0 40 12" width="40" height="12"><path d="M0 6H34" stroke="#9AA8B5" stroke-width="1.5"/><path d="M32 1l7 5l-7 5z" fill="#9AA8B5"/></svg></div><button type="button" class="on-node" data-k="paper" aria-pressed="false" aria-controls="on-detail" style="--c:#0E9384">
+<span class="on-type"><i aria-hidden="true"></i>Paper</span><b>OASIS 4, N Engl J Med</b><span class="on-sub">Oral semaglutide 25 mg in adults with overweight or obesity</span></button><div class="on-edge" aria-hidden="true"><span>is the pivotal trial of</span><svg viewBox="0 0 40 12" width="40" height="12"><path d="M0 6H34" stroke="#9AA8B5" stroke-width="1.5"/><path d="M32 1l7 5l-7 5z" fill="#9AA8B5"/></svg></div><button type="button" class="on-node" data-k="drug" aria-pressed="false" aria-controls="on-detail" style="--c:#1F5FC4">
+<span class="on-type"><i aria-hidden="true"></i>Drug</span><b>Semaglutide, oral</b><span class="on-sub">GLP-1 receptor agonist tablet co-formulated with SNAC</span></button><div class="on-edge" aria-hidden="true"><span>is sold as</span><svg viewBox="0 0 40 12" width="40" height="12"><path d="M0 6H34" stroke="#9AA8B5" stroke-width="1.5"/><path d="M32 1l7 5l-7 5z" fill="#9AA8B5"/></svg></div><button type="button" class="on-node" data-k="product" aria-pressed="false" aria-controls="on-detail" style="--c:#C8691E">
+<span class="on-type"><i aria-hidden="true"></i>Product</span><b>Wegovy pill 25 mg</b><span class="on-sub">First oral GLP-1 approved for weight management</span></button><div class="on-edge" aria-hidden="true"><span>sales beat moved</span><svg viewBox="0 0 40 12" width="40" height="12"><path d="M0 6H34" stroke="#9AA8B5" stroke-width="1.5"/><path d="M32 1l7 5l-7 5z" fill="#9AA8B5"/></svg></div><button type="button" class="on-node" data-k="move" aria-pressed="false" aria-controls="on-detail" style="--c:#1E7A4C">
+<span class="on-type"><i aria-hidden="true"></i>Market move</span><b>NVO +5.0%, Nov 4, 2026</b><span class="on-sub">Novo Nordisk raised 2026 guidance after an oral Wegovy sales beat</span></button></div>
+<div id="on-detail" aria-live="polite"><div class="on-card" data-k="patent" style="--c:#7D5BC0">
+<p class="on-type"><i aria-hidden="true"></i>Patent</p><h3>US 12,514,822 B2</h3><p class="on-lead">Oral dosing of GLP-1 compounds</p>
+<table class="on-facts"><tr><th scope="row">Assignee</th><td>Novo Nordisk A/S</td></tr><tr><th scope="row">Inventors</th><td>Flemming S. Nielsen, Per Sauerberg</td></tr><tr><th scope="row">Published</th><td>January 6, 2026</td></tr><tr><th scope="row">Claims</th><td>Oral semaglutide with the SNAC absorption enhancer at 0.5–50 mg; dependent claims narrow the patients to people with obesity</td></tr><tr><th scope="row">Family</th><td>Same title and inventors as US 10,278,923 (2019) and US 12,239,739 (2025)</td></tr></table><p class="on-rel">→ This claims the dose tested in <b>OASIS 4, N Engl J Med</b>: 25 mg sits inside the patent&#x27;s claimed 0.5–50 mg range.</p><p class="on-src-h">Sources</p><ul class="on-src"><li><a href="https://mtec-sc.org/patents/US-12514822-B2" target="_blank" rel="noopener">Patent summary (MTEC)</a></li><li><a href="https://patentsgazette.uspto.gov/week09/OG/html/1532-1/US12239739-20250304.html" target="_blank" rel="noopener">US 12,239,739 in the USPTO Official Gazette</a></li></ul></div><div class="on-card" data-k="paper" hidden style="--c:#0E9384">
+<p class="on-type"><i aria-hidden="true"></i>Paper</p><h3>OASIS 4, N Engl J Med</h3><p class="on-lead">Oral semaglutide 25 mg in adults with overweight or obesity</p>
+<table class="on-facts"><tr><th scope="row">Authors</th><td>Wharton S, Lingvay I, Bogdanski P, et al.</td></tr><tr><th scope="row">Published</th><td>September 18, 2025; 393(11):1077–1087</td></tr><tr><th scope="row">Design</th><td>307 adults without diabetes, randomized 2:1, 64 weeks, placebo-controlled</td></tr><tr><th scope="row">Result</th><td>Body weight −13.6% with oral semaglutide vs −2.2% with placebo at week 64</td></tr><tr><th scope="row">IDs</th><td>PMID 40934115 · DOI 10.1056/NEJMoa2500969 · NCT05564117</td></tr></table><p class="on-rel">← <b>US 12,514,822 B2</b> claims the dose tested in this: 25 mg sits inside the patent&#x27;s claimed 0.5–50 mg range.</p><p class="on-rel">→ This is the pivotal trial of <b>Semaglutide, oral</b>: OASIS 4 supports the 25 mg weight-loss label.</p><p class="on-src-h">Sources</p><ul class="on-src"><li><a href="https://pubmed.ncbi.nlm.nih.gov/40934115/" target="_blank" rel="noopener">PubMed record</a></li><li><a href="https://doi.org/10.1056/NEJMoa2500969" target="_blank" rel="noopener">DOI</a></li></ul></div><div class="on-card" data-k="drug" hidden style="--c:#1F5FC4">
+<p class="on-type"><i aria-hidden="true"></i>Drug</p><h3>Semaglutide, oral</h3><p class="on-lead">GLP-1 receptor agonist tablet co-formulated with SNAC</p>
+<table class="on-facts"><tr><th scope="row">Owner</th><td>Novo Nordisk</td></tr><tr><th scope="row">Mechanism</th><td>GLP-1 receptor agonist</td></tr><tr><th scope="row">Formulation</th><td>Tablet with salcaprozate sodium (SNAC), which enables absorption in the stomach</td></tr><tr><th scope="row">Other products</th><td>Rybelsus tablets for type 2 diabetes (FDA, September 2019); Ozempic and Wegovy injections</td></tr></table><p class="on-rel">← <b>OASIS 4, N Engl J Med</b> is the pivotal trial of this: OASIS 4 supports the 25 mg weight-loss label.</p><p class="on-rel">→ This is sold as <b>Wegovy pill 25 mg</b>: Wegovy pill = semaglutide 25 mg tablet.</p><p class="on-src-h">Sources</p><ul class="on-src"><li><a href="https://www.accessdata.fda.gov/drugsatfda_docs/nda/2019/213051Orig1s000PharmR.pdf" target="_blank" rel="noopener">FDA non-clinical review of oral semaglutide and SNAC</a></li></ul></div><div class="on-card" data-k="product" hidden style="--c:#C8691E">
+<p class="on-type"><i aria-hidden="true"></i>Product</p><h3>Wegovy pill 25 mg</h3><p class="on-lead">First oral GLP-1 approved for weight management</p>
+<table class="on-facts"><tr><th scope="row">Dose</th><td>Once-daily oral semaglutide 25 mg</td></tr><tr><th scope="row">US approval</th><td>FDA, December 22, 2025: weight reduction and lower risk of major cardiovascular events</td></tr><tr><th scope="row">Brazil approval</th><td>ANVISA, November 4, 2026: Brazil&#x27;s first oral GLP-1 for weight loss</td></tr><tr><th scope="row">US launch</th><td>Early January 2026</td></tr></table><p class="on-rel">← <b>Semaglutide, oral</b> is sold as this: Wegovy pill = semaglutide 25 mg tablet.</p><p class="on-rel">→ This sales beat moved <b>NVO +5.0%, Nov 4, 2026</b>: Guidance raised Nov 4 on oral Wegovy sales.</p><p class="on-src-h">Sources</p><ul class="on-src"><li><a href="https://www.novonordisk.com/news-and-media/news-and-ir-materials/news-details.html?id=916472" target="_blank" rel="noopener">Novo Nordisk press release, Dec 22, 2025</a></li><li><a href="https://www.jornaldocomercio.com/geral/2026/11/1269233-caneta-emagrecedora-em-pilula-anvisa-aprova-versao-em-comprimido-do-wegovy.html" target="_blank" rel="noopener">ANVISA approval, Jornal do Comércio</a></li></ul></div><div class="on-card" data-k="move" hidden style="--c:#1E7A4C">
+<p class="on-type"><i aria-hidden="true"></i>Market move</p><h3>NVO +5.0%, Nov 4, 2026</h3><p class="on-lead">Novo Nordisk raised 2026 guidance after an oral Wegovy sales beat</p>
+<table class="on-facts"><tr><th scope="row">Nov 4 close</th><td>$42.18, up 5.0% from $40.19</td></tr><tr><th scope="row">Volume</th><td>26.0 million shares, 2.5 times the 20-day average of 10.2 million</td></tr><tr><th scope="row">After</th><td>Closed $40.31 on Nov 6, giving back 4.4%; the week ended up 0.8%</td></tr><tr><th scope="row">Cause</th><td>Guidance raised on November 4 after an oral Wegovy sales beat, as reported in the daily edition</td></tr></table><p class="on-rel">← <b>Wegovy pill 25 mg</b> sales beat moved this: Guidance raised Nov 4 on oral Wegovy sales.</p><p class="on-src-h">Sources</p><ul class="on-src"><li><a href="#move-chart">Price history: daily closes and volumes in the edition&#x27;s chart data</a></li></ul></div></div></section>
+<section id="move-chart" aria-labelledby="on-move-h"><h2 class="dk-h2" id="on-move-h">The market move</h2>
+<p class="dk-sub">Novo Nordisk (NVO) daily candles, August 6 to November 6, 2026. Each candle is green when the stock closed above its open and orange when it closed below; the guidance day is shaded. On November 4 NVO opened at $42.45 and closed at $42.18, so its candle is orange even though it ended 5.0% above the previous close.</p>
+<div class="on-panel"><svg viewBox="0 0 1000 300" role="img" aria-label="Novo Nordisk (NVO) daily candles, August 6 to November 6, 2026; jump on November 4" style="width:100%;height:auto;display:block"><line x1="56" x2="984" y1="232.6" y2="232.6" stroke="#E3E8ED"/><text x="48" y="236.6" text-anchor="end" font-size="12" fill="#4A5B6C">$38</text><line x1="56" x2="984" y1="194.5" y2="194.5" stroke="#E3E8ED"/><text x="48" y="198.5" text-anchor="end" font-size="12" fill="#4A5B6C">$40</text><line x1="56" x2="984" y1="156.4" y2="156.4" stroke="#E3E8ED"/><text x="48" y="160.4" text-anchor="end" font-size="12" fill="#4A5B6C">$42</text><line x1="56" x2="984" y1="118.3" y2="118.3" stroke="#E3E8ED"/><text x="48" y="122.3" text-anchor="end" font-size="12" fill="#4A5B6C">$44</text><line x1="56" x2="984" y1="80.2" y2="80.2" stroke="#E3E8ED"/><text x="48" y="84.2" text-anchor="end" font-size="12" fill="#4A5B6C">$46</text><line x1="56" x2="984" y1="42.1" y2="42.1" stroke="#E3E8ED"/><text x="48" y="46.1" text-anchor="end" font-size="12" fill="#4A5B6C">$48</text><text x="63.0" y="288" text-anchor="middle" font-size="12" fill="#4A5B6C">Aug 6</text><text x="316.1" y="288" text-anchor="middle" font-size="12" fill="#4A5B6C">Sep 1</text><text x="611.4" y="288" text-anchor="middle" font-size="12" fill="#4A5B6C">Oct 1</text><text x="920.7" y="288" text-anchor="middle" font-size="12" fill="#4A5B6C">Nov 2</text><rect x="941.8" y="20" width="14.1" height="244" fill="#E6EEFB"/><g><title>2026-08-06: open 45.61, high 45.98, low 44.93, close 45.97</title><line x1="63.0" x2="63.0" y1="80.6" y2="100.6" stroke="#1E7A4C"/><rect x="58.7" y="80.8" width="8.7" height="6.9" fill="#1E7A4C"/></g><g><title>2026-08-07: open 47.15, high 47.5, low 46.73, close 47.26</title><line x1="77.1" x2="77.1" y1="51.6" y2="66.3" stroke="#1E7A4C"/><rect x="72.7" y="56.2" width="8.7" height="2.1" fill="#1E7A4C"/></g><g><title>2026-08-10: open 47.0, high 47.74, low 46.66, close 47.73</title><line x1="91.2" x2="91.2" y1="47.0" y2="67.6" stroke="#1E7A4C"/><rect x="86.8" y="47.2" width="8.7" height="13.9" fill="#1E7A4C"/></g><g><title>2026-08-11: open 47.45, high 47.67, low 46.93, close 47.17</title><line x1="105.2" x2="105.2" y1="48.4" y2="62.5" stroke="#B4560F"/><rect x="100.9" y="52.6" width="8.7" height="5.3" fill="#B4560F"/></g><g><title>2026-08-12: open 45.87, high 46.55, low 45.56, close 46.39</title><line x1="119.3" x2="119.3" y1="69.7" y2="88.6" stroke="#1E7A4C"/><rect x="114.9" y="72.8" width="8.7" height="9.9" fill="#1E7A4C"/></g><g><title>2026-08-13: open 45.96, high 46.79, low 45.73, close 46.72</title><line x1="133.3" x2="133.3" y1="65.1" y2="85.3" stroke="#1E7A4C"/><rect x="129.0" y="66.5" width="8.7" height="14.5" fill="#1E7A4C"/></g><g><title>2026-08-14: open 46.9, high 47.05, low 45.75, close 45.89</title><line x1="147.4" x2="147.4" y1="60.2" y2="85.0" stroke="#B4560F"/><rect x="143.0" y="63.0" width="8.7" height="19.2" fill="#B4560F"/></g><g><title>2026-08-17: open 45.18, high 45.45, low 44.68, close 44.88</title><line x1="161.5" x2="161.5" y1="90.7" y2="105.3" stroke="#B4560F"/><rect x="157.1" y="95.8" width="8.7" height="5.7" fill="#B4560F"/></g><g><title>2026-08-18: open 44.91, high 46.07, low 44.76, close 45.71</title><line x1="175.5" x2="175.5" y1="78.9" y2="103.8" stroke="#1E7A4C"/><rect x="171.2" y="85.7" width="8.7" height="15.2" fill="#1E7A4C"/></g><g><title>2026-08-19: open 46.01, high 47.2, low 45.84, close 46.48</title><line x1="189.6" x2="189.6" y1="57.3" y2="83.2" stroke="#1E7A4C"/><rect x="185.2" y="71.0" width="8.7" height="9.0" fill="#1E7A4C"/></g><g><title>2026-08-20: open 46.89, high 46.9, low 46.11, close 46.14</title><line x1="203.6" x2="203.6" y1="63.0" y2="78.1" stroke="#B4560F"/><rect x="199.3" y="63.2" width="8.7" height="14.3" fill="#B4560F"/></g><g><title>2026-08-21: open 46.35, high 47.17, low 46.34, close 46.74</title><line x1="217.7" x2="217.7" y1="57.9" y2="73.7" stroke="#1E7A4C"/><rect x="213.3" y="66.1" width="8.7" height="7.4" fill="#1E7A4C"/></g><g><title>2026-08-24: open 47.09, high 47.3, low 46.57, close 46.92</title><line x1="231.8" x2="231.8" y1="55.4" y2="69.3" stroke="#B4560F"/><rect x="227.4" y="59.4" width="8.7" height="3.2" fill="#B4560F"/></g><g><title>2026-08-25: open 47.84, high 48.66, low 47.56, close 48.66</title><line x1="245.8" x2="245.8" y1="29.5" y2="50.5" stroke="#1E7A4C"/><rect x="241.5" y="29.5" width="8.7" height="15.6" fill="#1E7A4C"/></g><g><title>2026-08-26: open 47.8, high 48.04, low 46.87, close 47.19</title><line x1="259.9" x2="259.9" y1="41.3" y2="63.6" stroke="#B4560F"/><rect x="255.5" y="45.9" width="8.7" height="11.6" fill="#B4560F"/></g><g><title>2026-08-27: open 45.97, high 46.33, low 45.7, close 46.26</title><line x1="273.9" x2="273.9" y1="73.9" y2="85.9" stroke="#1E7A4C"/><rect x="269.6" y="75.2" width="8.7" height="5.5" fill="#1E7A4C"/></g><g><title>2026-08-28: open 46.17, high 46.21, low 45.41, close 45.61</title><line x1="288.0" x2="288.0" y1="76.2" y2="91.4" stroke="#B4560F"/><rect x="283.6" y="77.0" width="8.7" height="10.7" fill="#B4560F"/></g><g><title>2026-08-31: open 45.28, high 45.61, low 44.95, close 45.33</title><line x1="302.1" x2="302.1" y1="87.6" y2="100.2" stroke="#1E7A4C"/><rect x="297.7" y="93.0" width="8.7" height="1.0" fill="#1E7A4C"/></g><g><title>2026-09-01: open 45.8, high 46.16, low 45.07, close 45.12</title><line x1="316.1" x2="316.1" y1="77.1" y2="97.9" stroke="#B4560F"/><rect x="311.8" y="84.0" width="8.7" height="13.0" fill="#B4560F"/></g><g><title>2026-09-02: open 46.05, high 47.01, low 45.91, close 46.77</title><line x1="330.2" x2="330.2" y1="61.0" y2="81.9" stroke="#1E7A4C"/><rect x="325.8" y="65.5" width="8.7" height="13.7" fill="#1E7A4C"/></g><g><title>2026-09-03: open 47.99, high 48.0, low 46.57, close 47.51</title><line x1="344.2" x2="344.2" y1="42.1" y2="69.3" stroke="#B4560F"/><rect x="339.9" y="42.3" width="8.7" height="9.1" fill="#B4560F"/></g><g><title>2026-09-04: open 46.35, high 46.74, low 46.04, close 46.6</title><line x1="358.3" x2="358.3" y1="66.1" y2="79.4" stroke="#1E7A4C"/><rect x="353.9" y="68.8" width="8.7" height="4.8" fill="#1E7A4C"/></g><g><title>2026-09-08: open 45.58, high 45.91, low 45.15, close 45.16</title><line x1="372.4" x2="372.4" y1="81.9" y2="96.4" stroke="#B4560F"/><rect x="368.0" y="88.2" width="8.7" height="8.0" fill="#B4560F"/></g><g><title>2026-09-09: open 45.0, high 45.4, low 44.52, close 44.56</title><line x1="386.4" x2="386.4" y1="91.6" y2="108.4" stroke="#B4560F"/><rect x="382.1" y="99.2" width="8.7" height="8.4" fill="#B4560F"/></g><g><title>2026-09-10: open 44.6, high 44.82, low 44.01, close 44.01</title><line x1="400.5" x2="400.5" y1="102.7" y2="118.1" stroke="#B4560F"/><rect x="396.1" y="106.9" width="8.7" height="11.2" fill="#B4560F"/></g><g><title>2026-09-11: open 43.2, high 43.5, low 42.72, close 43.07</title><line x1="414.5" x2="414.5" y1="127.8" y2="142.7" stroke="#B4560F"/><rect x="410.2" y="133.5" width="8.7" height="2.5" fill="#B4560F"/></g><g><title>2026-09-14: open 43.66, high 43.71, low 43.07, close 43.45</title><line x1="428.6" x2="428.6" y1="123.8" y2="136.0" stroke="#B4560F"/><rect x="424.2" y="124.8" width="8.7" height="4.0" fill="#B4560F"/></g><g><title>2026-09-15: open 42.73, high 43.0, low 42.4, close 42.53</title><line x1="442.7" x2="442.7" y1="137.3" y2="148.8" stroke="#B4560F"/><rect x="438.3" y="142.5" width="8.7" height="3.8" fill="#B4560F"/></g><g><title>2026-09-16: open 42.47, high 42.72, low 41.47, close 41.71</title><line x1="456.7" x2="456.7" y1="142.7" y2="166.5" stroke="#B4560F"/><rect x="452.4" y="147.4" width="8.7" height="14.5" fill="#B4560F"/></g><g><title>2026-09-17: open 41.98, high 43.44, low 41.96, close 43.19</title><line x1="470.8" x2="470.8" y1="129.0" y2="157.1" stroke="#1E7A4C"/><rect x="466.4" y="133.7" width="8.7" height="23.0" fill="#1E7A4C"/></g><g><title>2026-09-18: open 43.5, high 43.54, low 42.78, close 43.24</title><line x1="484.8" x2="484.8" y1="127.0" y2="141.5" stroke="#B4560F"/><rect x="480.5" y="127.8" width="8.7" height="5.0" fill="#B4560F"/></g><g><title>2026-09-21: open 41.05, high 41.17, low 39.54, close 39.8</title><line x1="498.9" x2="498.9" y1="172.2" y2="203.2" stroke="#B4560F"/><rect x="494.6" y="174.5" width="8.7" height="23.8" fill="#B4560F"/></g><g><title>2026-09-22: open 39.5, high 39.89, low 39.11, close 39.4</title><line x1="513.0" x2="513.0" y1="196.6" y2="211.4" stroke="#B4560F"/><rect x="508.6" y="204.0" width="8.7" height="1.9" fill="#B4560F"/></g><g><title>2026-09-23: open 38.9, high 39.14, low 38.16, close 38.17</title><line x1="527.0" x2="527.0" y1="210.9" y2="229.5" stroke="#B4560F"/><rect x="522.7" y="215.4" width="8.7" height="13.9" fill="#B4560F"/></g><g><title>2026-09-24: open 37.95, high 38.72, low 37.92, close 38.62</title><line x1="541.1" x2="541.1" y1="218.9" y2="234.1" stroke="#1E7A4C"/><rect x="536.7" y="220.8" width="8.7" height="12.8" fill="#1E7A4C"/></g><g><title>2026-09-25: open 38.81, high 38.83, low 38.41, close 38.8</title><line x1="555.2" x2="555.2" y1="216.8" y2="224.8" stroke="#B4560F"/><rect x="550.8" y="217.1" width="8.7" height="1.0" fill="#B4560F"/></g><g><title>2026-09-28: open 38.4, high 38.9, low 38.23, close 38.71</title><line x1="569.2" x2="569.2" y1="215.4" y2="228.2" stroke="#1E7A4C"/><rect x="564.9" y="219.0" width="8.7" height="5.9" fill="#1E7A4C"/></g><g><title>2026-09-29: open 38.21, high 38.38, low 38.05, close 38.31</title><line x1="583.3" x2="583.3" y1="225.3" y2="231.6" stroke="#1E7A4C"/><rect x="578.9" y="226.7" width="8.7" height="1.9" fill="#1E7A4C"/></g><g><title>2026-09-30: open 38.05, high 38.77, low 37.89, close 37.91</title><line x1="597.3" x2="597.3" y1="217.9" y2="234.7" stroke="#B4560F"/><rect x="593.0" y="231.6" width="8.7" height="2.7" fill="#B4560F"/></g><g><title>2026-10-01: open 37.8, high 37.97, low 37.37, close 37.4</title><line x1="611.4" x2="611.4" y1="233.1" y2="244.6" stroke="#B4560F"/><rect x="607.0" y="236.4" width="8.7" height="7.6" fill="#B4560F"/></g><g><title>2026-10-02: open 37.64, high 37.65, low 37.17, close 37.32</title><line x1="625.5" x2="625.5" y1="239.2" y2="248.4" stroke="#B4560F"/><rect x="621.1" y="239.4" width="8.7" height="6.1" fill="#B4560F"/></g><g><title>2026-10-05: open 36.94, high 37.61, low 36.86, close 37.54</title><line x1="639.5" x2="639.5" y1="240.0" y2="254.3" stroke="#1E7A4C"/><rect x="635.2" y="241.3" width="8.7" height="11.4" fill="#1E7A4C"/></g><g><title>2026-10-06: open 37.35, high 37.53, low 36.85, close 37.53</title><line x1="653.6" x2="653.6" y1="241.5" y2="254.5" stroke="#1E7A4C"/><rect x="649.2" y="241.5" width="8.7" height="3.4" fill="#1E7A4C"/></g><g><title>2026-10-07: open 37.57, high 38.47, low 37.51, close 38.26</title><line x1="667.6" x2="667.6" y1="223.6" y2="241.9" stroke="#1E7A4C"/><rect x="663.3" y="227.6" width="8.7" height="13.1" fill="#1E7A4C"/></g><g><title>2026-10-08: open 37.8, high 38.23, low 37.51, close 38.18</title><line x1="681.7" x2="681.7" y1="228.2" y2="241.9" stroke="#1E7A4C"/><rect x="677.3" y="229.1" width="8.7" height="7.2" fill="#1E7A4C"/></g><g><title>2026-10-09: open 38.11, high 38.68, low 38.06, close 38.64</title><line x1="695.8" x2="695.8" y1="219.6" y2="231.4" stroke="#1E7A4C"/><rect x="691.4" y="220.4" width="8.7" height="10.1" fill="#1E7A4C"/></g><g><title>2026-10-12: open 38.85, high 38.85, low 38.26, close 38.58</title><line x1="709.8" x2="709.8" y1="216.4" y2="227.6" stroke="#B4560F"/><rect x="705.5" y="216.4" width="8.7" height="5.1" fill="#B4560F"/></g><g><title>2026-10-13: open 38.74, high 38.89, low 37.98, close 38.06</title><line x1="723.9" x2="723.9" y1="215.6" y2="233.0" stroke="#B4560F"/><rect x="719.5" y="218.5" width="8.7" height="13.0" fill="#B4560F"/></g><g><title>2026-10-14: open 37.91, high 38.42, low 37.9, close 38.12</title><line x1="737.9" x2="737.9" y1="224.6" y2="234.5" stroke="#1E7A4C"/><rect x="733.6" y="230.3" width="8.7" height="4.0" fill="#1E7A4C"/></g><g><title>2026-10-15: open 38.99, high 39.68, low 38.89, close 39.22</title><line x1="752.0" x2="752.0" y1="200.6" y2="215.6" stroke="#1E7A4C"/><rect x="747.6" y="209.3" width="8.7" height="4.4" fill="#1E7A4C"/></g><g><title>2026-10-16: open 39.33, high 39.4, low 38.67, close 38.83</title><line x1="766.1" x2="766.1" y1="205.9" y2="219.8" stroke="#B4560F"/><rect x="761.7" y="207.2" width="8.7" height="9.5" fill="#B4560F"/></g><g><title>2026-10-19: open 38.65, high 38.84, low 38.35, close 38.42</title><line x1="780.1" x2="780.1" y1="216.6" y2="225.9" stroke="#B4560F"/><rect x="775.8" y="220.2" width="8.7" height="4.4" fill="#B4560F"/></g><g><title>2026-10-20: open 38.92, high 39.38, low 38.81, close 39.35</title><line x1="794.2" x2="794.2" y1="206.3" y2="217.1" stroke="#1E7A4C"/><rect x="789.8" y="206.9" width="8.7" height="8.2" fill="#1E7A4C"/></g><g><title>2026-10-21: open 39.25, high 39.49, low 39.05, close 39.06</title><line x1="808.2" x2="808.2" y1="204.2" y2="212.6" stroke="#B4560F"/><rect x="803.9" y="208.8" width="8.7" height="3.6" fill="#B4560F"/></g><g><title>2026-10-22: open 39.39, high 39.77, low 39.24, close 39.43</title><line x1="822.3" x2="822.3" y1="198.9" y2="209.0" stroke="#1E7A4C"/><rect x="817.9" y="205.3" width="8.7" height="1.0" fill="#1E7A4C"/></g><g><title>2026-10-23: open 39.21, high 39.29, low 38.75, close 39.05</title><line x1="836.4" x2="836.4" y1="208.0" y2="218.3" stroke="#B4560F"/><rect x="832.0" y="209.5" width="8.7" height="3.0" fill="#B4560F"/></g><g><title>2026-10-26: open 39.02, high 39.24, low 38.67, close 39.13</title><line x1="850.4" x2="850.4" y1="209.0" y2="219.8" stroke="#1E7A4C"/><rect x="846.1" y="211.0" width="8.7" height="2.1" fill="#1E7A4C"/></g><g><title>2026-10-27: open 38.58, high 39.03, low 38.54, close 38.67</title><line x1="864.5" x2="864.5" y1="213.0" y2="222.3" stroke="#1E7A4C"/><rect x="860.1" y="219.8" width="8.7" height="1.7" fill="#1E7A4C"/></g><g><title>2026-10-28: open 38.11, high 38.54, low 37.96, close 38.29</title><line x1="878.5" x2="878.5" y1="222.3" y2="233.3" stroke="#1E7A4C"/><rect x="874.2" y="227.0" width="8.7" height="3.4" fill="#1E7A4C"/></g><g><title>2026-10-29: open 38.67, high 39.22, low 38.56, close 39.14</title><line x1="892.6" x2="892.6" y1="209.3" y2="221.9" stroke="#1E7A4C"/><rect x="888.2" y="210.9" width="8.7" height="9.0" fill="#1E7A4C"/></g><g><title>2026-10-30: open 39.61, high 40.1, low 39.54, close 40.0</title><line x1="906.7" x2="906.7" y1="192.6" y2="203.2" stroke="#1E7A4C"/><rect x="902.3" y="194.5" width="8.7" height="7.4" fill="#1E7A4C"/></g><g><title>2026-11-02: open 40.1, high 40.78, low 40.06, close 40.45</title><line x1="920.7" x2="920.7" y1="179.6" y2="193.3" stroke="#1E7A4C"/><rect x="916.4" y="185.9" width="8.7" height="6.7" fill="#1E7A4C"/></g><g><title>2026-11-03: open 40.34, high 40.63, low 39.96, close 40.19</title><line x1="934.8" x2="934.8" y1="182.5" y2="195.2" stroke="#B4560F"/><rect x="930.4" y="188.0" width="8.7" height="2.9" fill="#B4560F"/></g><g><title>2026-11-04: open 42.45, high 43.24, low 42.12, close 42.18</title><line x1="948.8" x2="948.8" y1="132.8" y2="154.1" stroke="#B4560F"/><rect x="944.5" y="147.8" width="8.7" height="5.1" fill="#B4560F"/></g><g><title>2026-11-05: open 41.16, high 41.18, low 39.99, close 40.3</title><line x1="962.9" x2="962.9" y1="172.0" y2="194.7" stroke="#B4560F"/><rect x="958.6" y="172.4" width="8.7" height="16.4" fill="#B4560F"/></g><g><title>2026-11-06: open 39.76, high 40.55, low 39.53, close 40.31</title><line x1="977.0" x2="977.0" y1="184.0" y2="203.4" stroke="#1E7A4C"/><rect x="972.6" y="188.6" width="8.7" height="10.5" fill="#1E7A4C"/></g><line x1="948.8" x2="828.8" y1="126.8" y2="126.8" stroke="#1F5FC4"/><text x="822.8" y="130.8" text-anchor="end" font-size="13" font-weight="700" fill="#0E2236">Nov 4: guidance raised, +5.0% on 2.5× volume</text></svg></div></section>
+<section aria-labelledby="on-schema-h"><h2 class="dk-h2" id="on-schema-h">The ontology behind it</h2>
+<p class="dk-sub">Every entity has a type and fields; every link has a type, a direction and the evidence for it.</p>
+<div class="on-scroll"><table class="on-table"><thead><tr><th scope="col">Entity</th><th scope="col">Key fields</th><th scope="col">Where BioMarket Pulse gets it</th></tr></thead><tbody><tr><th scope='row'>Patent</th><td>Number, assignee, title, claim summary, publication date, family</td><td>EPO Open Patent Services feed, USPTO</td></tr><tr><th scope='row'>Paper</th><td>Title, journal, date, DOI, PMID, trial ID, result</td><td>PubMed</td></tr><tr><th scope='row'>Drug</th><td>Name, owner, mechanism, formulation</td><td>Curated with each edition</td></tr><tr><th scope='row'>Product</th><td>Brand, dose, indication, approvals by agency and date</td><td>Regulatory Tracker</td></tr><tr><th scope='row'>Market move</th><td>Ticker, date, % change, volume against average, cause</td><td>Daily price history and the edition</td></tr></tbody></table></div>
+<div class="on-scroll" style="margin-top:16px"><table class="on-table"><thead><tr><th scope="col">Relation</th><th scope="col">From → to</th><th scope="col">Evidence stored with it</th></tr></thead><tbody><tr><th scope='row'>claims the dose tested in</th><td>Patent → Paper</td><td>The tested dose falls inside the claimed range</td></tr><tr><th scope='row'>is the pivotal trial of</th><td>Paper → Drug</td><td>The trial supports the drug&#x27;s approved use</td></tr><tr><th scope='row'>is sold as</th><td>Drug → Product</td><td>The product&#x27;s active ingredient and dose</td></tr><tr><th scope='row'>approved by</th><td>Product → Agency</td><td>Agency, date and indication, from the Regulatory Tracker</td></tr><tr><th scope='row'>sales beat moved</th><td>Product → Market move</td><td>The company&#x27;s own explanation, dated the same day</td></tr></tbody></table></div></section>
+<section aria-labelledby="in-h"><h2 class="dk-h2" id="in-h">Insights from the graph</h2>
+<p class="dk-sub">Each insight is built by following links in the graph, including neighbors of the five entities above: a competing product, a deal and the Brazilian generic makers. Analysis only, not investment advice.</p>
+<div class="dk-filters" role="group" aria-label="Filter insights by type"><button type="button" aria-pressed="true" data-f="">All<span class="n">5</span></button><button type="button" aria-pressed="false" data-f="rd">R&amp;D<span class="n">2</span></button><button type="button" aria-pressed="false" data-f="ma">M&amp;A<span class="n">2</span></button><button type="button" aria-pressed="false" data-f="inv">Investment<span class="n">1</span></button></div><div class="in-grid"><article class="in-card" data-t="rd" style="--c:#1F5FC4"><p class="on-type"><i aria-hidden="true"></i>R&D insight 1</p>
+<h3>Formulation IP is now the franchise moat, not the molecule</h3><p class="in-body">Semaglutide&#x27;s molecule patent expired in Brazil in March 2026 and generic pens followed by August. Novo&#x27;s newer claims sit on how the drug is delivered: oral dosing with the SNAC absorption enhancer, granted as recently as January 2026. The Wegovy pill reached Brazil in November on that delivery platform.</p><p class="in-h">Evidence path</p><div class="in-path"><span class="in-node"><small>Patent</small>US 12,514,822 (oral SNAC dosing, 2026)</span><span class="in-edge">claims the dose tested in →</span><span class="in-node"><small>Product</small>Wegovy pill, ANVISA Nov 4, 2026</span><span class="in-edge">contrasts with →</span><span class="in-node"><small>Drug event</small>Molecule patent expired in Brazil, Mar 2026</span></div>
+<p class="in-h">What to watch</p><p class="in-watch">Whether the SNAC formulation patents are granted and in force in Brazil (INPI) is not yet verified.</p><p class="in-h">Sources</p><ul class="on-src"><li><a href="https://www.riotimesonline.com/brazil-approves-its-first-locally-made-generic-of-semaglutide-the-ozempic-weight-loss-drug/" target="_blank" rel="noopener">Generic semaglutide approved in Brazil, Rio Times</a></li><li><a href="https://mtec-sc.org/patents/US-12514822-B2" target="_blank" rel="noopener">Patent summary (MTEC)</a></li></ul></article><article class="in-card" data-t="rd" style="--c:#1F5FC4"><p class="on-type"><i aria-hidden="true"></i>R&D insight 2</p>
+<h3>Oral obesity drugs now compete on how easy they are to take</h3><p class="in-body">OASIS 4 reported 13.6% weight loss at 64 weeks with the Wegovy pill; Lilly&#x27;s ATTAIN-1 reported 12.4% at 72 weeks with the top dose of Foundayo. The trials differ, so the numbers are not a head-to-head result. Foundayo&#x27;s label carries no food or water restrictions, the point Lilly used to set it apart.</p><p class="in-h">Evidence path</p><div class="in-path"><span class="in-node"><small>Paper</small>OASIS 4, NEJM 2025</span><span class="in-edge">is the pivotal trial of →</span><span class="in-node"><small>Product</small>Wegovy pill</span><span class="in-edge">competes with →</span><span class="in-node"><small>Product</small>Foundayo (orforglipron), FDA Apr 1, 2026</span></div>
+<p class="in-h">What to watch</p><p class="in-watch">Real-world persistence data on both pills, and the European Commission decision on Foundayo after its October 15 CHMP opinion.</p><p class="in-h">Sources</p><ul class="on-src"><li><a href="https://pubmed.ncbi.nlm.nih.gov/40934115/" target="_blank" rel="noopener">OASIS 4 on PubMed</a></li><li><a href="https://www.healio.com/news/endocrinology/20260401/fda-approves-orforglipron-an-oral-glp1-for-adults-with-obesity" target="_blank" rel="noopener">Foundayo FDA approval, Healio</a></li></ul></article><article class="in-card" data-t="ma" style="--c:#C8691E"><p class="on-type"><i aria-hidden="true"></i>M&A insight 3</p>
+<h3>Big pharma is still paying up for obesity assets</h3><p class="in-body">On November 4, the day Novo raised guidance on the Wegovy pill, AstraZeneca reportedly made a ~$10B unsolicited bid for Rhythm Pharmaceuticals. Lilly&#x27;s oral GLP-1 itself came through licensing: Chugai discovered orforglipron and licensed it to Lilly. Owners of differentiated obesity mechanisms remain both licensing partners and takeover candidates.</p><p class="in-h">Evidence path</p><div class="in-path"><span class="in-node"><small>Product</small>Wegovy pill</span><span class="in-edge">sales beat moved →</span><span class="in-node"><small>Market move</small>NVO, Nov 4</span><span class="in-edge">same day as →</span><span class="in-node"><small>Deal</small>AstraZeneca ~$10B bid for Rhythm</span></div>
+<p class="in-h">What to watch</p><p class="in-watch">Whether rival bidders emerge for Rhythm, as analysts expect, and which mid-cap obesity programs draw licensing interest next.</p><p class="in-h">Sources</p><ul class="on-src"><li><a href="https://wsau.com/2026/11/04/astrazeneca-made-10-billion-bid-for-obesity-drugmaker-rhythm-wsj-reports/" target="_blank" rel="noopener">AstraZeneca bid for Rhythm, Reuters via WSAU</a></li><li><a href="https://chemxplore.com/news/lilly-foundayo-orforglipron-fda-approval" target="_blank" rel="noopener">Chugai on the Foundayo approval</a></li></ul></article><article class="in-card" data-t="ma" style="--c:#C8691E"><p class="on-type"><i aria-hidden="true"></i>M&A insight 4</p>
+<h3>Brazil&#x27;s generic makers are scaling up around semaglutide</h3><p class="in-body">EMS bought Sanofi&#x27;s Brazilian generics unit Medley in March 2026 and launched its semaglutide copy at about 30% below Ozempic. Hypera plans its own version, and Biomm sells one licensed from India&#x27;s Biocon. Peptide API and pen-device suppliers, and Latin American distribution, are where partnership and deal activity is building.</p><p class="in-h">Evidence path</p><div class="in-path"><span class="in-node"><small>Drug event</small>Molecule patent expired in Brazil, Mar 2026</span><span class="in-edge">opened the market to →</span><span class="in-node"><small>Companies</small>EMS, Hypera, Biomm with Biocon</span><span class="in-edge">compete with →</span><span class="in-node"><small>Product</small>Ozempic and Wegovy in Brazil</span></div>
+<p class="in-h">What to watch</p><p class="in-watch">ANVISA decisions on the remaining semaglutide applications, and CADE&#x27;s review of EMS&#x27;s Medley acquisition.</p><p class="in-h">Sources</p><ul class="on-src"><li><a href="https://d2233.cms.socastsrm.com/?p=2482261" target="_blank" rel="noopener">EMS after the Medley deal, Reuters</a></li><li><a href="https://gxpnews.net/en/2026/05/novo-nordisk-faces-first-ozempic-competition-in-brazil-as-local-drugmaker-ems-launches-copy/" target="_blank" rel="noopener">EMS launches first Ozempic copy, GxP News</a></li></ul></article><article class="in-card" data-t="inv" style="--c:#1E7A4C"><p class="on-type"><i aria-hidden="true"></i>Investment insight 5</p>
+<h3>The market treated the guidance raise as a one-day event</h3><p class="in-body">NVO rose 5.0% on November 4 on 2.5 times its usual volume, then gave back 4.4% in two sessions and ended the week up 0.8%, still below its early-August level near $46. Investors appear to weigh the oral launch against competition from Foundayo and generic semaglutide in markets such as Brazil.</p><p class="in-h">Evidence path</p><div class="in-path"><span class="in-node"><small>Product</small>Wegovy pill</span><span class="in-edge">sales beat moved →</span><span class="in-node"><small>Market move</small>NVO +5.0%, faded by Nov 6</span><span class="in-edge">weighed against →</span><span class="in-node"><small>Products</small>Foundayo; generic semaglutide in Brazil</span></div>
+<p class="in-h">What to watch</p><p class="in-watch">Next quarter&#x27;s oral Wegovy prescriptions, the EU decisions on oral semaglutide 25 mg and on Foundayo, and generic pricing in Brazil.</p><p class="in-h">Sources</p><ul class="on-src"><li><a href="#move-chart">Price history: daily candles above</a></li><li><a href="https://www.novonordisk.com/news-and-media/news-and-ir-materials/news-details.html?id=916472" target="_blank" rel="noopener">Novo Nordisk press release, Dec 22, 2025</a></li></ul></article></div>
+<h3 class="in-rules-h">How the same insights are found for any company</h3>
+<p class="dk-sub">Each insight comes from a pattern in the graph. Run every edition, these patterns flag candidates; the analysis is then written from the linked evidence, with every claim tied to a source.</p>
+<div class="on-scroll"><table class="on-table"><thead><tr><th scope="col">Pattern in the graph</th><th scope="col">Type</th><th scope="col">Insight it produces</th><th scope="col">Example</th></tr></thead><tbody><tr><th scope='row'>Molecule patent expires while a newer formulation or dosing patent covers a newly approved product</th><td>R&amp;D</td><td>Lifecycle and delivery-platform insight</td><td>Insight 1</td></tr><tr><th scope='row'>Two products with the same target are approved for the same use within 12 months</th><td>R&amp;D</td><td>Competitive positioning insight</td><td>Insight 2</td></tr><tr><th scope='row'>A large deal in the same therapy area lands within 7 days of a product event</th><td>M&amp;A</td><td>Deal appetite insight</td><td>Insight 3</td></tr><tr><th scope='row'>A patent expiry is followed by approvals for several local copies</th><td>M&amp;A</td><td>Consolidation and partner-search insight</td><td>Insight 4</td></tr><tr><th scope='row'>A stock moves on more than twice its average volume and reverses within 3 sessions</th><td>Investment</td><td>Event-faded insight, with the open risks it points to</td><td>Insight 5</td></tr></tbody></table></div></section>
+<section aria-labelledby="on-q-h"><h2 class="dk-h2" id="on-q-h">Questions it answers</h2>
+<p class="dk-sub">Once links like these are stored for every item, an executive can ask across the datasets.</p>
+<ul class="on-qs"><li><b>What moved this stock?</b>From any price jump, follow the links back to the product, its approvals, its trial and its patents.</li>
+<li><b>How long is it protected?</b>From any product, list the patents that cover it, with their families and dates.</li>
+<li><b>Which approvals came from which trials?</b>From any agency decision, find the papers behind it and the companies exposed to it.</li></ul>
+<p class="dk-sub" style="margin-top:18px">In this example the links were assembled and checked by hand on November 8, 2026. Storing them for every edition is part of Phase 2 of the roadmap.</p></section>
+
+<script>
+
+(function(){var fb=document.querySelector('#in-h')&&document.querySelector('#in-h').parentNode.querySelector('.dk-filters');
+if(fb){fb.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(fb.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+[].forEach.call(document.querySelectorAll('.in-card'),function(c){c.hidden=!!b.dataset.f&&c.dataset.t!==b.dataset.f;});});}})();
+(function(){var ns=[].slice.call(document.querySelectorAll('.on-node')),cs=[].slice.call(document.querySelectorAll('.on-card'));
+ns.forEach(function(b){b.addEventListener('click',function(){ns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});cs.forEach(function(c){c.hidden=c.dataset.k!==b.dataset.k;});});});})();
+
+</script>
+  </div><!-- /p-ontology -->
+
+
+
+  <div class="tabpanel" id="p-deep">
     <section>
       <div class="section-head">
         <h2>Deep Dive</h2>
@@ -1931,7 +2005,7 @@
           <button type="submit" id="dd-go">Analyze</button>
         </form>
         <div class="dd-sugs" id="dd-sugs"><span>Try:</span>
-          <button type="button">Ginkgo Bioworks</button><button type="button">Ag biologicals</button><button type="button">Antibody-drug conjugates</button><button type="button">Precision fermentation</button><button type="button">Corteva</button>
+          <button type="button">Ginkgo Bioworks</button><button type="button">Ag biologicals</button><button type="button">Antibody-drug conjugates</button><button type="button">Precision fermentation</button>
         </div>
         <div class="dd-recent" id="dd-recent"></div>
         <div class="dd-off" id="dd-off" hidden>Deep Dive runs on Claude, so it works when this page is opened in Claude (claude.ai or the Claude app) with Claude access allowed.</div>
@@ -1939,9 +2013,7 @@
       <div id="dd-status" class="dd-status" aria-live="polite"></div>
       <div id="dd-out"></div>
     </section>
-  </div><!-- /p-deep -->
-
-
+  </div>
 
   <footer>
     <div class="sources">
@@ -2057,7 +2129,8 @@
   var lg=function(id,v){var e=document.getElementById(id);if(e)e.style.background=tint(v);};
   lg("lg-dn",-6);lg("lg-0",0.01);lg("lg-up",6);
   var period=2, hm=document.getElementById("hm");
-  function draw(){ if(!hm) return; hm.innerHTML=G.map(function(g){return '<div class="hm-g"><div class="gl">'+esc(g[0])+'</div><div class="hm-row">'+g[1].map(function(s){var v=U[s][period];var strong=Math.abs(v)>=4.5;return '<a class="tile" href="'+YF(s)+'" target="_blank" rel="noopener" title="'+s+' · $'+fmt(U[s][0])+' · '+(period===1?"1-day ":"7-day ")+pct(v)+'"><i class="tb" style="background:'+tint(v)+'"></i><span class="t"'+(strong?' style="color:#fff"':'')+'>'+s+'</span><span class="c"'+(strong?' style="color:#fff"':'')+'>'+pct(v)+'</span></a>';}).join("")+'</div></div>';}).join(""); }
+  var PG=[["Large-cap biotech",["AMGN","GILD","VRTX","REGN"]],["Neuro",["BIIB","NBIX"]],["RNA medicines",["ALNY","IONS","ARWR"]],["mRNA & vaccines",["MRNA","BNTX"]],["Gene editing",["CRSP","BEAM","NTLA"]],["Oncology",["RVMD","EXEL","INCY","GMAB"]],["Immunology & rare",["ARGX","INSM","BMRN","BBIO","UTHR","ROIV"]]].map(function(g){return [g[0],g[1].filter(function(s){return U[s];})];}).filter(function(g){return g[1].length;});
+  function draw(){ if(!hm) return; hm.innerHTML=PG.map(function(g){return '<div class="hm-g"><div class="gl">'+esc(g[0])+'</div><div class="hm-row">'+g[1].map(function(s){var v=U[s][period];var strong=Math.abs(v)>=4.5;return '<a class="tile" href="'+YF(s)+'" target="_blank" rel="noopener" title="'+s+' · $'+fmt(U[s][0])+' · 7-day '+pct(v)+' · tap for chart and key stats"><i class="tb" style="background:'+tint(v)+'"></i><span class="t"'+(strong?' style="color:#fff"':'')+'>'+s+'</span><span class="c"'+(strong?' style="color:#fff"':'')+'>'+pct(v)+'</span></a>';}).join("")+'</div></div>';}).join(""); }
   draw();
   [].slice.call(document.querySelectorAll(".hm-head .seg button")).forEach(function(b,_,all){b.addEventListener("click",function(){period=+b.dataset.p;all.forEach(function(x){x.setAttribute("aria-pressed",x===b);});draw();});});
 
@@ -2174,11 +2247,7 @@
     ["Ribozyme redesign from an existing RNA scaffold enables multifunctional hydrolysis","Angew Chem Int Ed Engl","2026-10-29","10.1002/anie.4905134","42952404",null,"Novel catalysis"],
     ["Modular in vitro multienzyme cascade for sustainable synthesis of vidarabine 5′-monophosphate","Synth Syst Biotechnol","2026-10-16","10.1016/j.synbio.2026.10.005","42936124",null,"Biocatalytic synthesis"],
     ["Cross-rational modification of α2,3-sialyltransferase MsST for 3′-sialyl-3-fucosyllactose via one-pot cascade","J Agric Food Chem","2026-10-07","10.1021/acs.jafc.6c10399","42789347",null,"Biocatalytic synthesis"],
-    ["Starch-derived oligosaccharides as prebiotics: AI/computational redesign of glycosidases","Food Res Int","2026-09-18","10.1016/j.foodres.2026.120866","42914284",null,"AI enzyme design"],
-    ["Reassigning an amber codon to selenocysteine via directed evolution of a cysteinyl-tRNA synthetase pair","Synth Syst Biotechnol","2026-07-29","10.1016/j.synbio.2026.06.011","42569311",null,"Directed evolution"],
-    ["Engineering and design of artificial enzymes for non-natural biocatalysis in whole cells","Biotechnol Adv","2026-08-23","10.1016/j.biotechadv.2026.109024","42633885",null,"Artificial enzymes"],
-    ["Machine learning-guided discovery of PET-binding modules for whole-cell degradation","Bioresour Technol","2026-07-01","10.1016/j.biortech.2026.135279","42385911",null,"Plastic biodegradation"],
-    ["Accelerating discovery of industrial PET-degrading enzymes: bioprospecting to computational discovery","Biotechnol Adv","2026-06-20","10.1016/j.biotechadv.2026.108955","42323173",null,"Plastic biodegradation"]],
+    ["Starch-derived oligosaccharides as prebiotics: AI/computational redesign of glycosidases","Food Res Int","2026-09-18","10.1016/j.foodres.2026.120866","42914284",null,"AI enzyme design"]],
    cited:[
     ["Nanozymes expanding the boundaries of biocatalysis","Nat Commun","2025-07-24","10.1038/s41467-025-62063-8","40707464",254,"Nanozymes"],
     ["A comprehensive guide to enzyme immobilization: all you need to know","Molecules","2025-02-18","10.3390/molecules30040939","40005249",176,"Immobilization"],
@@ -2220,7 +2289,6 @@
     ["Engineering the plant holobiont for enhanced abiotic stress resilience","Plant Signal Behav","2026-10-28","10.1080/15592324.2026.2752710","42949855",null,"Biostimulants · microbiome"],
     ["Stress signaling and physiological modulation by glycine betaine for cadmium-resilient maize","Plant Signal Behav","2026-10-30","10.1080/15592324.2026.2737762","42963845",null,"Biostimulants"],
     ["Cold plasma-mediated seed priming: plant stress responses and ecological implications","Plant-Environ Interact","2026-10-30","10.1002/pei3.70228","42966944",null,"Seed technology"],
-    ["A UAV-based sparse-view 3DGS framework for greenhouse strawberry reconstruction","Plant Phenomics","2026-09-03","10.1016/j.plaphe.2026.100281","42960280",null,"Precision ag · phenotyping"],
     ["Impact of salinity on rice production in vulnerable southern coastal Bangladesh","Plant-Environ Interact","2026-10-28","10.1002/pei3.70233","42959364",null,"Plant science · agronomy"],
     ["Reaction norm modeling of high-dimensional genomic and environmental data in winter wheat","Plant Genome","2026-12","10.1002/tpg2.70332","42947399",null,"Crop genetics"]],
    cited:[
@@ -2265,7 +2333,6 @@
     ["Rapid Geographic Expansion, Decelerating Growth of Bundibugyo Virus Disease in DRC","Viruses","2026-10-06","10.3390/v18101104","42944023",null,"Outbreak"],
     ["Estimating Economic Costs Associated with Treating Antimicrobial-Resistant Infections in Humans in Malawi","Trop Med Infect Dis","2026-09-30","10.3390/tropicalmed11100276","42931461",null,"AMR"],
     ["Genomic insights into multidrug and extensively drug-resistant Klebsiella in Zambian tertiary hospitals","Front Antibiot","2026-10-09","10.3389/frabi.2026.1933211","42920668",null,"AMR"],
-    ["Community Health Impacts of Pesticide Exposure: Pathways, Vulnerable Populations, and Public Health Responses","Int J Environ Res Public Health","2026-07-10","10.3390/ijerph23070889","42512193",null,"Pesticide · food-chain"],
     ["Persistence and epidemiological relevance of Salmonella enterica Newport in public-access waters from a central California coastal agricultural region","Food Microbiol","2026-10-06","10.1016/j.fm.2026.105322","42901675",null,"Food-chain safety"]],
   cited:[
     ["The WHO Bacterial Priority Pathogens List 2024: a prioritisation study to guide research, development, and public health strategies against antimicrobial resistance","Lancet Infect Dis","2025-04-14","10.1016/S1473-3099(25)00118-5","40245910",911,"AMR"],
@@ -2460,10 +2527,7 @@
       ["Oct 29","Registered","Five new liraglutide/semaglutide GLP-1 pens approved, bringing Brazil's 2026 tally to roughly 20","https://www.cadaminuto.com.br/noticia/2026/10/29/anvisa-aprova-cinco-novas-canetas-para-diabetes-e-obesidade-numero-de-medicamentos-autorizados-chega-a-20-em-2026"],
       ["Oct 26","Approved","Cejemly (sugemalimab, Steincares) for first-line metastatic NSCLC","https://www.opovo.com.br/noticias/brasil/2026/10/27/anvisa-aprova-novo-medicamento-para-cancer-de-pulmao-metastatico.html"]]}],
   ag:[
-    {agency:"EPA",region:"US",items:[
-      ["Oct 1","Deadline","Statutory deadline to re-review ~800 pesticides registered before 2007 passed with most still open; another extension from Congress is likely","https://www.global-agriculture.com/crop-protection/epa-beats-deadline-on-one-pesticide-review-but-hundreds-of-others-remain-unfinished/"],
-      ["Oct 1","Fees","PRIA 5 registration fees rose 5%","https://www.global-agriculture.com/crop-protection/scheduled-pria-5-fee-adjustment-takes-effect-for-pesticide-registration-applications/"],
-      ["Sep 28","Final decision","4-CPA registration review closed with no new risk mitigation","https://www.global-agriculture.com/crop-protection/epa-beats-deadline-on-one-pesticide-review-but-hundreds-of-others-remain-unfinished/"]]},
+    {agency:"EPA",region:"US",items:[["—","Status","No actions in the last 30 days",""]]},
     {agency:"European Commission · EFSA",region:"EU",items:[
       ["Nov 15","Consultation","Comments close on GM maize Bt11 × MIR162 × MON 89034 × NK603 after EFSA's Oct 15 opinion","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
       ["Nov 3","Consultation","EFSA draft protocol for pesticide emergency authorisations closes for comment","https://staphyt.com/en/news-and-insights/regulatory-affairs/ppp-pnp-regulatory-overview-october-2026/"],
@@ -2471,40 +2535,34 @@
       ["Oct 22","Draft","Renewal deadlines regrouped for seven low-risk biocontrol actives, incl. Trichoderma atroviride SC1, COS-OGA and cerevisane","https://www.global-agriculture.com/crop-protection/eu-moves-to-reorganize-renewal-timetable-for-seven-low-risk-pesticide-active-substances/"]]},
     {agency:"MAPA · CTNBio",region:"Brazil",items:[
       ["Nov 7","Policy","Mapa and CNA position low-carbon agriculture and biofuels as Brazil's lead COP30 banners ahead of the summit's Nov 10 opening in Belém","https://www.band.com.br/agro/noticias/cop30-agricultura-de-baixo-carbono-e-biocombustiveis-serao-bandeiras-do-agro-202510311144"],
-      ["Oct 26","Registered","MAPA acts 65 and 66: 72 technical-product registrations plus 27 applications, incl. atrazine, chlorothalonil and spinetoram","https://blogdopedlowski.com/2026/10/26/brasil-continua-abrindo-as-portas-para-agrotoxicos-rejeitados-na-europa-dois-atos-do-ministerio-da-agricultura-revelam-a-dimensao-do-problema/"],
-      ["Sep 22","Approved","CTNBio rules Corteva's CRISPR-corrected maize line non-GMO and clears three GM microbes and a Monsanto stacked maize","https://jusrural.com.br/artigos/ctnbio-milho-crispr-nao-ogm-microrganismos-geneticamente-modificados-bioinsumos-2026/"]]},
+      ["Oct 26","Registered","MAPA acts 65 and 66: 72 technical-product registrations plus 27 applications, incl. atrazine, chlorothalonil and spinetoram","https://blogdopedlowski.com/2026/10/26/brasil-continua-abrindo-as-portas-para-agrotoxicos-rejeitados-na-europa-dois-atos-do-ministerio-da-agricultura-revelam-a-dimensao-do-problema/"]
+      ]},
     {agency:"USDA APHIS",region:"US",items:[
       ["Status","Status","Biotech-crop oversight is back on the pre-2020 rules after the SECURE rule was vacated; USDA is weighing a rewrite after its May request for input","https://www.bdlaw.com/publications/usda-seeks-input-on-future-biotechnology-regulation-as-agricultural-biologicals-policy-continues-to-evolve/"]]}],
   synbio:[
     {agency:"European Commission · EFSA",region:"EU",items:[
       ["Oct 16","Adopted","Regulation (EU) 2026/2309 sets specifications for rebaudioside M made with GM Komagataella phaffii","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
-      ["Oct 12","Guidance","EFSA says unclear data requirements are slowing novel-food approvals; precision fermentation and cultivated meat are priorities","https://www.foodmanufacture.co.uk/Article/2026/10/12/efsa-says-regulatory-uncertainty-hindering-food-innovation/"],
-      ["Sep 30","Proposal","Council position on the Omnibus X package: simpler rules for some fermentation products made with GM microorganisms","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]]},
+      ["Oct 12","Guidance","EFSA says unclear data requirements are slowing novel-food approvals; precision fermentation and cultivated meat are priorities","https://www.foodmanufacture.co.uk/Article/2026/10/12/efsa-says-regulatory-uncertainty-hindering-food-innovation/"]
+      ]},
     {agency:"FDA",region:"US",items:[
-      ["Oct 28","GRAS","Formo and Those Vegan Cowboys receive an FDA \"no questions\" GRAS letter for precision-fermented animal-free casein, allowing use in cheese alternatives up to 25%","https://www.greenqueen.com.hk/formo-those-vegan-cowboys-precision-fermentation-casein-fda-gras-approval/"],
-      ["Apr","GRAS","All G's precision-fermented lactoferrin received a GRAS \"no questions\" letter; infant formula use needs a separate filing","https://www.greenqueen.com.hk/all-g-fda-gras-approval-precision-fermentation-lactoferrin-protein/"]]},
-    {agency:"CTNBio",region:"Brazil",items:[
-      ["Sep 22","Approved","Commercial release of GM Saccharomyces cerevisiae (Danisco), Paenibacillus polymyxa (Prophyto) and Rahnella aceris strains","https://jusrural.com.br/artigos/ctnbio-milho-crispr-nao-ogm-microrganismos-geneticamente-modificados-bioinsumos-2026/"],
-      ["Sep 17","Status","CTNBio grants Bioma (Cogny) Brazil's first industrial-scale authorization for GM microorganisms as agricultural-input production platforms","https://www.agribusinessglobal.com/markets/americas/cogny-secures-brazils-first-authorization-for-industrial-use-of-gmos-in-biocontrol-inputs/"]]},
-    {agency:"USDA · EPA",region:"US",items:[
-      ["Sep 29","Registered","USDA Center for Veterinary Biologics grants first-ever conditional license to an engineered probiotic — BiomEdit's antibody-secreting L. reuteri — for poultry disease control","https://www.synbiobeta.com/read/usda-greenlights-the-first-engineered-microbe-that-makes-antibodies-in-the-gut"]]}],
+      ["Oct 28","GRAS","Formo and Those Vegan Cowboys receive an FDA \"no questions\" GRAS letter for precision-fermented animal-free casein, allowing use in cheese alternatives up to 25%","https://www.greenqueen.com.hk/formo-those-vegan-cowboys-precision-fermentation-casein-fda-gras-approval/"]
+      ]},
+    {agency:"CTNBio",region:"Brazil",items:[["—","Status","No actions in the last 30 days",""]]},
+    {agency:"USDA · EPA",region:"US",items:[["—","Status","No actions in the last 30 days",""]]}],
   biocat:[
     {agency:"EFSA (food enzymes)",region:"EU",items:[
-      ["Oct 15","Opinion","Endo-polygalacturonase from non-GM Rhizopus oryzae","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
-      ["Oct 8","Opinion","Multi-enzyme preparation from Aspergillus; extended use of α-L-arabinofuranosidase from GM Trichoderma reesei","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
-      ["Oct 1","Opinion","Cellulase from GM Trichoderma reesei and aspergillopepsin I from Aspergillus","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]]},
-    {agency:"EU Council",region:"EU",items:[
-      ["Sep 30","Proposal","Omnibus X would simplify rules for products fermented with GM microorganisms, including enzyme production strains","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]]},
-    {agency:"CTNBio",region:"Brazil",items:[
-      ["Sep 22","Approved","GM Saccharomyces cerevisiae production strains from Danisco cleared for commercial release","https://jusrural.com.br/artigos/ctnbio-milho-crispr-nao-ogm-microrganismos-geneticamente-modificados-bioinsumos-2026/"]]},
+      ["Oct 15","Opinion","Endo-polygalacturonase from non-GM Rhizopus oryzae","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]
+      ]},
+    {agency:"EU Council",region:"EU",items:[["—","Status","No actions in the last 30 days",""]]},
+    {agency:"CTNBio",region:"Brazil",items:[["—","Status","No actions in the last 30 days",""]]},
     {agency:"FDA",region:"US",items:[
-      ["Oct 22","Status","FDA's GRAS Notice Inventory lists recent \"no questions\" letters for several industrial enzymes, including a glucose oxidase (GRN 1290) and a cellulase (GRN 1276)","https://www.fda.gov/food/gras-notice-inventory/recently-published-gras-notices-and-fda-letters"],
-      ["Aug","Status","FDA's proposed rule making GRAS self-affirmation notification mandatory remains in the public-comment stage","https://www.cov.com/en/news-and-insights/insights/2026/08/fda-issues-proposed-rule-on-substances-generally-recognized-as-safe-gras"]]}],
+      ["Oct 22","Status","FDA's GRAS Notice Inventory lists recent \"no questions\" letters for several industrial enzymes, including a glucose oxidase (GRN 1290) and a cellulase (GRN 1276)","https://www.fda.gov/food/gras-notice-inventory/recently-published-gras-notices-and-fda-letters"]
+      ]}],
   policy:[
     {agency:"HHS · CMS",region:"US",items:[
       ["Jan 1, 2027","Upcoming","Medicare Round 2 negotiated prices take effect: 15 Part D drugs cut 38–85% (Ozempic/Wegovy/Rybelsus, Xtandi, Ibrance); Stelara exits as biosimilars arrive","https://www.beckershospitalreview.com/pharmacy/medicares-2nd-round-of-negotiated-drug-prices-starts-in-2-months-6-things-to-know/"],
-      ["Nov 3","Policy","White House touts a 4.5% y/y drop in the prescription-drug CPI, calling it the largest annual decline since 1963","https://www.whitehouse.gov/releases/2026/11/icymi-drug-prices-are-falling-at-the-fastest-rate-in-over-60-years-under-president-trump/"],
-      ["Oct 7","Litigation","PhRMA sues to stop GLOBE, Medicare Part B's most-favored-nation pricing pilot","https://www.statnews.com/2026/10/07/phrma-sues-over-drug-pricing-model-globe/"]]},
+      ["Nov 3","Policy","White House touts a 4.5% y/y drop in the prescription-drug CPI, calling it the largest annual decline since 1963","https://www.whitehouse.gov/releases/2026/11/icymi-drug-prices-are-falling-at-the-fastest-rate-in-over-60-years-under-president-trump/"]
+      ]},
     {agency:"WHO",region:"Global",items:[
       ["Nov 6","Assessment","CDC: US measles cases reach 5,182 for 2026 across 47 jurisdictions and 43 outbreaks","https://www.cdc.gov/measles/data-research"],
       ["Nov 3","Assessment","ECDC update: DRC's Bundibugyo-virus Ebola outbreak at 10,532 cases and 5,126 deaths; EU/EEA risk still rated \"very low\"","https://www.ecdc.europa.eu/en/public-health-events/2026-eip-00026/2026-11-03"],
@@ -2562,7 +2620,7 @@
   window.HH_REGS=REGS; window.HH_TRACK=TRACK;
   var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
   var CLS={"Approved":"ok","Registered":"ok","Adopted":"ok","Final decision":"ok","GRAS":"ok","Positive opinion":"op","Opinion":"op","Assessment":"op","Guidance":"op","Upcoming":"wait","Deadline":"wait","Consultation":"wait","Draft":"wait","Proposal":"wait","Fees":"wait","Refused":"no","Litigation":"no"};
-  var LBL={pharma:"Pharma & Biotech",ag:"Agriculture",synbio:"Synthetic Biology",biocat:"Biocatalysis",policy:"Policy & Public Health"};
+  var LBL={pharma:"Pharma & Biotech",ag:"Agriculture",synbio:"Synthetic Biology",biocat:"Biocatalysis",policy:"Policy"};
   function goTracker(sector){
     var t=document.getElementById("t-reg"); if(!t) return;
     setF("sector",sector||""); t.click();
@@ -2837,7 +2895,7 @@
         <ol class="scm-trends" id="scm-trends"></ol>
       </div>
     </div>
-    <div class="scm-note">Daily OHLCV and 9 EMA / 20 MA / 50 MA computed from the last 12 months of closes (stockanalysis.com/Yahoo Finance data, pulled Nov 7, 2026). Buy/sell markers flag 9&nbsp;EMA&thinsp;/&thinsp;20&nbsp;MA crossovers. Fundamentals (biotech names) from stockanalysis.com; market cap and price ratios recalculated at the close shown. For information only — not investment advice. <a class="scm-yf" id="scm-yf-link" href="#" target="_blank" rel="noopener">Full quote on Yahoo Finance &rarr;</a></div>
+    <div class="scm-note">Daily OHLCV and 9 EMA / 20 MA / 50 MA computed from the last 12 months of closes (stockanalysis.com/Yahoo Finance data, pulled Nov 7, 2026). Buy/sell markers flag 9&nbsp;EMA&thinsp;/&thinsp;20&nbsp;MA crossovers. Fundamentals (biotech names) from stockanalysis.com, Nov 9, 2026; market cap and price ratios recalculated at the close shown. For information only — not investment advice. <a class="scm-yf" id="scm-yf-link" href="#" target="_blank" rel="noopener">Full quote on Yahoo Finance &rarr;</a></div>
   </div>
 </div>
 <script>
@@ -2874,7 +2932,7 @@
     return {buys:buys, sells:sells}; }
   var YF=function(s){return "https://finance.yahoo.com/quote/"+encodeURIComponent(s.replace(".","-"))+"/";};
 
-  /* Fundamentals: tools/fundamentals.json (stockanalysis.com statistics; price ratios recomputed at the chart's last close) */
+  /* Fundamentals: stockanalysis.com statistics, Nov 9 2026; price-based ratios recomputed at the Nov 6 close used in this chart */
   var FUND={"AMGN":{"mcap":"$248.2B","pe":"32.4","fpe":"20.6","ps":"6.8","pb":"28.7","eps":"$14.23","div":"2.18%","rev":"$36.75B","margin":"20.98%","beta":"0.42","short":"2.69%","avgvol":"2,635,412"},"GILD":{"mcap":"$206.9B","pe":"n/m (loss)","fpe":"18.3","ps":"6.8","pb":"17.2","eps":"-$2.61","div":"1.97%","rev":"$30.46B","margin":"-10.64%","beta":"0.33","short":"1.76%","avgvol":"5,787,558"},"VRTX":{"mcap":"$138.7B","pe":"35.2","fpe":"29.0","ps":"10.7","pb":"6.6","eps":"$15.55","div":"\u2014","rev":"$12.95B","margin":"30.70%","beta":"0.28","short":"1.69%","avgvol":"1,679,695"},"REGN":{"mcap":"$95.6B","pe":"22.9","fpe":"25.0","ps":"6.9","pb":"3.3","eps":"$39.43","div":"0.20%","rev":"$14.09B","margin":"31.94%","beta":"0.31","short":"2.70%","avgvol":"1,598,608"},"BIIB":{"mcap":"$36.7B","pe":"106.1","fpe":"16.8","ps":"3.6","pb":"1.9","eps":"$2.34","div":"\u2014","rev":"$10.30B","margin":"3.37%","beta":"0.09","short":"3.73%","avgvol":"1,337,909"},"NBIX":{"mcap":"$16.7B","pe":"24.1","fpe":"14.4","ps":"5.0","pb":"4.5","eps":"$6.82","div":"\u2014","rev":"$3.37B","margin":"20.91%","beta":"0.40","short":"5.83%","avgvol":"1,350,195"},"ALNY":{"mcap":"$20.9B","pe":"8.1","fpe":"20.1","ps":"4.2","pb":"5.8","eps":"$19.29","div":"\u2014","rev":"$5.01B","margin":"52.85%","beta":"0.27","short":"4.93%","avgvol":"2,168,936"},"IONS":{"mcap":"$6.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"7.5","pb":"14.8","eps":"-$3.46","div":"\u2014","rev":"$874.09M","margin":"-64.66%","beta":"0.38","short":"13.66%","avgvol":"2,863,771"},"ARWR":{"mcap":"$8.2B","pe":"n/m (loss)","fpe":"\u2014","ps":"12.3","pb":"17.6","eps":"-$2.28","div":"\u2014","rev":"$669.50M","margin":"-47.79%","beta":"1.30","short":"8.95%","avgvol":"1,755,601"},"MRNA":{"mcap":"$101.5B","pe":"n/m (loss)","fpe":"\u2014","ps":"48.6","pb":"16.0","eps":"-$8.01","div":"\u2014","rev":"$2.23B","margin":"-141.43%","beta":"1.09","short":"8.30%","avgvol":"19,552,539"},"BNTX":{"mcap":"$22.0B","pe":"n/m (loss)","fpe":"\u2014","ps":"7.3","pb":"1.1","eps":"-$7.77","div":"\u2014","rev":"$3.03B","margin":"-63.64%","beta":"1.25","short":"\u2014","avgvol":"1,139,710"},"CRSP":{"mcap":"$4.8B","pe":"n/m (loss)","fpe":"\u2014","ps":"356.9","pb":"2.7","eps":"-$4.76","div":"\u2014","rev":"$13.39M","margin":"\u2014","beta":"1.76","short":"19.42%","avgvol":"1,458,292"},"BEAM":{"mcap":"$2.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"16.9","pb":"2.5","eps":"-$0.84","div":"\u2014","rev":"$156.04M","margin":"-55.45%","beta":"2.20","short":"31.19%","avgvol":"1,668,514"},"NTLA":{"mcap":"$1.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"26.7","pb":"2.2","eps":"-$3.34","div":"\u2014","rev":"$59.51M","margin":"\u2014","beta":"1.80","short":"33.61%","avgvol":"5,781,514"},"RVMD":{"mcap":"$41.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"210.5","pb":"17.3","eps":"-$9.14","div":"\u2014","rev":"$197.56M","margin":"\u2014","beta":"1.43","short":"6.93%","avgvol":"2,261,431"},"EXEL":{"mcap":"$17.2B","pe":"21.8","fpe":"19.8","ps":"7.0","pb":"9.3","eps":"$3.19","div":"\u2014","rev":"$2.44B","margin":"35.33%","beta":"0.47","short":"13.19%","avgvol":"2,296,045"},"INCY":{"mcap":"$24.2B","pe":"15.2","fpe":"61.7","ps":"4.2","pb":"3.8","eps":"$7.85","div":"\u2014","rev":"$5.82B","margin":"27.71%","beta":"0.74","short":"5.86%","avgvol":"1,751,170"},"GMAB":{"mcap":"$31.7B","pe":"43.2","fpe":"36.5","ps":"7.7","pb":"5.3","eps":"$1.24","div":"\u2014","rev":"$4.13B","margin":"19.08%","beta":"0.65","short":"\u2014","avgvol":"5,184,009"},"ARGX":{"mcap":"$58.1B","pe":"32.6","fpe":"27.0","ps":"9.8","pb":"6.9","eps":"$28.40","div":"\u2014","rev":"$5.92B","margin":"31.73%","beta":"-0.04","short":"\u2014","avgvol":"509,881"},"INSM":{"mcap":"$25.0B","pe":"n/m (loss)","fpe":"\u2014","ps":"22.0","pb":"33.0","eps":"-$4.09","div":"\u2014","rev":"$1.14B","margin":"-76.94%","beta":"0.82","short":"6.36%","avgvol":"3,091,594"},"BMRN":{"mcap":"$10.8B","pe":"147.4","fpe":"12.3","ps":"3.2","pb":"1.7","eps":"$0.38","div":"\u2014","rev":"$3.41B","margin":"2.14%","beta":"0.22","short":"6.26%","avgvol":"2,529,890"},"BBIO":{"mcap":"$14.5B","pe":"n/m (loss)","fpe":"\u2014","ps":"20.4","pb":"\u2014","eps":"-$3.57","div":"\u2014","rev":"$713.07M","margin":"-97.03%","beta":"0.97","short":"11.77%","avgvol":"2,643,020"},"UTHR":{"mcap":"$24.1B","pe":"20.1","fpe":"19.9","ps":"7.6","pb":"3.7","eps":"$27.95","div":"\u2014","rev":"$3.15B","margin":"41.56%","beta":"0.49","short":"6.27%","avgvol":"690,802"},"ROIV":{"mcap":"$28.1B","pe":"n/m (loss)","fpe":"\u2014","ps":"3,728.3","pb":"6.6","eps":"-$0.49","div":"\u2014","rev":"$7.53M","margin":"\u2014","beta":"1.10","short":"6.75%","avgvol":"6,471,810"}};
   var FUND_ROWS=[["mcap","Market cap"],["pe","P/E (ttm)"],["fpe","Forward P/E"],["eps","EPS (ttm)"],["ps","Price / sales"],["pb","Price / book"],["rev","Revenue (ttm)"],["margin","Profit margin"],["div","Dividend yield"],["beta","Beta (5y)"],["short","Short % of float"],["avgvol","Avg volume (20d)"]];
   function fundRows(sym){

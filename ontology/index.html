@@ -887,6 +887,14 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
   .tabs .tab[aria-current="page"] .pill{background:var(--accent-tint);color:var(--accent-ink);border-color:var(--accent-tint);}
   .tabs .tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;}
   .tabpanel[hidden]{display:none;}
+  .tabs .tdot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;display:block;}
+  .tabs .tdot.dia{width:7px;height:7px;border-radius:1px;transform:rotate(45deg);margin:0 1px;}
+  .tabs .tab.taux{font-weight:500;}
+  .tabs .tsep{flex:0 0 1px;align-self:center;height:18px;background:var(--line-strong,#C3CDD6);margin:0 8px;}
+  .subdesk{margin-top:36px;padding-top:20px;border-top:3px solid var(--line-strong,#C3CDD6);}
+  .subdesk>.subdesk-head .kicker{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+  .subdesk>.subdesk-head h2{margin:4px 0 14px;}
+  .subdesk .beta{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-tint);padding:2px 7px;border-radius:3px;vertical-align:middle;}
   .panel-intro{
     font-size:13.5px;color:var(--muted);line-height:1.55;max-width:78ch;margin:0 0 22px;
     border-left:3px solid var(--accent);padding:2px 0 2px 14px;
@@ -1117,7 +1125,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
 <div class="wrap">
 
   <header class="dk-top"><div class="dk-id"><a class="dk-brand" href="/"><span class="dk-mark" aria-hidden="true"><i style="background:#1F5FC4"></i><i style="background:#7CC79A"></i><i style="background:#3A5470"></i><i style="background:#EDA56A"></i><i style="background:#1E7A4C"></i><i style="background:#CFE0FA"></i></span>BioMarket Pulse</a><span class="dk-ed">Edition 49, Nov 8</span></div><button type="button" class="dk-menu" aria-expanded="false" aria-controls="dk-gnav">Menu</button><nav class="dk-gnav" id="dk-gnav" aria-label="Site"><a href="/">Overview</a><a href="/daily-pulse/">Daily Pulse</a><a href="/deep-dive/">Deep Dive</a><a href="/about/">About</a><a class="dk-askbtn" href="/deep-dive/" data-ask><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Ask the Pulse</a></nav></header>
-<nav class="dk-desks" aria-label="Research desks"><a href="/pharma-biotech/"><i aria-hidden="true" style="background:#1F5FC4"></i>Pharma &amp; Biotech <small title="11 articles in this edition">11<span class="dk-unit"> articles</span></small></a><a href="/synthetic-biology/"><i aria-hidden="true" style="background:#7D5BC0"></i>Synthetic Biology <small title="7 articles in this edition">7<span class="dk-unit"> articles</span></small></a><a href="/agriculture/"><i aria-hidden="true" style="background:#0E9384"></i>Agriculture <small title="14 articles in this edition">14<span class="dk-unit"> articles</span></small></a><span class="dk-desk-sep" aria-hidden="true"></span><a href="/policy/" class="dk-aux"><i aria-hidden="true" style="background:#4A5B6C"></i>Policy <small title="10 articles in this edition">10<span class="dk-unit"> articles</span></small></a><a href="/regulatory/" class="dk-aux"><i aria-hidden="true" style="background:#0E2236"></i>Regulatory</a><a href="/ontology/" class="dk-aux" aria-current="page" style="border-bottom-color:#7D5BC0"><i aria-hidden="true" style="background:#7D5BC0"></i>Ontology <span class="dk-beta">Beta</span></a></nav>
+<nav class="dk-desks" aria-label="Research desks"><a href="/pharma-biotech/"><i aria-hidden="true" style="background:#1F5FC4"></i>Pharma &amp; Biotech <small title="11 articles in this edition">11<span class="dk-unit"> articles</span></small></a><a href="/synthetic-biology/"><i aria-hidden="true" style="background:#7D5BC0"></i>Synthetic Biology <small title="3 articles in this edition">3<span class="dk-unit"> articles</span></small></a><a href="/agriculture/"><i aria-hidden="true" style="background:#0E9384"></i>Agriculture <small title="14 articles in this edition">14<span class="dk-unit"> articles</span></small></a><span class="dk-desk-sep" aria-hidden="true"></span><a href="/policy/" class="dk-aux"><i aria-hidden="true" style="background:#4A5B6C"></i>Policy <small title="6 articles in this edition">6<span class="dk-unit"> articles</span></small></a><a href="/regulatory/" class="dk-aux"><i aria-hidden="true" style="background:#0E2236"></i>Regulatory</a><a href="/ontology/" class="dk-aux" aria-current="page" style="border-bottom-color:#7D5BC0"><i aria-hidden="true" style="background:#7D5BC0"></i>Ontology <span class="dk-beta">Beta</span></a></nav>
 
   <div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main"><p class="dk-eyebrow">Ontology, beta</p><h1>One thread from patent to price</h1><p class="dk-topics">How BioMarket Pulse can link its datasets, from a Novo Nordisk patent to the stock move, and turn the links into R&D, M&A and investment insights.</p></div></div></div>
 
@@ -1284,7 +1292,8 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
   var lg=function(id,v){var e=document.getElementById(id);if(e)e.style.background=tint(v);};
   lg("lg-dn",-6);lg("lg-0",0.01);lg("lg-up",6);
   var period=2, hm=document.getElementById("hm");
-  function draw(){ if(!hm) return; hm.innerHTML=G.map(function(g){return '<div class="hm-g"><div class="gl">'+esc(g[0])+'</div><div class="hm-row">'+g[1].map(function(s){var v=U[s][period];var strong=Math.abs(v)>=4.5;return '<a class="tile" href="'+YF(s)+'" target="_blank" rel="noopener" title="'+s+' · $'+fmt(U[s][0])+' · '+(period===1?"1-day ":"7-day ")+pct(v)+'"><i class="tb" style="background:'+tint(v)+'"></i><span class="t"'+(strong?' style="color:#fff"':'')+'>'+s+'</span><span class="c"'+(strong?' style="color:#fff"':'')+'>'+pct(v)+'</span></a>';}).join("")+'</div></div>';}).join(""); }
+  var PG=[["Large-cap biotech",["AMGN","GILD","VRTX","REGN"]],["Neuro",["BIIB","NBIX"]],["RNA medicines",["ALNY","IONS","ARWR"]],["mRNA & vaccines",["MRNA","BNTX"]],["Gene editing",["CRSP","BEAM","NTLA"]],["Oncology",["RVMD","EXEL","INCY","GMAB"]],["Immunology & rare",["ARGX","INSM","BMRN","BBIO","UTHR","ROIV"]]].map(function(g){return [g[0],g[1].filter(function(s){return U[s];})];}).filter(function(g){return g[1].length;});
+  function draw(){ if(!hm) return; hm.innerHTML=PG.map(function(g){return '<div class="hm-g"><div class="gl">'+esc(g[0])+'</div><div class="hm-row">'+g[1].map(function(s){var v=U[s][period];var strong=Math.abs(v)>=4.5;return '<a class="tile" href="'+YF(s)+'" target="_blank" rel="noopener" title="'+s+' · $'+fmt(U[s][0])+' · 7-day '+pct(v)+' · tap for chart and key stats"><i class="tb" style="background:'+tint(v)+'"></i><span class="t"'+(strong?' style="color:#fff"':'')+'>'+s+'</span><span class="c"'+(strong?' style="color:#fff"':'')+'>'+pct(v)+'</span></a>';}).join("")+'</div></div>';}).join(""); }
   draw();
   [].slice.call(document.querySelectorAll(".hm-head .seg button")).forEach(function(b,_,all){b.addEventListener("click",function(){period=+b.dataset.p;all.forEach(function(x){x.setAttribute("aria-pressed",x===b);});draw();});});
 
@@ -1401,11 +1410,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
     ["Ribozyme redesign from an existing RNA scaffold enables multifunctional hydrolysis","Angew Chem Int Ed Engl","2026-10-29","10.1002/anie.4905134","42952404",null,"Novel catalysis"],
     ["Modular in vitro multienzyme cascade for sustainable synthesis of vidarabine 5′-monophosphate","Synth Syst Biotechnol","2026-10-16","10.1016/j.synbio.2026.10.005","42936124",null,"Biocatalytic synthesis"],
     ["Cross-rational modification of α2,3-sialyltransferase MsST for 3′-sialyl-3-fucosyllactose via one-pot cascade","J Agric Food Chem","2026-10-07","10.1021/acs.jafc.6c10399","42789347",null,"Biocatalytic synthesis"],
-    ["Starch-derived oligosaccharides as prebiotics: AI/computational redesign of glycosidases","Food Res Int","2026-09-18","10.1016/j.foodres.2026.120866","42914284",null,"AI enzyme design"],
-    ["Reassigning an amber codon to selenocysteine via directed evolution of a cysteinyl-tRNA synthetase pair","Synth Syst Biotechnol","2026-07-29","10.1016/j.synbio.2026.06.011","42569311",null,"Directed evolution"],
-    ["Engineering and design of artificial enzymes for non-natural biocatalysis in whole cells","Biotechnol Adv","2026-08-23","10.1016/j.biotechadv.2026.109024","42633885",null,"Artificial enzymes"],
-    ["Machine learning-guided discovery of PET-binding modules for whole-cell degradation","Bioresour Technol","2026-07-01","10.1016/j.biortech.2026.135279","42385911",null,"Plastic biodegradation"],
-    ["Accelerating discovery of industrial PET-degrading enzymes: bioprospecting to computational discovery","Biotechnol Adv","2026-06-20","10.1016/j.biotechadv.2026.108955","42323173",null,"Plastic biodegradation"]],
+    ["Starch-derived oligosaccharides as prebiotics: AI/computational redesign of glycosidases","Food Res Int","2026-09-18","10.1016/j.foodres.2026.120866","42914284",null,"AI enzyme design"]],
    cited:[
     ["Nanozymes expanding the boundaries of biocatalysis","Nat Commun","2025-07-24","10.1038/s41467-025-62063-8","40707464",254,"Nanozymes"],
     ["A comprehensive guide to enzyme immobilization: all you need to know","Molecules","2025-02-18","10.3390/molecules30040939","40005249",176,"Immobilization"],
@@ -1447,7 +1452,6 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
     ["Engineering the plant holobiont for enhanced abiotic stress resilience","Plant Signal Behav","2026-10-28","10.1080/15592324.2026.2752710","42949855",null,"Biostimulants · microbiome"],
     ["Stress signaling and physiological modulation by glycine betaine for cadmium-resilient maize","Plant Signal Behav","2026-10-30","10.1080/15592324.2026.2737762","42963845",null,"Biostimulants"],
     ["Cold plasma-mediated seed priming: plant stress responses and ecological implications","Plant-Environ Interact","2026-10-30","10.1002/pei3.70228","42966944",null,"Seed technology"],
-    ["A UAV-based sparse-view 3DGS framework for greenhouse strawberry reconstruction","Plant Phenomics","2026-09-03","10.1016/j.plaphe.2026.100281","42960280",null,"Precision ag · phenotyping"],
     ["Impact of salinity on rice production in vulnerable southern coastal Bangladesh","Plant-Environ Interact","2026-10-28","10.1002/pei3.70233","42959364",null,"Plant science · agronomy"],
     ["Reaction norm modeling of high-dimensional genomic and environmental data in winter wheat","Plant Genome","2026-12","10.1002/tpg2.70332","42947399",null,"Crop genetics"]],
    cited:[
@@ -1492,7 +1496,6 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
     ["Rapid Geographic Expansion, Decelerating Growth of Bundibugyo Virus Disease in DRC","Viruses","2026-10-06","10.3390/v18101104","42944023",null,"Outbreak"],
     ["Estimating Economic Costs Associated with Treating Antimicrobial-Resistant Infections in Humans in Malawi","Trop Med Infect Dis","2026-09-30","10.3390/tropicalmed11100276","42931461",null,"AMR"],
     ["Genomic insights into multidrug and extensively drug-resistant Klebsiella in Zambian tertiary hospitals","Front Antibiot","2026-10-09","10.3389/frabi.2026.1933211","42920668",null,"AMR"],
-    ["Community Health Impacts of Pesticide Exposure: Pathways, Vulnerable Populations, and Public Health Responses","Int J Environ Res Public Health","2026-07-10","10.3390/ijerph23070889","42512193",null,"Pesticide · food-chain"],
     ["Persistence and epidemiological relevance of Salmonella enterica Newport in public-access waters from a central California coastal agricultural region","Food Microbiol","2026-10-06","10.1016/j.fm.2026.105322","42901675",null,"Food-chain safety"]],
   cited:[
     ["The WHO Bacterial Priority Pathogens List 2024: a prioritisation study to guide research, development, and public health strategies against antimicrobial resistance","Lancet Infect Dis","2025-04-14","10.1016/S1473-3099(25)00118-5","40245910",911,"AMR"],
@@ -1687,10 +1690,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
       ["Oct 29","Registered","Five new liraglutide/semaglutide GLP-1 pens approved, bringing Brazil's 2026 tally to roughly 20","https://www.cadaminuto.com.br/noticia/2026/10/29/anvisa-aprova-cinco-novas-canetas-para-diabetes-e-obesidade-numero-de-medicamentos-autorizados-chega-a-20-em-2026"],
       ["Oct 26","Approved","Cejemly (sugemalimab, Steincares) for first-line metastatic NSCLC","https://www.opovo.com.br/noticias/brasil/2026/10/27/anvisa-aprova-novo-medicamento-para-cancer-de-pulmao-metastatico.html"]]}],
   ag:[
-    {agency:"EPA",region:"US",items:[
-      ["Oct 1","Deadline","Statutory deadline to re-review ~800 pesticides registered before 2007 passed with most still open; another extension from Congress is likely","https://www.global-agriculture.com/crop-protection/epa-beats-deadline-on-one-pesticide-review-but-hundreds-of-others-remain-unfinished/"],
-      ["Oct 1","Fees","PRIA 5 registration fees rose 5%","https://www.global-agriculture.com/crop-protection/scheduled-pria-5-fee-adjustment-takes-effect-for-pesticide-registration-applications/"],
-      ["Sep 28","Final decision","4-CPA registration review closed with no new risk mitigation","https://www.global-agriculture.com/crop-protection/epa-beats-deadline-on-one-pesticide-review-but-hundreds-of-others-remain-unfinished/"]]},
+    {agency:"EPA",region:"US",items:[["—","Status","No actions in the last 30 days",""]]},
     {agency:"European Commission · EFSA",region:"EU",items:[
       ["Nov 15","Consultation","Comments close on GM maize Bt11 × MIR162 × MON 89034 × NK603 after EFSA's Oct 15 opinion","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
       ["Nov 3","Consultation","EFSA draft protocol for pesticide emergency authorisations closes for comment","https://staphyt.com/en/news-and-insights/regulatory-affairs/ppp-pnp-regulatory-overview-october-2026/"],
@@ -1698,40 +1698,34 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
       ["Oct 22","Draft","Renewal deadlines regrouped for seven low-risk biocontrol actives, incl. Trichoderma atroviride SC1, COS-OGA and cerevisane","https://www.global-agriculture.com/crop-protection/eu-moves-to-reorganize-renewal-timetable-for-seven-low-risk-pesticide-active-substances/"]]},
     {agency:"MAPA · CTNBio",region:"Brazil",items:[
       ["Nov 7","Policy","Mapa and CNA position low-carbon agriculture and biofuels as Brazil's lead COP30 banners ahead of the summit's Nov 10 opening in Belém","https://www.band.com.br/agro/noticias/cop30-agricultura-de-baixo-carbono-e-biocombustiveis-serao-bandeiras-do-agro-202510311144"],
-      ["Oct 26","Registered","MAPA acts 65 and 66: 72 technical-product registrations plus 27 applications, incl. atrazine, chlorothalonil and spinetoram","https://blogdopedlowski.com/2026/10/26/brasil-continua-abrindo-as-portas-para-agrotoxicos-rejeitados-na-europa-dois-atos-do-ministerio-da-agricultura-revelam-a-dimensao-do-problema/"],
-      ["Sep 22","Approved","CTNBio rules Corteva's CRISPR-corrected maize line non-GMO and clears three GM microbes and a Monsanto stacked maize","https://jusrural.com.br/artigos/ctnbio-milho-crispr-nao-ogm-microrganismos-geneticamente-modificados-bioinsumos-2026/"]]},
+      ["Oct 26","Registered","MAPA acts 65 and 66: 72 technical-product registrations plus 27 applications, incl. atrazine, chlorothalonil and spinetoram","https://blogdopedlowski.com/2026/10/26/brasil-continua-abrindo-as-portas-para-agrotoxicos-rejeitados-na-europa-dois-atos-do-ministerio-da-agricultura-revelam-a-dimensao-do-problema/"]
+      ]},
     {agency:"USDA APHIS",region:"US",items:[
       ["Status","Status","Biotech-crop oversight is back on the pre-2020 rules after the SECURE rule was vacated; USDA is weighing a rewrite after its May request for input","https://www.bdlaw.com/publications/usda-seeks-input-on-future-biotechnology-regulation-as-agricultural-biologicals-policy-continues-to-evolve/"]]}],
   synbio:[
     {agency:"European Commission · EFSA",region:"EU",items:[
       ["Oct 16","Adopted","Regulation (EU) 2026/2309 sets specifications for rebaudioside M made with GM Komagataella phaffii","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
-      ["Oct 12","Guidance","EFSA says unclear data requirements are slowing novel-food approvals; precision fermentation and cultivated meat are priorities","https://www.foodmanufacture.co.uk/Article/2026/10/12/efsa-says-regulatory-uncertainty-hindering-food-innovation/"],
-      ["Sep 30","Proposal","Council position on the Omnibus X package: simpler rules for some fermentation products made with GM microorganisms","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]]},
+      ["Oct 12","Guidance","EFSA says unclear data requirements are slowing novel-food approvals; precision fermentation and cultivated meat are priorities","https://www.foodmanufacture.co.uk/Article/2026/10/12/efsa-says-regulatory-uncertainty-hindering-food-innovation/"]
+      ]},
     {agency:"FDA",region:"US",items:[
-      ["Oct 28","GRAS","Formo and Those Vegan Cowboys receive an FDA \"no questions\" GRAS letter for precision-fermented animal-free casein, allowing use in cheese alternatives up to 25%","https://www.greenqueen.com.hk/formo-those-vegan-cowboys-precision-fermentation-casein-fda-gras-approval/"],
-      ["Apr","GRAS","All G's precision-fermented lactoferrin received a GRAS \"no questions\" letter; infant formula use needs a separate filing","https://www.greenqueen.com.hk/all-g-fda-gras-approval-precision-fermentation-lactoferrin-protein/"]]},
-    {agency:"CTNBio",region:"Brazil",items:[
-      ["Sep 22","Approved","Commercial release of GM Saccharomyces cerevisiae (Danisco), Paenibacillus polymyxa (Prophyto) and Rahnella aceris strains","https://jusrural.com.br/artigos/ctnbio-milho-crispr-nao-ogm-microrganismos-geneticamente-modificados-bioinsumos-2026/"],
-      ["Sep 17","Status","CTNBio grants Bioma (Cogny) Brazil's first industrial-scale authorization for GM microorganisms as agricultural-input production platforms","https://www.agribusinessglobal.com/markets/americas/cogny-secures-brazils-first-authorization-for-industrial-use-of-gmos-in-biocontrol-inputs/"]]},
-    {agency:"USDA · EPA",region:"US",items:[
-      ["Sep 29","Registered","USDA Center for Veterinary Biologics grants first-ever conditional license to an engineered probiotic — BiomEdit's antibody-secreting L. reuteri — for poultry disease control","https://www.synbiobeta.com/read/usda-greenlights-the-first-engineered-microbe-that-makes-antibodies-in-the-gut"]]}],
+      ["Oct 28","GRAS","Formo and Those Vegan Cowboys receive an FDA \"no questions\" GRAS letter for precision-fermented animal-free casein, allowing use in cheese alternatives up to 25%","https://www.greenqueen.com.hk/formo-those-vegan-cowboys-precision-fermentation-casein-fda-gras-approval/"]
+      ]},
+    {agency:"CTNBio",region:"Brazil",items:[["—","Status","No actions in the last 30 days",""]]},
+    {agency:"USDA · EPA",region:"US",items:[["—","Status","No actions in the last 30 days",""]]}],
   biocat:[
     {agency:"EFSA (food enzymes)",region:"EU",items:[
-      ["Oct 15","Opinion","Endo-polygalacturonase from non-GM Rhizopus oryzae","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
-      ["Oct 8","Opinion","Multi-enzyme preparation from Aspergillus; extended use of α-L-arabinofuranosidase from GM Trichoderma reesei","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"],
-      ["Oct 1","Opinion","Cellulase from GM Trichoderma reesei and aspergillopepsin I from Aspergillus","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]]},
-    {agency:"EU Council",region:"EU",items:[
-      ["Sep 30","Proposal","Omnibus X would simplify rules for products fermented with GM microorganisms, including enzyme production strains","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]]},
-    {agency:"CTNBio",region:"Brazil",items:[
-      ["Sep 22","Approved","GM Saccharomyces cerevisiae production strains from Danisco cleared for commercial release","https://jusrural.com.br/artigos/ctnbio-milho-crispr-nao-ogm-microrganismos-geneticamente-modificados-bioinsumos-2026/"]]},
+      ["Oct 15","Opinion","Endo-polygalacturonase from non-GM Rhizopus oryzae","https://www.flavorist.com/european-food-flavor-regulatory-report-october-1-15-2026/"]
+      ]},
+    {agency:"EU Council",region:"EU",items:[["—","Status","No actions in the last 30 days",""]]},
+    {agency:"CTNBio",region:"Brazil",items:[["—","Status","No actions in the last 30 days",""]]},
     {agency:"FDA",region:"US",items:[
-      ["Oct 22","Status","FDA's GRAS Notice Inventory lists recent \"no questions\" letters for several industrial enzymes, including a glucose oxidase (GRN 1290) and a cellulase (GRN 1276)","https://www.fda.gov/food/gras-notice-inventory/recently-published-gras-notices-and-fda-letters"],
-      ["Aug","Status","FDA's proposed rule making GRAS self-affirmation notification mandatory remains in the public-comment stage","https://www.cov.com/en/news-and-insights/insights/2026/08/fda-issues-proposed-rule-on-substances-generally-recognized-as-safe-gras"]]}],
+      ["Oct 22","Status","FDA's GRAS Notice Inventory lists recent \"no questions\" letters for several industrial enzymes, including a glucose oxidase (GRN 1290) and a cellulase (GRN 1276)","https://www.fda.gov/food/gras-notice-inventory/recently-published-gras-notices-and-fda-letters"]
+      ]}],
   policy:[
     {agency:"HHS · CMS",region:"US",items:[
       ["Jan 1, 2027","Upcoming","Medicare Round 2 negotiated prices take effect: 15 Part D drugs cut 38–85% (Ozempic/Wegovy/Rybelsus, Xtandi, Ibrance); Stelara exits as biosimilars arrive","https://www.beckershospitalreview.com/pharmacy/medicares-2nd-round-of-negotiated-drug-prices-starts-in-2-months-6-things-to-know/"],
-      ["Nov 3","Policy","White House touts a 4.5% y/y drop in the prescription-drug CPI, calling it the largest annual decline since 1963","https://www.whitehouse.gov/releases/2026/11/icymi-drug-prices-are-falling-at-the-fastest-rate-in-over-60-years-under-president-trump/"],
-      ["Oct 7","Litigation","PhRMA sues to stop GLOBE, Medicare Part B's most-favored-nation pricing pilot","https://www.statnews.com/2026/10/07/phrma-sues-over-drug-pricing-model-globe/"]]},
+      ["Nov 3","Policy","White House touts a 4.5% y/y drop in the prescription-drug CPI, calling it the largest annual decline since 1963","https://www.whitehouse.gov/releases/2026/11/icymi-drug-prices-are-falling-at-the-fastest-rate-in-over-60-years-under-president-trump/"]
+      ]},
     {agency:"WHO",region:"Global",items:[
       ["Nov 6","Assessment","CDC: US measles cases reach 5,182 for 2026 across 47 jurisdictions and 43 outbreaks","https://www.cdc.gov/measles/data-research"],
       ["Nov 3","Assessment","ECDC update: DRC's Bundibugyo-virus Ebola outbreak at 10,532 cases and 5,126 deaths; EU/EEA risk still rated \"very low\"","https://www.ecdc.europa.eu/en/public-health-events/2026-eip-00026/2026-11-03"],
@@ -1789,7 +1783,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
   window.HH_REGS=REGS; window.HH_TRACK=TRACK;
   var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
   var CLS={"Approved":"ok","Registered":"ok","Adopted":"ok","Final decision":"ok","GRAS":"ok","Positive opinion":"op","Opinion":"op","Assessment":"op","Guidance":"op","Upcoming":"wait","Deadline":"wait","Consultation":"wait","Draft":"wait","Proposal":"wait","Fees":"wait","Refused":"no","Litigation":"no"};
-  var LBL={pharma:"Pharma & Biotech",ag:"Agriculture",synbio:"Synthetic Biology",biocat:"Biocatalysis",policy:"Policy & Public Health"};
+  var LBL={pharma:"Pharma & Biotech",ag:"Agriculture",synbio:"Synthetic Biology",biocat:"Biocatalysis",policy:"Policy"};
   function goTracker(sector){
     var t=document.getElementById("t-reg"); if(!t) return;
     setF("sector",sector||""); t.click();
@@ -2064,7 +2058,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
         <ol class="scm-trends" id="scm-trends"></ol>
       </div>
     </div>
-    <div class="scm-note">Daily OHLCV and 9 EMA / 20 MA / 50 MA computed from the last 12 months of closes (stockanalysis.com/Yahoo Finance data, pulled Nov 7, 2026). Buy/sell markers flag 9&nbsp;EMA&thinsp;/&thinsp;20&nbsp;MA crossovers. Fundamentals (biotech names) from stockanalysis.com; market cap and price ratios recalculated at the close shown. For information only — not investment advice. <a class="scm-yf" id="scm-yf-link" href="#" target="_blank" rel="noopener">Full quote on Yahoo Finance &rarr;</a></div>
+    <div class="scm-note">Daily OHLCV and 9 EMA / 20 MA / 50 MA computed from the last 12 months of closes (stockanalysis.com/Yahoo Finance data, pulled Nov 7, 2026). Buy/sell markers flag 9&nbsp;EMA&thinsp;/&thinsp;20&nbsp;MA crossovers. Fundamentals (biotech names) from stockanalysis.com, Nov 9, 2026; market cap and price ratios recalculated at the close shown. For information only — not investment advice. <a class="scm-yf" id="scm-yf-link" href="#" target="_blank" rel="noopener">Full quote on Yahoo Finance &rarr;</a></div>
   </div>
 </div>
 <script>
@@ -2101,7 +2095,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
     return {buys:buys, sells:sells}; }
   var YF=function(s){return "https://finance.yahoo.com/quote/"+encodeURIComponent(s.replace(".","-"))+"/";};
 
-  /* Fundamentals: tools/fundamentals.json (stockanalysis.com statistics; price ratios recomputed at the chart's last close) */
+  /* Fundamentals: stockanalysis.com statistics, Nov 9 2026; price-based ratios recomputed at the Nov 6 close used in this chart */
   var FUND={"AMGN":{"mcap":"$248.2B","pe":"32.4","fpe":"20.6","ps":"6.8","pb":"28.7","eps":"$14.23","div":"2.18%","rev":"$36.75B","margin":"20.98%","beta":"0.42","short":"2.69%","avgvol":"2,635,412"},"GILD":{"mcap":"$206.9B","pe":"n/m (loss)","fpe":"18.3","ps":"6.8","pb":"17.2","eps":"-$2.61","div":"1.97%","rev":"$30.46B","margin":"-10.64%","beta":"0.33","short":"1.76%","avgvol":"5,787,558"},"VRTX":{"mcap":"$138.7B","pe":"35.2","fpe":"29.0","ps":"10.7","pb":"6.6","eps":"$15.55","div":"\u2014","rev":"$12.95B","margin":"30.70%","beta":"0.28","short":"1.69%","avgvol":"1,679,695"},"REGN":{"mcap":"$95.6B","pe":"22.9","fpe":"25.0","ps":"6.9","pb":"3.3","eps":"$39.43","div":"0.20%","rev":"$14.09B","margin":"31.94%","beta":"0.31","short":"2.70%","avgvol":"1,598,608"},"BIIB":{"mcap":"$36.7B","pe":"106.1","fpe":"16.8","ps":"3.6","pb":"1.9","eps":"$2.34","div":"\u2014","rev":"$10.30B","margin":"3.37%","beta":"0.09","short":"3.73%","avgvol":"1,337,909"},"NBIX":{"mcap":"$16.7B","pe":"24.1","fpe":"14.4","ps":"5.0","pb":"4.5","eps":"$6.82","div":"\u2014","rev":"$3.37B","margin":"20.91%","beta":"0.40","short":"5.83%","avgvol":"1,350,195"},"ALNY":{"mcap":"$20.9B","pe":"8.1","fpe":"20.1","ps":"4.2","pb":"5.8","eps":"$19.29","div":"\u2014","rev":"$5.01B","margin":"52.85%","beta":"0.27","short":"4.93%","avgvol":"2,168,936"},"IONS":{"mcap":"$6.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"7.5","pb":"14.8","eps":"-$3.46","div":"\u2014","rev":"$874.09M","margin":"-64.66%","beta":"0.38","short":"13.66%","avgvol":"2,863,771"},"ARWR":{"mcap":"$8.2B","pe":"n/m (loss)","fpe":"\u2014","ps":"12.3","pb":"17.6","eps":"-$2.28","div":"\u2014","rev":"$669.50M","margin":"-47.79%","beta":"1.30","short":"8.95%","avgvol":"1,755,601"},"MRNA":{"mcap":"$101.5B","pe":"n/m (loss)","fpe":"\u2014","ps":"48.6","pb":"16.0","eps":"-$8.01","div":"\u2014","rev":"$2.23B","margin":"-141.43%","beta":"1.09","short":"8.30%","avgvol":"19,552,539"},"BNTX":{"mcap":"$22.0B","pe":"n/m (loss)","fpe":"\u2014","ps":"7.3","pb":"1.1","eps":"-$7.77","div":"\u2014","rev":"$3.03B","margin":"-63.64%","beta":"1.25","short":"\u2014","avgvol":"1,139,710"},"CRSP":{"mcap":"$4.8B","pe":"n/m (loss)","fpe":"\u2014","ps":"356.9","pb":"2.7","eps":"-$4.76","div":"\u2014","rev":"$13.39M","margin":"\u2014","beta":"1.76","short":"19.42%","avgvol":"1,458,292"},"BEAM":{"mcap":"$2.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"16.9","pb":"2.5","eps":"-$0.84","div":"\u2014","rev":"$156.04M","margin":"-55.45%","beta":"2.20","short":"31.19%","avgvol":"1,668,514"},"NTLA":{"mcap":"$1.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"26.7","pb":"2.2","eps":"-$3.34","div":"\u2014","rev":"$59.51M","margin":"\u2014","beta":"1.80","short":"33.61%","avgvol":"5,781,514"},"RVMD":{"mcap":"$41.6B","pe":"n/m (loss)","fpe":"\u2014","ps":"210.5","pb":"17.3","eps":"-$9.14","div":"\u2014","rev":"$197.56M","margin":"\u2014","beta":"1.43","short":"6.93%","avgvol":"2,261,431"},"EXEL":{"mcap":"$17.2B","pe":"21.8","fpe":"19.8","ps":"7.0","pb":"9.3","eps":"$3.19","div":"\u2014","rev":"$2.44B","margin":"35.33%","beta":"0.47","short":"13.19%","avgvol":"2,296,045"},"INCY":{"mcap":"$24.2B","pe":"15.2","fpe":"61.7","ps":"4.2","pb":"3.8","eps":"$7.85","div":"\u2014","rev":"$5.82B","margin":"27.71%","beta":"0.74","short":"5.86%","avgvol":"1,751,170"},"GMAB":{"mcap":"$31.7B","pe":"43.2","fpe":"36.5","ps":"7.7","pb":"5.3","eps":"$1.24","div":"\u2014","rev":"$4.13B","margin":"19.08%","beta":"0.65","short":"\u2014","avgvol":"5,184,009"},"ARGX":{"mcap":"$58.1B","pe":"32.6","fpe":"27.0","ps":"9.8","pb":"6.9","eps":"$28.40","div":"\u2014","rev":"$5.92B","margin":"31.73%","beta":"-0.04","short":"\u2014","avgvol":"509,881"},"INSM":{"mcap":"$25.0B","pe":"n/m (loss)","fpe":"\u2014","ps":"22.0","pb":"33.0","eps":"-$4.09","div":"\u2014","rev":"$1.14B","margin":"-76.94%","beta":"0.82","short":"6.36%","avgvol":"3,091,594"},"BMRN":{"mcap":"$10.8B","pe":"147.4","fpe":"12.3","ps":"3.2","pb":"1.7","eps":"$0.38","div":"\u2014","rev":"$3.41B","margin":"2.14%","beta":"0.22","short":"6.26%","avgvol":"2,529,890"},"BBIO":{"mcap":"$14.5B","pe":"n/m (loss)","fpe":"\u2014","ps":"20.4","pb":"\u2014","eps":"-$3.57","div":"\u2014","rev":"$713.07M","margin":"-97.03%","beta":"0.97","short":"11.77%","avgvol":"2,643,020"},"UTHR":{"mcap":"$24.1B","pe":"20.1","fpe":"19.9","ps":"7.6","pb":"3.7","eps":"$27.95","div":"\u2014","rev":"$3.15B","margin":"41.56%","beta":"0.49","short":"6.27%","avgvol":"690,802"},"ROIV":{"mcap":"$28.1B","pe":"n/m (loss)","fpe":"\u2014","ps":"3,728.3","pb":"6.6","eps":"-$0.49","div":"\u2014","rev":"$7.53M","margin":"\u2014","beta":"1.10","short":"6.75%","avgvol":"6,471,810"}};
   var FUND_ROWS=[["mcap","Market cap"],["pe","P/E (ttm)"],["fpe","Forward P/E"],["eps","EPS (ttm)"],["ps","Price / sales"],["pb","Price / book"],["rev","Revenue (ttm)"],["margin","Profit margin"],["div","Dividend yield"],["beta","Beta (5y)"],["short","Short % of float"],["avgvol","Avg volume (20d)"]];
   function fundRows(sym){
