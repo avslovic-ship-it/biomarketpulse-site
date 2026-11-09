@@ -155,11 +155,9 @@ def _render(OUT, preview, bars, tpl):
     <p class="in-h">What to watch</p><p class="in-watch">{E(watch)}</p><p class="in-h">Sources</p><ul class="on-src">{links}</ul></article>''')
         rules = "".join(f"<tr><th scope='row'>{E(a)}</th><td>{E(b)}</td><td>{E(c)}</td><td>{E(d)}</td></tr>" for a, b, c, d in RULES)
         return (f'''<section aria-labelledby="in-h"><h2 class="dk-h2" id="in-h">Insights from the graph</h2>
-    <p class="dk-sub">Each insight is built by following links in the graph, including neighbors of the five entities above: a competing product, a deal and the Brazilian generic makers. Analysis only, not investment advice.</p>
+    <p class="dk-sub">Each insight is built by following links in the graph, including neighbors of the five entities above: a competing product, a deal and the Brazilian generic makers. Links checked by hand on November 8, 2026. Analysis only, not investment advice.</p>
     {btn}<div class="in-grid">{"".join(cards)}</div>
-    <h3 class="in-rules-h">How the same insights are found for any company</h3>
-    <p class="dk-sub">Each insight comes from a pattern in the graph. Run every edition, these patterns flag candidates; the analysis is then written from the linked evidence, with every claim tied to a source.</p>
-    <div class="on-scroll"><table class="on-table"><thead><tr><th scope="col">Pattern in the graph</th><th scope="col">Type</th><th scope="col">Insight it produces</th><th scope="col">Example</th></tr></thead><tbody>{rules}</tbody></table></div></section>''')
+    </section>''')
 
     CSS = """<style>
     .on-chain{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px 0;margin:0 0 20px;}
@@ -226,12 +224,7 @@ def _render(OUT, preview, bars, tpl):
     <div class="on-scroll"><table class="on-table"><thead><tr><th scope="col">Entity</th><th scope="col">Key fields</th><th scope="col">Where BioMarket Pulse gets it</th></tr></thead><tbody>{schema}</tbody></table></div>
     <div class="on-scroll" style="margin-top:16px"><table class="on-table"><thead><tr><th scope="col">Relation</th><th scope="col">From → to</th><th scope="col">Evidence stored with it</th></tr></thead><tbody>{rels}</tbody></table></div></section>
     {insights_html()}
-    <section aria-labelledby="on-q-h"><h2 class="dk-h2" id="on-q-h">Questions it answers</h2>
-    <p class="dk-sub">Once links like these are stored for every item, an executive can ask across the datasets.</p>
-    <ul class="on-qs"><li><b>What moved this stock?</b>From any price jump, follow the links back to the product, its approvals, its trial and its patents.</li>
-    <li><b>How long is it protected?</b>From any product, list the patents that cover it, with their families and dates.</li>
-    <li><b>Which approvals came from which trials?</b>From any agency decision, find the papers behind it and the companies exposed to it.</li></ul>
-    <p class="dk-sub" style="margin-top:18px">In this example the links were assembled and checked by hand on November 8, 2026. Storing them for every edition is part of Phase 2 of the roadmap.</p></section>
+    
     </main>
     '''
     page = re.sub(r'<main id="main">.*?</main>', lambda m: main, tpl, count=1, flags=re.S)
