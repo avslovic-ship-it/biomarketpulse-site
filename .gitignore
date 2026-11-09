@@ -1,0 +1,6 @@
+*.zip
+*.patch
+* 2.html
+config.php
+bmp-config*.php
+bmp-data/

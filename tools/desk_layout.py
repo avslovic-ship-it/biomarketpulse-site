@@ -779,6 +779,12 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
               "page_tape": cfg.get("page_tape") if is_desk else None,
               "desk": is_desk, "plate": PLATE_GROUPS if slug == "" else [],
               "tracker": _href("regulatory", preview) + "?sector=" + REG_KEY.get(pid, "")}
+    # security: Ask answers and deal-flow text escape quotes too, so a link or title can't break out of its attribute
+    doc = doc.replace("""function esc(t){return String(t).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}""",
+                      """function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}""")
+    doc = doc.replace(""".replace(/&(?!(gt|lt|amp);)/g,"&amp;").replace(/</g,"&lt;");};""",
+                      """.replace(/&(?!(gt|lt|amp|quot);)/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");};""")
+    doc = doc.replace("(lr.year?' '+lr.year:'')", "(lr.year?' '+(parseInt(lr.year,10)||''):'')")
     # one typeface: the legacy monospace numerals become Schibsted figures
     doc = re.sub(r"'IBM Plex Mono',\s*monospace", "'Schibsted Grotesk',system-ui,sans-serif", doc)
     doc = doc.replace("</head>", FONT_LINK + DESK_CSS + "</head>", 1)

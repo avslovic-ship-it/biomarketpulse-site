@@ -1326,7 +1326,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
   var TYPES=["M&A","Licensing","Partnership","Funding","IPO"];
   var SECS=[["pharma","Pharma & Biotech"],["ag","Agriculture"],["synbio","Synthetic Biology"]];
   var SN={}; SECS.forEach(function(s){SN[s[0]]=s[1];});
-  var esc=function(t){return String(t).replace(/&(?!(gt|lt|amp);)/g,"&amp;").replace(/</g,"&lt;");};
+  var esc=function(t){return String(t).replace(/&(?!(gt|lt|amp|quot);)/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");};
   var root=document.getElementById("dealflow"); if(!root) return;
   var tip=document.createElement("div"); tip.className="df-tip"; tip.hidden=true; document.body.appendChild(tip);
   document.getElementById("df-leg").innerHTML=SECS.map(function(s){return '<span><i style="background:var(--sec-'+s[0]+')"></i>'+s[1]+'</span>';}).join("");
@@ -1603,7 +1603,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
       +'<div class="hmx-leg"><span>Lower</span><i style="background:color-mix(in srgb,var(--accent) 12%,var(--surface))"></i><i style="background:color-mix(in srgb,var(--accent) 50%,var(--surface))"></i><i style="background:color-mix(in srgb,var(--accent) 90%,var(--surface))"></i><span>Higher (shaded within each column)</span><i style="background:repeating-linear-gradient(45deg,var(--surface-2) 0 4px,var(--surface) 4px 8px);border:1px solid var(--line)"></i><span>Not available</span></div></div>'
       +'<div class="panel"><h4 class="dd-h4">News highlights</h4><ul class="dd-news">'+(news||'<li>No highlights found.</li>')+'</ul></div></div>'
       +'<div class="dd-cos">'+cos.map(function(c){var lr=c.last_round||{},isMe=me&&c.name.toLowerCase()===me;
-        return '<div class="dd-co'+(isMe?' me':'')+'"><div class="t"><b>'+esc(c.name)+'</b><span class="geo">'+esc(c.hq||"")+'</span></div><div class="f">'+esc(c.status||"")+(c.total_funding_usd_m!=null?' · '+money(c.total_funding_usd_m)+' raised':'')+(lr.type?' · '+esc(lr.type)+(lr.year?' '+lr.year:''):'')+'</div><div class="w"><b>'+esc(c.segment||"")+'.</b> '+esc(c.why||"")+'</div></div>';}).join("")+'</div>'
+        return '<div class="dd-co'+(isMe?' me':'')+'"><div class="t"><b>'+esc(c.name)+'</b><span class="geo">'+esc(c.hq||"")+'</span></div><div class="f">'+esc(c.status||"")+(c.total_funding_usd_m!=null?' · '+money(c.total_funding_usd_m)+' raised':'')+(lr.type?' · '+esc(lr.type)+(lr.year?' '+(parseInt(lr.year,10)||''):''):'')+'</div><div class="w"><b>'+esc(c.segment||"")+'.</b> '+esc(c.why||"")+'</div></div>';}).join("")+'</div>'
       +'<div class="dd-note">Competitors, funding, momentum and background news come from Claude\'s knowledge and may be incomplete or out of date'+(d.caveat?' — '+esc(d.caveat):'')+'. "Papers" are live counts of PubMed papers listing the company as an affiliation since '+(yr-2)+(mcp?'':' (unavailable here)')+'. "In this edition" counts mentions across today\'s BioMarket Pulse. Verify figures before relying on them.</div>';
   }
   async function countPapers(names,signal){
@@ -1897,7 +1897,7 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
       return {papers:arts.map(function(a){var pd=a.publication_date||{};return {title:a.title,journal:(a.journal||{}).iso_abbreviation||(a.journal||{}).title||"",year:pd.year||"",type:(a.article_types||[]).filter(function(t){return t!=="Journal Article";}).join(", "),doi:a.doi||((a.identifiers||{}).doi)||"",pmid:(a.identifiers||{}).pmid||"",abstract:String(a.abstract||"").slice(0,350)};})};
     }};
   function setStatus(t){var w=log.querySelector(".msg.a.wait:last-child");if(w)w.textContent=t+"…";}
-  function esc(t){return String(t).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+  function esc(t){return String(t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
   function fmt(t){
     var lines=esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/(^|[\s(])(https:\/\/(?:doi\.org|pubmed\.ncbi\.nlm\.nih\.gov)\/[^\s)<]+)/g,'$1<a href="$2" target="_blank" rel="noopener">$2</a>').split(/\n/),out="",inList=false;
     lines.forEach(function(l){var m=l.match(/^\s*(?:[-•*]|\d+\.)\s+(.*)/);

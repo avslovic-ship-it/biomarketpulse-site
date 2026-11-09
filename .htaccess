@@ -4,10 +4,10 @@ DirectoryIndex index.html index.php
 ErrorDocument 404 /404.html
 
 # Never serve settings, tools or the raw edition
-<FilesMatch "^(config\.php|bmp-config.*\.php|README\.md|.*\.py)$">
+<FilesMatch "^(config\.php|bmp-config.*\.php|README\.md|.*\.(py|zip|patch|yml|yaml|sh|lock|ndjson|bak|orig|swp)|.* .*\.html)$">
   Require all denied
 </FilesMatch>
-RedirectMatch 404 ^/(tools|data|\.git)(/|$)
+RedirectMatch 404 ^/(tools|data|\.git|\.github)(/|$)
 
 # Always send visitors to https://www.biomarketpulse.com
 RewriteEngine On
@@ -20,4 +20,14 @@ RewriteRule ^ https://www.biomarketpulse.com%{REQUEST_URI} [L,R=301]
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
+</IfModule>
+
+# Browser security headers
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>
