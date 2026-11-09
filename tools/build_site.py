@@ -16,6 +16,7 @@ import datetime, html, json, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from desk_layout import apply_layout, apply_tracker_link
+import ontology_example
 
 SITE = "https://www.biomarketpulse.com"
 NAME = "BioMarket Pulse"
@@ -555,6 +556,7 @@ def build(edition_path, out, preview=False):
     path = os.path.join(out, "about.html") if preview else os.path.join(out, "about", "index.html")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, "w", encoding="utf-8").write(doc)
+    ontology_example.build(out, preview)
     written.append(path)
 
     # Product dashboard page (one page; the product comes from ?r=REGISTRATION)
@@ -582,7 +584,7 @@ def build(edition_path, out, preview=False):
         open(os.path.join(out, "data", "edition.html"), "w", encoding="utf-8").write(full)
         open(os.path.join(out, "data", ".htaccess"), "w").write("Require all denied\nDeny from all\n")
         lastmod = date_iso or datetime.date.today().isoformat()
-        urls = [SITE + "/" + (s + "/" if s else "") for s, *_ in PAGES] + [SITE + "/about/"]
+        urls = [SITE + "/" + (s + "/" if s else "") for s, *_ in PAGES] + [SITE + "/about/", SITE + "/ontology/"]
         sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
         for u in urls:
             sm.append(f"  <url><loc>{u}</loc><lastmod>{lastmod}</lastmod><changefreq>daily</changefreq></url>")

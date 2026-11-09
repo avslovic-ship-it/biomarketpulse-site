@@ -46,7 +46,8 @@ body.desk .up,body.desk .pos{color:var(--up);} body.desk .dn,body.desk .down,bod
 body.desk .tape,body.desk .tape.bio{background:var(--tk-bg);border-bottom:1px solid #1C3550;}
 body.desk .tape::before,body.desk .tape.bio::before{background:linear-gradient(90deg,var(--tk-bg),transparent);}
 body.desk .tape::after,body.desk .tape.bio::after{background:linear-gradient(270deg,var(--tk-bg),transparent);}
-body.desk .tape-lbl{background:var(--tk-bg);color:#9FB2C8;text-transform:none;letter-spacing:0;font-size:13px;}
+body.desk .tape-lbl{background:var(--tk-bg);color:#9FB2C8;text-transform:none;letter-spacing:0;font-size:13px;white-space:nowrap;width:auto !important;max-width:none !important;padding-right:18px !important;z-index:3;box-shadow:12px 0 12px -4px var(--tk-bg);}
+body.desk .tape .tk.asof{display:none !important;}
 body.desk .tk{min-height:24px;}
 body.desk .wrap{max-width:none;margin:0;padding:0;background:transparent;border:0;}
 body.desk a:focus-visible,body.desk button:focus-visible,body.desk summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
@@ -57,22 +58,31 @@ body.desk .rt-axis{overflow:clip;overflow-clip-margin:16px;}
 body.desk :is(.v,.d,.w,.pct,.price){font-variant-numeric:tabular-nums;}
 
 /* header + desk tabs */
-.dk-top{background:var(--ink);color:#E4ECF5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 32px;padding:16px 48px;}
+.dk-top{background:var(--ink);color:#E4ECF5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 28px;padding:10px 48px;min-height:56px;box-sizing:border-box;}
+.dk-id{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.dk-ed{font-size:13px;color:#BFD0E6;border-left:1px solid #2A4562;padding-left:14px;white-space:nowrap;}
+.dk-askbtn{display:inline-flex;align-items:center;gap:8px;background:#1F5FC4;color:#fff !important;border-radius:999px;padding:8px 16px !important;font-weight:700 !important;text-decoration:none;min-height:36px;box-sizing:border-box;}
+.dk-askbtn:hover{background:#174C9E;}
+.dk-menu{display:none;font:inherit;font-size:14px;font-weight:700;color:#fff;background:transparent;border:1px solid #2A4562;border-radius:999px;padding:8px 16px;min-height:40px;cursor:pointer;}
+.dk-unit{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.dk-desks small{background:#F0F4F7;border-radius:999px;padding:1px 7px;}
 .dk-brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:24px;font-weight:800;letter-spacing:-.03em;}
 .dk-mark{display:grid;grid-template-columns:repeat(3,8px);gap:3px;}
 .dk-mark i{width:8px;height:8px;border-radius:50%;display:block;}
 .dk-gnav{display:flex;flex-wrap:wrap;gap:4px 26px;font-size:15px;align-items:center;}
 .dk-gnav a{color:#BFD0E6;text-decoration:none;padding:6px 0;font-weight:500;}
 .dk-gnav a:hover{color:#fff;}
-.dk-gnav a[aria-current]{color:#fff;font-weight:700;}
+.dk-gnav a[aria-current]{color:#fff;font-weight:700;box-shadow:inset 0 -2px 0 #7FA9EC;}
 .dk-acct{font-size:12px;color:#9FB2C8;border:1px solid #2A4562;border-radius:999px;padding:4px 10px;}
-.dk-desks{display:flex;gap:0 4px;overflow-x:auto;scrollbar-width:thin;background:#fff;border-bottom:1px solid var(--line);padding:0 36px;}
-.dk-desks a{display:flex;align-items:center;gap:8px;padding:14px 12px 11px;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;}
+.dk-desks{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--line);padding:0 24px;position:sticky;top:0;z-index:60;box-shadow:0 1px 0 var(--line);}
+.dk-desks::-webkit-scrollbar{display:none;}
+.dk-desks a{display:flex;align-items:center;gap:7px;padding:14px 10px 11px;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;}
 .dk-desks a:hover{color:var(--ink);}
 .dk-desks a[aria-current]{color:var(--ink);}
 .dk-desks i{width:10px;height:10px;border-radius:50%;display:block;flex:0 0 auto;}
 .dk-desks small{font-size:12px;color:var(--faint);font-weight:500;}
 
+.dk-desks.ovf{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);}
 /* title band */
 .dk-hero{background:var(--ink);color:#fff;}
 .dk-hero-in{max-width:1344px;margin:0 auto;padding:36px 48px 40px;display:flex;flex-wrap:wrap;gap:28px 56px;align-items:flex-end;}
@@ -215,8 +225,16 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
 }
 
 @media (max-width:760px){
-  .dk-top{padding:12px 16px;} .dk-gnav{gap:2px 16px;font-size:14px;}
+  .dk-top{padding:8px 16px;}
+  .dk-ed{display:none;}
+  .dk-lblx{display:none;}
+  .dk-menu{display:inline-block;}
+  .dk-gnav{display:none;flex-basis:100%;flex-direction:column;align-items:stretch;gap:0;padding:4px 0 8px;}
+  .dk-top.open .dk-gnav{display:flex;}
+  .dk-gnav a{padding:12px 0;border-top:1px solid #1C3550;}
+  .dk-gnav .dk-askbtn{margin-top:8px;justify-content:center;}
   .dk-desks{padding:0 8px;}
+
   .dk-hero-in{padding:24px 16px 28px;}
   body.desk main#main{padding:20px 16px 40px;}
   body.desk footer,body.desk .site-foot{padding-inline:16px;}
@@ -1000,10 +1018,10 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
 <div class="tape cm" hidden aria-label="Commodities: energy, metals, agricultural and fertilizer prices, 7-day change"><span class="tape-lbl" aria-hidden="true">Commodities</span><div class="tape-track" id="cm-track"></div></div>
 <div class="wrap">
 
-  <header class="dk-top"><a class="dk-brand" href="/"><span class="dk-mark" aria-hidden="true"><i style="background:#1F5FC4"></i><i style="background:#7CC79A"></i><i style="background:#3A5470"></i><i style="background:#EDA56A"></i><i style="background:#1E7A4C"></i><i style="background:#CFE0FA"></i></span>BioMarket Pulse</a><nav class="dk-gnav" aria-label="Site"><a href="/">Market overview</a><a href="/daily-pulse/">Daily pulse</a><a href="/biocatalysis/">Research desks</a><a href="/regulatory/">Regulatory tracker</a><a href="/about/">About</a></nav></header>
-<nav class="dk-desks" aria-label="Research desks"><a href="/biocatalysis/"><i aria-hidden="true" style="background:#C8691E"></i>Biocatalysis <small>2</small></a><a href="/pharma-biotech/"><i aria-hidden="true" style="background:#1F5FC4"></i>Pharma &amp; Biotech <small>11</small></a><a href="/agriculture/"><i aria-hidden="true" style="background:#0E9384"></i>Agriculture <small>14</small></a><a href="/brazil-crop-protection/" aria-current="page" style="border-bottom-color:#0E9384"><i aria-hidden="true" style="background:#0E9384"></i>Brazil Crop Protection</a><a href="/synthetic-biology/"><i aria-hidden="true" style="background:#7D5BC0"></i>Synthetic Biology <small>5</small></a><a href="/policy/"><i aria-hidden="true" style="background:#4A5B6C"></i>Policy &amp; Public Health <small>10</small></a><a href="/regulatory/"><i aria-hidden="true" style="background:#0E2236"></i>Regulatory Tracker</a></nav>
+  <header class="dk-top"><div class="dk-id"><a class="dk-brand" href="/"><span class="dk-mark" aria-hidden="true"><i style="background:#1F5FC4"></i><i style="background:#7CC79A"></i><i style="background:#3A5470"></i><i style="background:#EDA56A"></i><i style="background:#1E7A4C"></i><i style="background:#CFE0FA"></i></span>BioMarket Pulse</a><span class="dk-ed">Edition 49, Nov 8</span></div><button type="button" class="dk-menu" aria-expanded="false" aria-controls="dk-gnav">Menu</button><nav class="dk-gnav" id="dk-gnav" aria-label="Site"><a href="/">Overview</a><a href="/daily-pulse/">Daily Pulse</a><a href="/deep-dive/">Deep Dive</a><a href="/about/">About</a><a class="dk-askbtn" href="/deep-dive/" data-ask><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Ask the Pulse</a></nav></header>
+<nav class="dk-desks" aria-label="Research desks"><a href="/biocatalysis/"><i aria-hidden="true" style="background:#C8691E"></i>Biocatalysis <small title="2 articles in this edition">2<span class="dk-unit"> articles</span></small></a><a href="/pharma-biotech/"><i aria-hidden="true" style="background:#1F5FC4"></i>Pharma &amp; Biotech <small title="11 articles in this edition">11<span class="dk-unit"> articles</span></small></a><a href="/agriculture/"><i aria-hidden="true" style="background:#0E9384"></i>Agriculture <small title="14 articles in this edition">14<span class="dk-unit"> articles</span></small></a><a href="/brazil-crop-protection/" aria-current="page" style="border-bottom-color:#0E9384"><i aria-hidden="true" style="background:#0E9384"></i>Brazil Crop Protection</a><a href="/synthetic-biology/"><i aria-hidden="true" style="background:#7D5BC0"></i>Synthetic Biology <small title="5 articles in this edition">5<span class="dk-unit"> articles</span></small></a><a href="/policy/"><i aria-hidden="true" style="background:#4A5B6C"></i>Policy &amp; Public Health <small title="10 articles in this edition">10<span class="dk-unit"> articles</span></small></a><a href="/regulatory/"><i aria-hidden="true" style="background:#0E2236"></i>Regulatory Tracker</a><a href="/ontology/"><i aria-hidden="true" style="background:#7D5BC0"></i>Ontology example</a></nav>
 
-  <div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main"><nav class="dk-crumb" aria-label="Breadcrumb"><a href="/">BioMarket Pulse</a> / <span aria-current="page">Brazil Crop Protection</span></nav><p class="dk-eyebrow">Agriculture tool · beta, edition 49, Sunday, November 8, 2026</p><h1>Brazil Crop Protection</h1><p class="dk-topics">Search Brazil&#x27;s MAPA AGROFIT crop-protection registry in English, with a dashboard for every product</p><section class="listen-bar" aria-label="Audio briefing" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:-8px 0 22px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)">
+  <div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main"><p class="dk-eyebrow">Agriculture tool · beta, edition 49, Sunday, November 8, 2026</p><h1>Brazil Crop Protection</h1><p class="dk-topics">Search Brazil&#x27;s MAPA AGROFIT crop-protection registry in English, with a dashboard for every product</p><section class="listen-bar" aria-label="Audio briefing" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:-8px 0 22px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)">
     <div style="flex:1 1 220px;min-width:0">
       <div style="font-weight:600">Listen to the latest briefing</div>
       <div style="color:var(--muted);font-size:.9em">Friday, October 30, 2026 · 2:22 · <a href="/feed.xml" style="color:var(--accent-ink)">Podcast feed (RSS)</a></div>
@@ -2543,6 +2561,19 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
   var mv=document.getElementById("tape-movers"),cm=document.querySelector(".tape.cm"),bio=document.querySelector(".tape.bio");
   function tapes(){var c=cfg.page_tape==="cm"; if(mv)mv.hidden=c; if(cm)cm.hidden=!c; if(bio)bio.hidden=true;}
   if(cfg.desk){tapes(); setTimeout(tapes,0);}
+
+
+  /* header: phone menu, Ask the Pulse, current desk tab in view, one-line ticker labels */
+  var topb=document.querySelector(".dk-top"), mb=topb&&topb.querySelector(".dk-menu");
+  if(mb){ mb.addEventListener("click",function(){var o=topb.classList.toggle("open"); mb.setAttribute("aria-expanded",o?"true":"false");}); }
+  var ab=document.querySelector("[data-ask]");
+  if(ab){ ab.addEventListener("click",function(e){var f=document.getElementById("ask-fab"); if(f&&!f.hidden){e.preventDefault(); f.click();}}); }
+  var dt=document.querySelector(".dk-desks"), cur=dt&&dt.querySelector("[aria-current]");
+  function ovf(){ if(!dt) return; var o=dt.scrollWidth>dt.clientWidth+2 && dt.scrollLeft+dt.clientWidth<dt.scrollWidth-4; dt.classList.toggle("ovf",o); }
+  if(dt){ dt.addEventListener("scroll",ovf,{passive:true}); window.addEventListener("resize",ovf); }
+  if(cur&&dt.scrollWidth>dt.clientWidth){ dt.scrollLeft=Math.max(0,cur.offsetLeft-(dt.clientWidth-cur.offsetWidth)/2); }
+  ovf();
+  [].forEach.call(document.querySelectorAll(".tape-lbl"),function(l){ if(!/7-day/.test(l.textContent)) l.innerHTML=l.textContent.trim()+'<span class="dk-lblx">, 7-day change</span>'; });
 
   /* watchlist chips */
   var w=document.getElementById("dk-watch");

@@ -68,6 +68,7 @@ DESK_NAV = [
     ("synthetic-biology", "p-synbio", "Synthetic Biology"),
     ("policy", "p-policy", "Policy & Public Health"),
     ("regulatory", "p-reg", "Regulatory Tracker"),
+    ("ontology", "p-onto", "Ontology example"),
 ]
 DISCOVER_NAV = [("deep-dive", "Deep Dive"), ("", "Market Overview"), ("daily-pulse", "Daily Pulse")]
 REG_KEY = {"p-biocat": "biocat", "p-pharma": "pharma", "p-ag": "ag", "p-synbio": "synbio", "p-policy": "policy"}
@@ -75,7 +76,7 @@ REG_KEY = {"p-biocat": "biocat", "p-pharma": "pharma", "p-ag": "ag", "p-synbio":
 
 # Desk identity colours (validated categorical set: blue, orange, teal, violet)
 DESK_COLOR = {"p-biocat": "#C8691E", "p-pharma": "#1F5FC4", "p-ag": "#0E9384", "p-brbio": "#0E9384",
-              "p-synbio": "#7D5BC0", "p-policy": "#4A5B6C", "p-reg": "#0E2236"}
+              "p-synbio": "#7D5BC0", "p-policy": "#4A5B6C", "p-reg": "#0E2236", "p-onto": "#7D5BC0"}
 
 # Article types -> four groups for the "at a glance" bar (fixed order, fixed colours)
 ART_GROUPS = [
@@ -111,7 +112,8 @@ body.desk .up,body.desk .pos{color:var(--up);} body.desk .dn,body.desk .down,bod
 body.desk .tape,body.desk .tape.bio{background:var(--tk-bg);border-bottom:1px solid #1C3550;}
 body.desk .tape::before,body.desk .tape.bio::before{background:linear-gradient(90deg,var(--tk-bg),transparent);}
 body.desk .tape::after,body.desk .tape.bio::after{background:linear-gradient(270deg,var(--tk-bg),transparent);}
-body.desk .tape-lbl{background:var(--tk-bg);color:#9FB2C8;text-transform:none;letter-spacing:0;font-size:13px;}
+body.desk .tape-lbl{background:var(--tk-bg);color:#9FB2C8;text-transform:none;letter-spacing:0;font-size:13px;white-space:nowrap;width:auto !important;max-width:none !important;padding-right:18px !important;z-index:3;box-shadow:12px 0 12px -4px var(--tk-bg);}
+body.desk .tape .tk.asof{display:none !important;}
 body.desk .tk{min-height:24px;}
 body.desk .wrap{max-width:none;margin:0;padding:0;background:transparent;border:0;}
 body.desk a:focus-visible,body.desk button:focus-visible,body.desk summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
@@ -122,22 +124,31 @@ body.desk .rt-axis{overflow:clip;overflow-clip-margin:16px;}
 body.desk :is(.v,.d,.w,.pct,.price){font-variant-numeric:tabular-nums;}
 
 /* header + desk tabs */
-.dk-top{background:var(--ink);color:#E4ECF5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 32px;padding:16px 48px;}
+.dk-top{background:var(--ink);color:#E4ECF5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 28px;padding:10px 48px;min-height:56px;box-sizing:border-box;}
+.dk-id{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.dk-ed{font-size:13px;color:#BFD0E6;border-left:1px solid #2A4562;padding-left:14px;white-space:nowrap;}
+.dk-askbtn{display:inline-flex;align-items:center;gap:8px;background:#1F5FC4;color:#fff !important;border-radius:999px;padding:8px 16px !important;font-weight:700 !important;text-decoration:none;min-height:36px;box-sizing:border-box;}
+.dk-askbtn:hover{background:#174C9E;}
+.dk-menu{display:none;font:inherit;font-size:14px;font-weight:700;color:#fff;background:transparent;border:1px solid #2A4562;border-radius:999px;padding:8px 16px;min-height:40px;cursor:pointer;}
+.dk-unit{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.dk-desks small{background:#F0F4F7;border-radius:999px;padding:1px 7px;}
 .dk-brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:24px;font-weight:800;letter-spacing:-.03em;}
 .dk-mark{display:grid;grid-template-columns:repeat(3,8px);gap:3px;}
 .dk-mark i{width:8px;height:8px;border-radius:50%;display:block;}
 .dk-gnav{display:flex;flex-wrap:wrap;gap:4px 26px;font-size:15px;align-items:center;}
 .dk-gnav a{color:#BFD0E6;text-decoration:none;padding:6px 0;font-weight:500;}
 .dk-gnav a:hover{color:#fff;}
-.dk-gnav a[aria-current]{color:#fff;font-weight:700;}
+.dk-gnav a[aria-current]{color:#fff;font-weight:700;box-shadow:inset 0 -2px 0 #7FA9EC;}
 .dk-acct{font-size:12px;color:#9FB2C8;border:1px solid #2A4562;border-radius:999px;padding:4px 10px;}
-.dk-desks{display:flex;gap:0 4px;overflow-x:auto;scrollbar-width:thin;background:#fff;border-bottom:1px solid var(--line);padding:0 36px;}
-.dk-desks a{display:flex;align-items:center;gap:8px;padding:14px 12px 11px;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;}
+.dk-desks{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--line);padding:0 24px;position:sticky;top:0;z-index:60;box-shadow:0 1px 0 var(--line);}
+.dk-desks::-webkit-scrollbar{display:none;}
+.dk-desks a{display:flex;align-items:center;gap:7px;padding:14px 10px 11px;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;}
 .dk-desks a:hover{color:var(--ink);}
 .dk-desks a[aria-current]{color:var(--ink);}
 .dk-desks i{width:10px;height:10px;border-radius:50%;display:block;flex:0 0 auto;}
 .dk-desks small{font-size:12px;color:var(--faint);font-weight:500;}
 
+.dk-desks.ovf{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);}
 /* title band */
 .dk-hero{background:var(--ink);color:#fff;}
 .dk-hero-in{max-width:1344px;margin:0 auto;padding:36px 48px 40px;display:flex;flex-wrap:wrap;gap:28px 56px;align-items:flex-end;}
@@ -280,8 +291,16 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
 }
 
 @media (max-width:760px){
-  .dk-top{padding:12px 16px;} .dk-gnav{gap:2px 16px;font-size:14px;}
+  .dk-top{padding:8px 16px;}
+  .dk-ed{display:none;}
+  .dk-lblx{display:none;}
+  .dk-menu{display:inline-block;}
+  .dk-gnav{display:none;flex-basis:100%;flex-direction:column;align-items:stretch;gap:0;padding:4px 0 8px;}
+  .dk-top.open .dk-gnav{display:flex;}
+  .dk-gnav a{padding:12px 0;border-top:1px solid #1C3550;}
+  .dk-gnav .dk-askbtn{margin-top:8px;justify-content:center;}
   .dk-desks{padding:0 8px;}
+
   .dk-hero-in{padding:24px 16px 28px;}
   body.desk main#main{padding:20px 16px 40px;}
   body.desk footer,body.desk .site-foot{padding-inline:16px;}
@@ -313,6 +332,19 @@ DESK_JS = r"""<script>
   var mv=document.getElementById("tape-movers"),cm=document.querySelector(".tape.cm"),bio=document.querySelector(".tape.bio");
   function tapes(){var c=cfg.page_tape==="cm"; if(mv)mv.hidden=c; if(cm)cm.hidden=!c; if(bio)bio.hidden=true;}
   if(cfg.desk){tapes(); setTimeout(tapes,0);}
+
+
+  /* header: phone menu, Ask the Pulse, current desk tab in view, one-line ticker labels */
+  var topb=document.querySelector(".dk-top"), mb=topb&&topb.querySelector(".dk-menu");
+  if(mb){ mb.addEventListener("click",function(){var o=topb.classList.toggle("open"); mb.setAttribute("aria-expanded",o?"true":"false");}); }
+  var ab=document.querySelector("[data-ask]");
+  if(ab){ ab.addEventListener("click",function(e){var f=document.getElementById("ask-fab"); if(f&&!f.hidden){e.preventDefault(); f.click();}}); }
+  var dt=document.querySelector(".dk-desks"), cur=dt&&dt.querySelector("[aria-current]");
+  function ovf(){ if(!dt) return; var o=dt.scrollWidth>dt.clientWidth+2 && dt.scrollLeft+dt.clientWidth<dt.scrollWidth-4; dt.classList.toggle("ovf",o); }
+  if(dt){ dt.addEventListener("scroll",ovf,{passive:true}); window.addEventListener("resize",ovf); }
+  if(cur&&dt.scrollWidth>dt.clientWidth){ dt.scrollLeft=Math.max(0,cur.offsetLeft-(dt.clientWidth-cur.offsetWidth)/2); }
+  ovf();
+  [].forEach.call(document.querySelectorAll(".tape-lbl"),function(l){ if(!/7-day/.test(l.textContent)) l.innerHTML=l.textContent.trim()+'<span class="dk-lblx">, 7-day change</span>'; });
 
   /* watchlist chips */
   var w=document.getElementById("dk-watch");
@@ -632,21 +664,27 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
         return doc
     doc = re.sub(r"<body(?![^>]*class=)", '<body class="desk"', doc, count=1)
     doc, listen = _cut(doc, r'\s*<section class="listen-bar".*?</section>')
-    gnav = [("", "Market overview"), ("daily-pulse", "Daily pulse"), ("biocatalysis", "Research desks"),
-            ("regulatory", "Regulatory tracker"), ("about", "About")]
+    gnav = [("", "Overview"), ("daily-pulse", "Daily Pulse"), ("deep-dive", "Deep Dive"), ("about", "About")]
     def is_cur(s):
-        return (s == "biocatalysis" and is_desk) or (not is_desk and s == slug)
-    links = "".join(f'<a href="{_href(s, preview)}"{" aria-current=\"true\"" if is_cur(s) else ""}>{html.escape(l)}</a>' for s, l in gnav)
+        return (not is_desk) and s == slug
+    links = "".join(f'<a href="{_href(s, preview)}"{" aria-current=\"page\"" if is_cur(s) else ""}>{html.escape(l)}</a>' for s, l in gnav)
+    dm = re.search(r"([A-Z][a-z]+) (\d+), \d{4}", date_label or "")
+    short = f"{dm.group(1)[:3]} {dm.group(2)}" if dm else ""
+    ed = (f'<span class="dk-ed">Edition {edition_no}' + (f", {short}" if short else "") + '</span>') if edition_no else ""
+    ask = (f'<a class="dk-askbtn" href="{_href("deep-dive", preview)}" data-ask>'
+           '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Ask the Pulse</a>')
     mark = "".join(f'<i style="background:{c}"></i>' for c in ("#1F5FC4", "#7CC79A", "#3A5470", "#EDA56A", "#1E7A4C", "#CFE0FA"))
-    top = (f'<header class="dk-top"><a class="dk-brand" href="{_href("", preview)}"><span class="dk-mark" aria-hidden="true">{mark}</span>BioMarket Pulse</a>'
-           f'<nav class="dk-gnav" aria-label="Site">{links}' + ('<span class="dk-acct">Sandbox preview</span>' if preview else "") + '</nav></header>\n')
+    top = (f'<header class="dk-top"><div class="dk-id"><a class="dk-brand" href="{_href("", preview)}"><span class="dk-mark" aria-hidden="true">{mark}</span>BioMarket Pulse</a>{ed}'
+           + ('<span class="dk-acct">Sandbox</span>' if preview else "") + '</div>'
+           '<button type="button" class="dk-menu" aria-expanded="false" aria-controls="dk-gnav">Menu</button>'
+           f'<nav class="dk-gnav" id="dk-gnav" aria-label="Site">{links}{ask}</nav></header>\n')
     tabs = []
     for dslug, dpid, dl in DESK_NAV:
         n = counts.get(dpid)
         cur = dpid == pid or (not is_desk and dslug == slug)
         col = DESK_COLOR.get(dpid, "#4A5B6C")
         tabs.append(f'<a href="{_href(dslug, preview)}"' + (f' aria-current="page" style="border-bottom-color:{col}"' if cur else "") +
-                    f'><i aria-hidden="true" style="background:{col}"></i>{html.escape(dl)}' + (f' <small>{n}</small>' if n else "") + '</a>')
+                    f'><i aria-hidden="true" style="background:{col}"></i>{html.escape(dl)}' + (f' <small title="{n} articles in this edition">{n}<span class="dk-unit"> articles</span></small>' if n else "") + '</a>')
     tabs = '<nav class="dk-desks" aria-label="Research desks">' + "".join(tabs) + '</nav>\n'
     doc = re.sub(r'<header class="masthead">.*?</header>', lambda m: top + tabs, doc, count=1, flags=re.S)
     doc = re.sub(r'\s*<nav class="tabs" id="tabs".*?</nav>\s*<script>\(function\(\)\{var c=document\.querySelector\(\'\.tabs.*?</script>',
@@ -675,7 +713,7 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
     secs = _top_sections(panel) if is_desk else []
     arts = next((s for s in secs if "<h2>Latest Articles</h2>" in s), "")
     glance = _glance(arts) if is_desk else ""
-    hero = (f'<div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main">{crumb}'
+    hero = (f'<div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main">'
             f'<p class="dk-eyebrow">{html.escape(eyebrow)}</p><h1>{html.escape(h1)}</h1>'
             + (f'<p class="dk-topics">{sub}</p>' if sub else "") + listen.strip() + f'</div>{glance}</div></div>\n')
 
