@@ -34,12 +34,12 @@ DESKS = {
     },
     "p-synbio": {
         "kind": "Synthetic biology desk",
-        "topics": ["AI protein design", "Biomanufacturing", "Precision fermentation", "Funding"],
-        "watch": [("TWST", "Twist Bioscience"), ("DNA", "Ginkgo Bioworks"), ("ABSI", "Absci")],
+        "topics": ["AI protein design", "Biomanufacturing", "Precision fermentation", "Biocatalysis & enzymes", "Funding"],
+        "watch": [("TWST", "Twist Bioscience"), ("DNA", "Ginkgo Bioworks"), ("ABSI", "Absci"), ("CDXS", "Codexis"), ("NSIS-B.CO", "Novonesis")],
         "watch_tape": None,
     },
     "p-policy": {
-        "kind": "Policy & public health desk",
+        "kind": "Policy desk",
         "topics": ["Drug pricing and access", "Outbreaks", "Vaccine policy", "Food-chain safety"],
         "watch": [],
         "watch_tape": None,  # no watchlist for this desk
@@ -49,9 +49,9 @@ DESKS = {
 # Non-desk pages get the same frame (header, desk tabs, title band) with their content unchanged.
 # slug -> (eyebrow, title, subtitle)
 SHELL = {
-    "": ("Free market overview", "Market Overview", "Stock moves, sector heatmap, catalyst calendar and today's signals"),
+    "": ("Free market overview", "Market Overview", "Stock moves, the week in biotech stocks, catalyst calendar and today's signals"),
     "daily-pulse": ("Daily briefing", "Daily Pulse", "Five things to know, the lead story and seven days of deal flow"),
-    "regulatory": ("Cross-desk tool", "Regulatory Tracker", "FDA, EMA, EPA, EFSA, ANVISA, MAPA and CTNBio decisions, from filing to decision"),
+    "regulatory": ("Cross-desk tool", "Regulatory", "FDA, EMA, EPA, EFSA, ANVISA, MAPA and CTNBio decisions, from filing to decision"),
     "deep-dive": ("On-demand analysis", "Deep Dive", "Any company or sector: competitors, funding, activity and the latest news"),
     "about": ("About", "About & methodology", "What BioMarket Pulse covers and how each edition is made"),
     "brazil-crop-protection": ("Agriculture tool · beta", "Brazil Crop Protection", "Search Brazil's MAPA AGROFIT crop-protection registry in English, with a dashboard for every product"),
@@ -61,15 +61,23 @@ SHELL = {
 
 # Desk navigation (slug, panel id, label). Order follows the reference design.
 DESK_NAV = [
-    ("biocatalysis", "p-biocat", "Biocatalysis"),
+    # the three science desks (round markers)
     ("pharma-biotech", "p-pharma", "Pharma & Biotech"),
-    ("agriculture", "p-ag", "Agriculture"),
-    ("brazil-crop-protection", "p-brbio", "Brazil Crop Protection"),
-    ("synthetic-biology", "p-synbio", "Synthetic Biology"),
-    ("policy", "p-policy", "Policy & Public Health"),
-    ("regulatory", "p-reg", "Regulatory Tracker"),
-    ("ontology", "p-onto", "Ontology example"),
+    ("synthetic-biology", "p-synbio", "Synthetic Biology"),   # includes Biocatalysis
+    ("agriculture", "p-ag", "Agriculture"),                   # includes Brazil Crop Protection
 ]
+# cross-desk sections (diamond markers, after a divider)
+AUX_NAV = [
+    ("policy", "p-policy", "Policy"),
+    ("regulatory", "p-reg", "Regulatory"),
+    ("ontology", "p-onto", "Ontology"),
+]
+BETA = {"p-onto"}
+# sections folded into a science desk: panel id -> (host panel id, anchor id, title, kicker)
+SUBDESKS = {
+    "p-biocat": ("p-synbio", "biocatalysis", "Biocatalysis & enzymes",
+                 "Part of the Synthetic Biology desk · enzyme engineering, artificial enzymes, catalytic chemistry"),
+}
 DISCOVER_NAV = [("deep-dive", "Deep Dive"), ("", "Market Overview"), ("daily-pulse", "Daily Pulse")]
 REG_KEY = {"p-biocat": "biocat", "p-pharma": "pharma", "p-ag": "ag", "p-synbio": "synbio", "p-policy": "policy"}
 
@@ -147,6 +155,13 @@ body.desk *{font-variant-numeric:normal !important;letter-spacing:normal;} body.
 .dk-desks a[aria-current]{color:var(--ink);}
 .dk-desks i{width:10px;height:10px;border-radius:50%;display:block;flex:0 0 auto;}
 .dk-desks small{font-size:12px;color:var(--faint);font-weight:500;}
+.dk-desks .dk-desk-sep{flex:0 0 1px;align-self:center;height:18px;background:var(--line-strong);margin:0 10px;}
+.dk-desks a.dk-aux{font-weight:500;}
+.dk-desks a.dk-aux i{width:8px;height:8px;border-radius:1px;transform:rotate(45deg);margin:0 1px;}
+.dk-beta{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-tint);padding:1px 6px;border-radius:3px;vertical-align:middle;}
+.dk-subdesk{margin-top:40px;padding-top:22px;border-top:3px solid #7D5BC0;}
+.dk-subdesk>.section-head h2{margin:2px 0 4px;}
+#dk-plate .hm{display:flex;flex-direction:column;gap:10px;}
 
 .dk-desks.ovf{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);}
 /* title band */
@@ -417,8 +432,8 @@ DESK_JS = r"""<script>
     var V={}; T.bio.forEach(function(d){V[d[0]]=d[2];});
     var h=cfg.plate.map(function(g){
       var ws=g[1].filter(function(s){return V[s]!=null;}).map(function(s){var f=well(V[s]);
-        return '<a class="dk-well" href="'+yf(s)+'" target="_blank" rel="noopener" title="'+s+' '+pct(V[s])+' over 7 days" style="background:'+f[0]+';color:'+f[1]+'"><b>'+s+'</b><span>'+pct(V[s])+'</span></a>';}).join("");
-      return ws?'<div class="dk-plate-row"><div>'+esc(g[0])+'</div><div class="dk-wells">'+ws+'</div></div>':"";
+        return '<a class="tile" href="'+yf(s)+'" target="_blank" rel="noopener" title="'+s+' '+pct(V[s])+' over 7 days · tap for chart and key stats" style="background:'+f[0]+';border-color:transparent"><span class="t" style="color:'+f[1]+'">'+s+'</span><span class="c" style="color:'+f[1]+'">'+pct(V[s])+'</span></a>';}).join("");
+      return ws?'<div class="hm-g"><div class="gl">'+esc(g[0])+'</div><div class="hm-row">'+ws+'</div></div>':"";
     }).join("");
     if(h){pl.querySelector(".dk-plate-body").innerHTML=h; pl.hidden=false;}
   }
@@ -528,17 +543,16 @@ DESK_JS = r"""<script>
   },60);
 
   /* article type filters */
-  var fb=document.querySelector(".dk-filters");
-  if(fb){
-    var items=[].slice.call(fb.parentNode.querySelectorAll(".items .item"));
+  [].forEach.call(document.querySelectorAll(".dk-filters"),function(fb){
+    var items=[].slice.call(fb.parentNode.querySelectorAll(".items .item")), st=fb.nextElementSibling;
     fb.addEventListener("click",function(e){
       var b=e.target.closest("button"); if(!b) return;
       [].forEach.call(fb.querySelectorAll("button"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
       var v=b.dataset.f, n=0;
       items.forEach(function(it){var t=it.querySelector(".tag"),ok=!v||(t&&t.textContent.trim()===v);it.hidden=!ok;if(ok)n++;});
-      var st=document.getElementById("dk-filter-status"); if(st) st.textContent=n+" article"+(n===1?"":"s")+" shown";
+      if(st&&st.getAttribute("aria-live")) st.textContent=n+" article"+(n===1?"":"s")+" shown";
     });
-  }
+  });
 
   /* regulatory snapshot: link into the full tracker, filtered to this desk */
   var rs=document.querySelector(".rs[data-reg]");
@@ -607,7 +621,7 @@ def _filters(articles):
         raw = html.unescape(l)
         btn.append(f'<button type="button" aria-pressed="false" data-f="{html.escape(raw)}">{l}<span class="n">{count[l]}</span></button>')
     bar = ('<div class="dk-filters" role="group" aria-label="Filter articles by type">' + "".join(btn) +
-           '</div><span class="sr-only" id="dk-filter-status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>')
+           '</div><span class="sr-only" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>')
     return articles.replace('<div class="items">', bar + '\n      <div class="items">', 1)
 
 
@@ -682,11 +696,11 @@ def _deal_block(deals):
 
 
 def _plate_block():
-    leg = "".join(f'<span><i class="c" style="background:{c}"></i>{t}</span>' for c, t in
-                  [("#B4560F", "down 6% or more"), ("#EDA56A", "down 3–6%"), ("#E3E8ED", "within 1%"), ("#7CC79A", "up 3–6%"), ("#1E7A4C", "up 6% or more")])
+    sw = "".join(f'<i style="background:{c}"></i>' for c in ("#B4560F", "#EDA56A", "#F8DCC4", "#E3E8ED", "#D3EEDD", "#7CC79A", "#1E7A4C"))
     return ('<section id="dk-plate" aria-labelledby="dk-plate-h" hidden><h2 class="dk-h2" id="dk-plate-h">The week in biotech stocks</h2>'
-            '<p class="dk-sub">Each circle is one stock we track, colored by its seven-day move. Tap one for its quote.</p>'
-            f'<div class="dk-panel"><div class="dk-plate-body"></div><div class="dk-legend" style="border-top:1px solid var(--line)">{leg}</div></div></section>\n')
+            '<p class="dk-sub">Each tile is one stock we track, grouped by sector and colored by its seven-day move. Tap one for its chart and key stats.</p>'
+            '<div class="dk-panel"><div class="dk-plate-body hm"></div>'
+            f'<div class="hm-legend" style="border-top:1px solid var(--line);padding-top:10px"><span>−6%</span>{sw}<span>+6%</span><span style="margin-left:10px">7-day change</span></div></div></section>\n')
 
 
 def _glance(arts):
@@ -709,7 +723,29 @@ def _glance(arts):
             '<div><h2 id="dk-agency-t">Regulatory actions by agency</h2><div class="dk-agency" id="dk-agency"></div></div></div>')
 
 
-def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview):
+def _desk_content(panel, label, cfg, suffix=""):
+    """Desk arrangement of one panel's sections. suffix keeps ids unique when a second
+    desk (a sub-desk) is rendered on the same page."""
+    secs = _top_sections(panel)
+    arts = next((s for s in secs if "<h2>Latest Articles</h2>" in s), "")
+    pa = next((s for s in secs if s.startswith('<section class="pa"')), "")
+    rs = next((s for s in secs if 'class="rs"' in s[:40]), "")
+    pp = next((s for s in secs if s.startswith('<section class="pp-sec"')), "")
+    ai = secs.index(arts) if arts else len(secs)
+    early = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i < ai]
+    late = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i > ai]
+    watch = (f'<div class="dk-watch" id="dk-watch" aria-label="{html.escape(label)} watchlist"></div>\n'
+             if (not suffix and (cfg["watch"] or cfg["watch_tape"])) else "")
+    an = _analysis(pa)
+    if suffix:
+        an = an.replace('id="dk-pa-h"', f'id="dk-pa-h{suffix}"').replace('"dk-pa-h"', f'"dk-pa-h{suffix}"') \
+               .replace('id="dk-ins-h"', f'id="dk-ins-h{suffix}"').replace('"dk-ins-h"', f'"dk-ins-h{suffix}"')
+    content = (watch + an + rs + "\n" + "\n".join(early) +
+               '<div class="dk-lower">\n' + _filters(arts) + "\n" + pp + "\n</div>\n" + "\n".join(late))
+    return content, arts
+
+
+def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview, subdesks=None):
     """Direction D look for one built page: a full desk for panels in DESKS,
     the shared frame (header, desk tabs, title band) for every other page."""
     import json
@@ -735,12 +771,18 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
            '<button type="button" class="dk-menu" aria-expanded="false" aria-controls="dk-gnav">Menu</button>'
            f'<nav class="dk-gnav" id="dk-gnav" aria-label="Site">{links}{ask}</nav></header>\n')
     tabs = []
-    for dslug, dpid, dl in DESK_NAV:
-        n = counts.get(dpid)
-        cur = dpid == pid or (not is_desk and dslug == slug)
-        col = DESK_COLOR.get(dpid, "#4A5B6C")
-        tabs.append(f'<a href="{_href(dslug, preview)}"' + (f' aria-current="page" style="border-bottom-color:{col}"' if cur else "") +
-                    f'><i aria-hidden="true" style="background:{col}"></i>{html.escape(dl)}' + (f' <small title="{n} articles in this edition">{n}<span class="dk-unit"> articles</span></small>' if n else "") + '</a>')
+    for aux, items in ((False, DESK_NAV), (True, AUX_NAV)):
+        if aux:
+            tabs.append('<span class="dk-desk-sep" aria-hidden="true"></span>')
+        for dslug, dpid, dl in items:
+            n = counts.get(dpid)
+            cur = dpid == pid or (not is_desk and dslug == slug)
+            col = DESK_COLOR.get(dpid, "#4A5B6C")
+            tabs.append(f'<a href="{_href(dslug, preview)}"' + (' class="dk-aux"' if aux else "") +
+                        (f' aria-current="page" style="border-bottom-color:{col}"' if cur else "") +
+                        f'><i aria-hidden="true" style="background:{col}"></i>{html.escape(dl)}' +
+                        (f' <small title="{n} articles in this edition">{n}<span class="dk-unit"> articles</span></small>' if n else "") +
+                        (' <span class="dk-beta">Beta</span>' if dpid in BETA else "") + '</a>')
     tabs = '<nav class="dk-desks" aria-label="Research desks">' + "".join(tabs) + '</nav>\n'
     doc = re.sub(r'<header class="masthead">.*?</header>', lambda m: top + tabs, doc, count=1, flags=re.S)
     doc = re.sub(r'\s*<nav class="tabs" id="tabs".*?</nav>\s*<script>\(function\(\)\{var c=document\.querySelector\(\'\.tabs.*?</script>',
@@ -766,9 +808,14 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
         h1 = f"{len(deals)} deals, {_fmt_money(total)} in headline value"
         sub = html.escape("Market overview: deal flow, how the biotech stocks we track moved, markets and today's signals.")
 
-    secs = _top_sections(panel) if is_desk else []
-    arts = next((s for s in secs if "<h2>Latest Articles</h2>" in s), "")
-    glance = _glance(arts) if is_desk else ""
+    content, arts = _desk_content(panel, label, cfg) if is_desk else ("", "")
+    sub_html, sub_arts = "", ""
+    for sub_id, sub_title, sub_kicker, sub_panel in (subdesks or []):
+        c, a = _desk_content(sub_panel, sub_title, DESKS.get("p-biocat", cfg), "-" + sub_id)
+        sub_arts += a
+        sub_html += (f'<div class="dk-subdesk" id="{sub_id}"><div class="section-head"><span class="dk-kicker">{html.escape(sub_kicker)}</span>'
+                     f'<h2 class="dk-h2">{html.escape(sub_title)}</h2></div>\n{c}</div>\n')
+    glance = _glance(arts + sub_arts) if is_desk else ""
     hero = (f'<div class="dk-hero"><div class="dk-hero-in"><div class="dk-hero-main">'
             f'<p class="dk-eyebrow">{html.escape(eyebrow)}</p><h1>{html.escape(h1)}</h1>'
             + (f'<p class="dk-topics">{sub}</p>' if sub else "") + listen.strip() + f'</div>{glance}</div></div>\n')
@@ -782,16 +829,7 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
                    f'See <a href="{_href("about", preview)}">About and methodology</a>.</p></div></details>\n')
 
     if is_desk:
-        pa = next((s for s in secs if s.startswith('<section class="pa"')), "")
-        rs = next((s for s in secs if 'class="rs"' in s[:40]), "")
-        pp = next((s for s in secs if s.startswith('<section class="pp-sec"')), "")
-        ai = secs.index(arts) if arts else len(secs)
-        early = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i < ai]
-        late = [s for i, s in enumerate(secs) if s not in (pa, rs, pp, arts) and i > ai]
-        watch = (f'<div class="dk-watch" id="dk-watch" aria-label="{html.escape(label)} watchlist"></div>\n'
-                 if (cfg["watch"] or cfg["watch_tape"]) else "")
-        content = (watch + _analysis(pa) + rs + "\n" + "\n".join(early) +
-                   '<div class="dk-lower">\n' + _filters(arts) + "\n" + pp + "\n</div>\n" + "\n".join(late))
+        content += sub_html
     else:
         content = panel
         if slug == "":

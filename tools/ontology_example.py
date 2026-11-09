@@ -228,17 +228,17 @@ def _render(OUT, preview, bars, tpl):
     </main>
     '''
     page = re.sub(r'<main id="main">.*?</main>', lambda m: main, tpl, count=1, flags=re.S)
-    page = page.replace('<span aria-current="page">About &amp; methodology</span>', '<span aria-current="page">Ontology example</span>')
-    page = re.sub(r'(<p class="dk-eyebrow">)[^<]*(</p>)', r'\1Ontology example\2', page, count=1)
+    page = page.replace('<span aria-current="page">About &amp; methodology</span>', '<span aria-current="page">Ontology (beta)</span>')
+    page = re.sub(r'(<p class="dk-eyebrow">)[^<]*(</p>)', r'\1Ontology, beta\2', page, count=1)
     page = re.sub(r'<h1>[^<]*</h1>', '<h1>One thread from patent to price</h1>', page, count=1)
     page = re.sub(r'(<p class="dk-topics">)[^<]*(</p>)', r'\1How BioMarket Pulse can link its datasets, from a Novo Nordisk patent to the stock move, and turn the links into R&D, M&A and investment insights.\2', page, count=1)
     page = re.sub(r'<section class="listen-bar".*?</section>', '', page, count=1, flags=re.S)
-    page = page.replace('<title>', '<title>Ontology example: patent to price | ', 1)
-    page = re.sub(r'<title>Ontology example: patent to price \| [^<]*</title>', '<title>Ontology example: patent to price | BioMarket Pulse</title>', page, count=1)
+    page = page.replace('<title>', '<title>Ontology (beta): patent to price | ', 1)
+    page = re.sub(r'<title>Ontology \(beta\): patent to price \| [^<]*</title>', '<title>Ontology (beta): patent to price | BioMarket Pulse</title>', page, count=1)
     page = page.replace("</head>", CSS + "</head>", 1).replace("</body>", JS + "</body>", 1)
     page = page.replace('<a href="about.html" aria-current="true">About</a>', '<a href="about.html">About</a>')
     tab_href = "ontology.html" if preview else "/ontology/"
-    page = page.replace(f'<a href="{tab_href}">', f'<a href="{tab_href}" aria-current="page" style="border-bottom-color:#7D5BC0">', 1)
+    page = re.sub(r'<a href="%s"( class="dk-aux")?>' % re.escape(tab_href), lambda m: f'<a href="{tab_href}"{m.group(1) or ""} aria-current="page" style="border-bottom-color:#7D5BC0">', page, count=1)
     page = re.sub(r'(<nav class="dk-gnav"[^>]*>.*?)</nav>', lambda m: m.group(0).replace(' aria-current="page"', ''), page, count=1, flags=re.S)
     if preview:
         open(os.path.join(OUT, "ontology.html"), "w").write(page)

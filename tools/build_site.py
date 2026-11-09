@@ -15,7 +15,7 @@ viewing without a web server.
 import datetime, html, json, os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from desk_layout import apply_layout, apply_tracker_link
+from desk_layout import apply_layout, apply_tracker_link, SUBDESKS
 import ontology_example
 
 SITE = "https://www.biomarketpulse.com"
@@ -29,26 +29,20 @@ PAGES = [
     ("daily-pulse", "p-daily", "Daily Pulse",
      "Daily Pulse — Five things to know and deal flow | BioMarket Pulse",
      "The five things that matter today across biotech, pharma, synbio and agriculture, the lead story, and every M&A, licensing, funding and IPO deal of the last seven days."),
-    ("biocatalysis", "p-biocat", "Biocatalysis",
-     "Biocatalysis — Enzyme engineering news and analysis | BioMarket Pulse",
-     "Daily news, analysis, regulatory actions and new research on enzyme engineering, enzyme design and biocatalytic manufacturing."),
     ("pharma-biotech", "p-pharma", "Pharma & Biotech",
      "Pharma & Biotech — Deals, approvals and readouts | BioMarket Pulse",
      "Pharma and biotech M&A, licensing, FDA and EMA decisions, clinical readouts and financings, with daily analysis and new research papers."),
-    ("agriculture", "p-ag", "Agriculture",
-     "Agriculture — Global and Brazil ag-biotech intelligence | BioMarket Pulse",
-     "Crop protection, seeds, biologicals, gene editing and fertilizer news, Brazil harvest and export data, and ag regulatory decisions from EPA, the EU, MAPA and CTNBio."),
-    ("brazil-crop-protection", "p-brbio", "Brazil Crop Protection",
-     "Brazil Crop Protection — MAPA AGROFIT registry search (beta) | BioMarket Pulse",
-     "Search Brazil's MAPA AGROFIT crop-protection registry in English: products, active ingredients, companies and registered crops, with a dashboard for each product."),
     ("synthetic-biology", "p-synbio", "Synthetic Biology",
      "Synthetic Biology — Biomanufacturing and protein design | BioMarket Pulse",
-     "AI protein design, biomanufacturing, precision fermentation and synbio funding, with daily analysis, regulatory actions and new research."),
-    ("policy", "p-policy", "Policy & Public Health",
-     "Policy & Public Health — Drug pricing, outbreaks and food safety | BioMarket Pulse",
+     "AI protein design, biomanufacturing, precision fermentation, biocatalysis and enzyme engineering, and synbio funding, with daily analysis, regulatory actions and new research."),
+    ("agriculture", "p-ag", "Agriculture",
+     "Agriculture — Global and Brazil ag-biotech intelligence | BioMarket Pulse",
+     "Crop protection, seeds, biologicals, gene editing and fertilizer news, Brazil harvest and export data, a search of Brazil's crop-protection registry, and ag regulatory decisions from EPA, the EU, MAPA and CTNBio."),
+    ("policy", "p-policy", "Policy",
+     "Policy — Drug pricing, outbreaks and food safety | BioMarket Pulse",
      "Drug pricing and market-access policy, outbreaks and WHO actions, vaccine policy, antimicrobial resistance and food-chain safety rules in the US, EU, UK and Brazil."),
-    ("regulatory", "p-reg", "Regulatory Tracker",
-     "Regulatory Tracker — FDA, EMA, EPA, EFSA and ANVISA decisions | BioMarket Pulse",
+    ("regulatory", "p-reg", "Regulatory",
+     "Regulatory — FDA, EMA, EPA, EFSA and ANVISA decisions | BioMarket Pulse",
      "Track upcoming FDA, EMA, EPA, EFSA, ANVISA and CTNBio decisions for drugs, crop-protection products, food enzymes and GM microbes, from filing to final decision."),
     ("deep-dive", "p-deep", "Deep Dive",
      "Deep Dive — Company and sector analysis | BioMarket Pulse",
@@ -57,7 +51,11 @@ PAGES = [
 ABOUT = ("about", "About BioMarket Pulse",
          "What BioMarket Pulse covers, how each daily edition is compiled, and how to use it.")
 
-PILL_KEYS = {"p-biocat", "p-pharma", "p-ag", "p-synbio", "p-policy"}
+PILL_KEYS = {"p-pharma", "p-ag", "p-synbio", "p-policy"}
+
+# Old addresses of sections that were folded into another page: slug -> new address (no leading slash)
+MOVED = {"biocatalysis": "synthetic-biology/#biocatalysis",
+         "brazil-crop-protection": "agriculture/#br-bio"}
 
 
 def fail(msg):
@@ -123,7 +121,7 @@ BR_SECTION = r"""<section class="brb" id="br-bio" aria-labelledby="brb-h">
 .brb .brb-msg{padding:14px 2px;color:var(--muted);font-size:14px}
 </style>
   <div class="section-head">
-    <h2 id="brb-h">Brazil Crop Protection Search</h2>
+    <h2 id="brb-h">Brazil Crop Protection <span class="dk-beta">Beta</span></h2>
     <span class="count" id="brb-count">MAPA · AGROFIT</span>
   </div>
   <p class="brb-sub">Type what you're looking for, in English or Portuguese, and get every product registered in Brazil that matches, chemical and biological. Combine a product type, a crop, a pest, an active ingredient or a company. Each result opens its own product dashboard.</p>
@@ -382,6 +380,7 @@ def head_tags(title, desc, slug, preview, edition_date_iso):
 
 def site_footer(preview):
     links = [f'<a href="{href(s, preview)}">{html.escape(l)}</a>' for s, _, l, *_ in PAGES]
+    links.append(f'<a href="{href("ontology", preview)}">Ontology (beta)</a>')
     links.append(f'<a href="{href(ABOUT[0], preview)}">About</a>')
     year = datetime.date.today().year
     return ('\n  <div class="site-foot">\n    <nav aria-label="Site">' + " ".join(links) + "</nav>\n"
@@ -390,10 +389,75 @@ def site_footer(preview):
 
 HASH_REDIRECT = """<script>
 /* Old one-page links (/#pharma) go to the new page for that section. */
-(function(){var m={overview:"%s",daily:"%s",biocat:"%s",pharma:"%s",ag:"%s",brbio:"%s",synbio:"%s",policy:"%s",reg:"%s",deep:"%s"};
+(function(){var m=%s;
 var h=(location.hash||"").replace(/^#/,"");if(m[h]&&h!=="overview"){location.replace(m[h]);}})();
 </script>
 """
+
+
+def hash_map(preview):
+    keys = {"p-overview": "overview", "p-daily": "daily", "p-pharma": "pharma", "p-ag": "ag", "p-synbio": "synbio",
+            "p-policy": "policy", "p-reg": "reg", "p-deep": "deep"}
+    m = {keys[pid]: href(slug, preview) for slug, pid, *_ in PAGES if pid in keys}
+    m["biocat"] = href("synthetic-biology", preview) + "#biocatalysis"
+    m["brbio"] = href("agriculture", preview) + "#br-bio"
+    return json.dumps(m)
+
+
+def redirect_page(target):
+    t = html.escape(target)
+    return (f'<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Moved | {NAME}</title>'
+            f'<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url={t}">'
+            f'<link rel="canonical" href="{SITE}{t.split("#")[0]}"><script>location.replace("{t}");</script></head>'
+            f'<body style="font:16px system-ui,sans-serif;padding:40px">This section has moved: <a href="{t}">continue</a>.</body></html>\n')
+
+
+# ---------------------------------------------------------------- overview + stock panel edits
+# The sector heatmap is no longer shown; the overview's "week in biotech stocks" tiles replace it.
+def drop_heatmap(page):
+    new, n = re.subn(r'\s*<div class="panel">\s*<div class="hm-head">.*?<div class="hm-legend">.*?</div>\s*</div>', "", page, count=1, flags=re.S)
+    if not n:
+        print("build_site: warning — sector heatmap not found (already removed?)")
+        return page
+    return new.replace(".pulse{display:grid;grid-template-columns:1fr 2fr;gap:20px;}", ".pulse{display:grid;grid-template-columns:1fr;gap:20px;}", 1)
+
+
+# Fundamentals in the stock chart panel, from tools/fundamentals.json (symbol -> display strings).
+FUND_JS = """  /* Fundamentals: tools/fundamentals.json (stockanalysis.com statistics; price ratios recomputed at the chart's last close) */
+  var FUND=__FUND__;
+  var FUND_ROWS=[["mcap","Market cap"],["pe","P/E (ttm)"],["fpe","Forward P/E"],["eps","EPS (ttm)"],["ps","Price / sales"],["pb","Price / book"],["rev","Revenue (ttm)"],["margin","Profit margin"],["div","Dividend yield"],["beta","Beta (5y)"],["short","Short % of float"],["avgvol","Avg volume (20d)"]];
+  function fundRows(sym){
+    var f=FUND[sym]; if(!f) return "";
+    return '<tr class="scm-sec"><th colspan="2" scope="rowgroup">Fundamentals</th></tr>'+FUND_ROWS.map(function(r){
+      var v=f[r[0]]==null?"—":String(f[r[0]]); var c=(r[0]==="margin"||r[0]==="eps")&&/^-/.test(v)?' class="dn"':'';
+      return '<tr><th scope="row">'+r[1]+'</th><td'+c+'>'+v.replace(/^-/,"−")+'</td></tr>';
+    }).join("");
+  }
+  function renderStats(sym,d){"""
+
+
+def add_fundamentals(page):
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fundamentals.json")
+    if not os.path.isfile(path) or "function fundRows(" in page:
+        return page
+    fund = json.load(open(path, encoding="utf-8"))
+    edits = [
+        ("  function renderStats(sym,d){", FUND_JS.replace("__FUND__", json.dumps(fund, separators=(",", ":")))),
+        ("""      +'<tr><th scope="row">52w low</th><td>'+fmtNum(d.lo52)+'</td></tr>'\n      +'</table>';""",
+         """      +'<tr><th scope="row">52w low</th><td>'+fmtNum(d.lo52)+'</td></tr>'\n      +fundRows(sym)\n      +'</table>';"""),
+        ("  .scm-stats td.up{color:var(--tag-product);} .scm-stats td.dn{color:var(--tag-risk);}",
+         "  .scm-stats td.up{color:var(--tag-product);} .scm-stats td.dn{color:var(--tag-risk);}\n"
+         "  .scm-stats tr.scm-sec th{text-align:left;background:var(--surface-2,#F0F4F7);color:var(--ink);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;}"),
+        ("For information only — not investment advice.",
+         "Fundamentals (biotech names) from stockanalysis.com; market cap and price ratios recalculated at the close shown. For information only — not investment advice."),
+    ]
+    for old, new in edits:
+        if page.count(old) != 1:
+            print("build_site: warning — fundamentals anchor not found; stock panel unchanged:", old[:60])
+            return page
+    for old, new in edits:
+        page = page.replace(old, new)
+    return page
 
 
 def strip_tab_switcher(page):
@@ -470,8 +534,13 @@ def build(edition_path, out, preview=False):
     full = re.sub(r"<title>.*?</title>\s*", "", full, count=1, flags=re.S)
     full = re.sub(r"<html(?![^>]*\blang=)", '<html lang="en"', full, count=1)
     full = add_listen_bar(full, out, preview)
+    full = drop_heatmap(full)
+    full = add_fundamentals(full)
     panels, first, end_all = find_panels(full)
     counts = nav_counts(full)
+    for sub, (host, *_r) in SUBDESKS.items():  # a folded section's articles count toward its host desk
+        if sub in counts and host in counts:
+            counts[host] = str(int(counts[host]) + int(counts.pop(sub)))
     nav_m = re.search(r'<nav class="tabs" id="tabs".*?</nav>', full, re.S)
     if not nav_m:
         fail("could not find the tab bar")
@@ -499,7 +568,7 @@ def build(edition_path, out, preview=False):
                                     f'<span class="bn"><a href="{href("", preview)}">BioMarket Pulse</a></span>', 1)
         footer = doc[end_all + shift:f1]
         after = doc[f1:]
-        extra = HASH_REDIRECT % tuple(href(s, preview) for s, *_ in PAGES) if home else ""
+        extra = HASH_REDIRECT % hash_map(preview) if home else ""
         return before + body_html + "\n  " + footer + site_footer(preview) + after.replace("</body>", extra + "</body>", 1)
 
     for slug, pid, label, title, desc in PAGES:
@@ -520,7 +589,14 @@ def build(edition_path, out, preview=False):
                 print("build_site: warning — regulatory marker not found on Agriculture; registry section skipped")
         body = '<main id="main">\n  ' + body.strip() + "\n  </main>\n"
         doc = page_html(title, desc, slug, pid, body, home=(slug == ""))
-        doc = apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
+        subs = []
+        for sub, (host, anchor, stitle, kicker) in SUBDESKS.items():
+            if host == pid and sub in panels:
+                sa, sb = panels[sub]
+                sbody = re.sub(r'^<div class="tabpanel" id="%s"[^>]*>' % sub, "", full[sa:sb].strip(), count=1)
+                sbody = re.sub(r'</div>(\s*<!--[^>]*-->)?\s*$', "", sbody)
+                subs.append((anchor, stitle, kicker, sbody))
+        doc = apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview, subdesks=subs)
         if pid == "p-reg":
             doc = apply_tracker_link(doc)
         path = os.path.join(out, (slug or "overview") + ".html") if preview else \
@@ -528,6 +604,13 @@ def build(edition_path, out, preview=False):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         open(path, "w", encoding="utf-8").write(doc)
         written.append(path)
+
+    # Sections folded into another page keep their old address as a redirect
+    for old_slug, target in MOVED.items():
+        tgt = (target.replace("/#", ".html#") if preview else "/" + target)
+        path = os.path.join(out, old_slug + ".html") if preview else os.path.join(out, old_slug, "index.html")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        open(path, "w", encoding="utf-8").write(redirect_page(tgt))
 
     # About page
     about_body = f"""<main id="main">
@@ -537,10 +620,10 @@ def build(edition_path, out, preview=False):
     <p>Each morning's edition brings together the deals, product launches, regulatory decisions, clinical and field results, research papers and market moves that matter to executives, investors and scientists working across these sectors.</p>
     <h2>What's inside</h2>
     <ul>
-      <li><a href="{href('', preview)}">Market Overview</a>: stock moves, a sector heatmap, the catalyst calendar and today's signals.</li>
+      <li><a href="{href('', preview)}">Market Overview</a>: stock moves, the week in biotech stocks, the catalyst calendar and today's signals.</li>
       <li><a href="{href('daily-pulse', preview)}">Daily Pulse</a>: five things to know, the lead story and seven days of deal flow.</li>
-      <li>Sector pages for <a href="{href('biocatalysis', preview)}">Biocatalysis</a>, <a href="{href('pharma-biotech', preview)}">Pharma &amp; Biotech</a>, <a href="{href('agriculture', preview)}">Agriculture</a>, <a href="{href('synthetic-biology', preview)}">Synthetic Biology</a> and <a href="{href('policy', preview)}">Policy &amp; Public Health</a>, each with analysis, a regulatory snapshot, the latest articles and new research papers.</li>
-      <li><a href="{href('regulatory', preview)}">Regulatory Tracker</a>: products moving through FDA, EMA, EPA, EFSA, ANVISA, MAPA and CTNBio, from filing to decision.</li>
+      <li>Science desks for <a href="{href('pharma-biotech', preview)}">Pharma &amp; Biotech</a>, <a href="{href('synthetic-biology', preview)}">Synthetic Biology</a> (including biocatalysis and enzymes) and <a href="{href('agriculture', preview)}">Agriculture</a> (including the Brazil crop-protection registry), plus <a href="{href('policy', preview)}">Policy</a>, each with analysis, a regulatory snapshot, the latest articles and new research papers.</li>
+      <li><a href="{href('regulatory', preview)}">Regulatory</a>: products moving through FDA, EMA, EPA, EFSA, ANVISA, MAPA and CTNBio, from filing to decision.</li>
       <li><a href="{href('deep-dive', preview)}">Deep Dive</a>: an on-demand view of any company or sector's competitors, funding and recent news.</li>
     </ul>
     <h2>How each edition is made</h2>
