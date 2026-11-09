@@ -121,7 +121,7 @@ body.desk *{text-transform:none !important;}
 body.desk :is(h3,h4,h5,.gl,.count,.tag,.rs-go,.bm .n,.tape-lbl,small,label,.lbl,.kicker,.k){letter-spacing:normal !important;}
 body.desk .hm .tile{border-radius:10px;overflow:hidden;}
 body.desk .rt-axis{overflow:clip;overflow-clip-margin:16px;}
-body.desk :is(.v,.d,.w,.pct,.price){font-variant-numeric:tabular-nums;}
+body.desk *{font-variant-numeric:normal !important;letter-spacing:normal;} body.desk :is(.v,.dk-q-big,.dk-deals .amt,.bm .v){letter-spacing:-0.01em;}
 
 /* header + desk tabs */
 .dk-top{background:var(--ink);color:#E4ECF5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 28px;padding:10px 48px;min-height:56px;box-sizing:border-box;}
@@ -170,7 +170,7 @@ body.desk :is(.v,.d,.w,.pct,.price){font-variant-numeric:tabular-nums;}
 .dk-agency div{display:flex;align-items:center;gap:12px;font-size:15px;}
 .dk-agency b{flex:0 0 120px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .dk-agency .dots{display:flex;flex-wrap:wrap;gap:5px;} .dk-agency .dots i{width:14px;height:14px;border-radius:50%;background:#7FA9EC;display:block;}
-.dk-agency em{font-style:normal;color:#CFDCEA;font-variant-numeric:tabular-nums;}
+.dk-agency em{font-style:normal;color:#CFDCEA;}
 
 /* main column */
 body.desk main#main{max-width:1344px;margin:0 auto;padding:28px 48px 56px;min-width:0;}
@@ -187,7 +187,7 @@ body.desk .section-head .desc{font-size:15px;color:var(--muted);flex-basis:100%;
 .dk-watch .q{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);padding:8px 16px 8px 8px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px var(--line);font-size:14px;min-height:44px;box-sizing:border-box;}
 .dk-watch .q i{width:28px;height:28px;border-radius:50%;display:block;flex:0 0 auto;}
 .dk-watch .q b{font-size:15px;font-weight:800;}
-.dk-watch .q span{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;}
+.dk-watch .q span{color:var(--muted);font-weight:600;}
 .dk-watch a.q:hover{box-shadow:0 0 0 2px var(--accent);}
 .dk-watch .lbl{align-self:center;font-size:14px;color:var(--muted);padding:0 6px;}
 
@@ -237,7 +237,7 @@ body.desk .pp-t{font-size:16px;font-weight:700;color:var(--ink);}
 .dk-deals .row1 span{font-size:15px;color:var(--muted);}
 .dk-deals .row2{display:flex;align-items:center;gap:14px;}
 .dk-deals .bar{height:26px;border-radius:0 6px 6px 0;max-width:72%;min-width:6px;}
-.dk-deals .amt{font-size:24px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.dk-deals .amt{font-size:24px;font-weight:800;white-space:nowrap;}
 .dk-legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--muted);padding-top:12px;}
 .dk-legend span{display:flex;align-items:center;gap:8px;} .dk-legend i{display:block;width:18px;height:12px;border-radius:3px;}
 .dk-legend i.c{width:12px;height:12px;border-radius:50%;}
@@ -246,7 +246,7 @@ body.desk .pp-t{font-size:16px;font-weight:700;color:var(--ink);}
 .dk-plate-row>div:first-child{flex:0 0 160px;font-size:14px;color:var(--muted);}
 .dk-wells{display:flex;flex-wrap:wrap;gap:8px;}
 .dk-well{width:60px;height:60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;box-shadow:inset 0 0 0 1px rgba(14,34,54,.08);}
-.dk-well b{font-size:12px;font-weight:700;} .dk-well span{font-size:11px;font-variant-numeric:tabular-nums;}
+.dk-well b{font-size:12px;font-weight:700;} .dk-well span{font-size:11px;}
 .dk-well:hover{box-shadow:0 0 0 3px var(--accent);}
 .dk-sub{margin:6px 0 18px;font-size:16px;color:var(--muted);}
 .dk-h2{margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.15;}
@@ -255,14 +255,39 @@ body.desk .bm{border-radius:14px;}
 .dk-mv::before{content:"";position:absolute;left:50%;top:-3px;width:1px;height:14px;background:#9AA8B5;}
 .dk-mv i{position:absolute;top:0;height:8px;display:block;}
 
+/* ---- polish pass: one card language, a type floor, aligned notes ---- */
+body.desk .panel{border:0 !important;border-radius:18px;box-shadow:0 0 0 1px var(--line) !important;padding:22px 24px;background:#fff;}
+body.desk .hero{align-items:start;}
+body.desk .bench{background:transparent !important;border:0 !important;box-shadow:none !important;gap:10px !important;}
+body.desk .bm{border-radius:14px;box-shadow:0 0 0 1px var(--line);padding:12px 14px;}
+body.desk .bm:hover{box-shadow:0 0 0 2px var(--accent);}
+body.desk .signal-card{border:0 !important;border-radius:16px !important;box-shadow:0 0 0 1px var(--line) !important;background:#fff;}
+body.desk .signal-card:hover{box-shadow:0 0 0 2px var(--accent) !important;}
+body.desk .rt-col{border:0 !important;border-radius:16px;background:#F0F4F7;}
+body.desk .rt-card{border:0 !important;border-radius:12px;box-shadow:0 0 0 1px var(--line);}
+body.desk :is(.kicker){display:block;font-size:14px !important;font-weight:700 !important;color:var(--accent-ink) !important;margin-bottom:6px;}
+body.desk main h4,body.desk .panel h3{font-size:15px !important;font-weight:800 !important;color:var(--ink) !important;}
+body.desk :is(.gl){font-size:13px !important;font-weight:700 !important;color:var(--muted) !important;}
+body.desk :is(.src,.bench-note,.ms-asof,.cal-foot,.df-note,.pp-note,.rt-note,.pp-hint){font-size:13px !important;line-height:1.5;color:var(--muted);}
+body.desk :is(.bench-note){text-align:left !important;margin-top:8px;}
+body.desk :is(.ac,.rg,.pt,.who,.nx,.tick,.tm,.sep,.n,.d,.j,.dt,.c,.k){font-size:12px !important;}
+body.desk .rt-axis .tick{font-size:12px !important;}
+body.desk .bm .n{font-size:13px !important;font-weight:700;color:var(--muted);}
+body.desk .bm .v{font-size:22px !important;}
+body.desk .bm :is(.up,.dn,.w){font-size:13px !important;}
+body.desk .section-head .desc,body.desk .section-head span.desc{text-align:left !important;margin:0 !important;flex-basis:100%;}
+body.desk .seg button,body.desk .hm-head .seg button,body.desk .df-top button{font-size:13px !important;min-height:34px;padding:6px 14px;}
+body.desk .tag{font-size:12px !important;}
+body.desk .why{font-size:13px !important;}
+
 /* in-site quote panel */
 .dk-q{position:fixed;inset:0;background:rgba(14,34,54,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:1000;}
 .dk-q[hidden]{display:none;}
 .dk-q-box{position:relative;background:#fff;border-radius:20px;padding:28px 28px 24px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(14,34,54,.35);}
 .dk-q-box h2{margin:0 40px 12px 0;font-size:26px;font-weight:800;letter-spacing:-.02em;}
 .dk-q-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:#F0F4F7;font-size:24px;cursor:pointer;color:var(--ink);}
-.dk-q-big{margin:0;font-size:34px;font-weight:800;font-variant-numeric:tabular-nums;}
-.dk-q-chg{margin:4px 0 0;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums;}
+.dk-q-big{margin:0;font-size:34px;font-weight:800;}
+.dk-q-chg{margin:4px 0 0;font-size:17px;font-weight:600;}
 .dk-q-note{margin:6px 0 0;font-size:14px;color:var(--muted);}
 .dk-q-msg{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line);font-size:15px;line-height:1.5;color:var(--muted);}
 /* the chart popup no longer links out */
@@ -470,6 +495,13 @@ DESK_JS = r"""<script>
     var t=el.textContent;
     if(/Yahoo Finance quote|tile for Yahoo Finance/.test(t)) el.textContent=t.replace("for its Yahoo Finance quote","for its chart").replace("tap any tile for Yahoo Finance","tap any tile for its chart");
   });
+
+
+  /* Deal Flow: open on the past 7 days when the last 24 hours had no deals */
+  setTimeout(function(){
+    var tot=document.getElementById("df-total"), b7=document.querySelector('.df-top button[data-w="7d"]');
+    if(tot&&b7&&tot.textContent.trim()==="0"&&b7.getAttribute("aria-pressed")!=="true") b7.click();
+  },60);
 
   /* article type filters */
   var fb=document.querySelector(".dk-filters");
@@ -747,6 +779,8 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview)
               "page_tape": cfg.get("page_tape") if is_desk else None,
               "desk": is_desk, "plate": PLATE_GROUPS if slug == "" else [],
               "tracker": _href("regulatory", preview) + "?sector=" + REG_KEY.get(pid, "")}
+    # one typeface: the legacy monospace numerals become Schibsted figures
+    doc = re.sub(r"'IBM Plex Mono',\s*monospace", "'Schibsted Grotesk',system-ui,sans-serif", doc)
     doc = doc.replace("</head>", FONT_LINK + DESK_CSS + "</head>", 1)
     doc = doc.replace("</body>", DESK_JS % {"cfg": json.dumps(js_cfg)} + "</body>", 1)
     return doc
