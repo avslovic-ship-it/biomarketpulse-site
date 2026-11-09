@@ -1,4 +1,13 @@
-<!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Ontology (beta): patent to price | BioMarket Pulse</title>
+<!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style id="region-colors">
+  .rg.rg-am{color:#1F5FC4 !important;background:#EAF1FC !important;border-color:#BFD3F5 !important;}
+  .rg.rg-la{color:#0B7A4B !important;background:#E5F4EC !important;border-color:#A9DBC1 !important;}
+  .rg.rg-eu{color:#6B46C1 !important;background:#F1ECFB !important;border-color:#CDBDF0 !important;}
+  .rg.rg-as{color:#B42357 !important;background:#FCEAF0 !important;border-color:#F0B8CB !important;}
+  .rg.rg-me{color:#0E7490 !important;background:#E2F3F7 !important;border-color:#A7D8E3 !important;}
+  .row1 .rg{margin-right:6px;}
+  .signal-card .rg{display:inline-block;align-self:flex-start;width:auto;margin:0 0 4px;font:600 10px 'Schibsted Grotesk',system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);border-radius:3px;padding:1px 6px;}
+</style>
+<title>Ontology (beta): patent to price | BioMarket Pulse</title>
 <meta name="description" content="What BioMarket Pulse covers, how each daily edition is compiled, and how to use it.">
 <link rel="canonical" href="https://www.biomarketpulse.com/about/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -2347,6 +2356,14 @@ body.desk #scm-trends{grid-column:1 / -1;grid-row:4;display:grid;grid-template-c
     e.preventDefault(); openPanel(sym);
   });
 })();
+</script>
+<script>
+/* Region labels: color every .rg (articles, signals, regulatory cards, tracker) by world region */
+(function(){var F={"am": ["US", "USA", "United States", "Canada", "North America", "Americas"], "la": ["Brazil", "LatAm", "Latin America", "Argentina", "Mexico", "Chile", "Colombia", "Peru", "Paraguay", "Uruguay"], "eu": ["EU", "Europe", "UK", "Switzerland", "Germany", "France", "Denmark", "Netherlands", "Sweden", "Italy", "Spain", "Norway", "Ireland", "Belgium", "Finland", "Austria", "Poland", "Portugal"], "as": ["Asia", "APAC", "Asia-Pacific", "China", "Japan", "India", "Korea", "South Korea", "Singapore", "Taiwan", "Hong Kong", "Australia", "New Zealand", "Vietnam", "Indonesia", "Thailand", "Malaysia", "Philippines"], "me": ["Middle East", "Africa", "Israel", "Saudi Arabia", "UAE", "Egypt", "South Africa", "Nigeria", "Kenya", "Turkey"]};var M={};Object.keys(F).forEach(function(k){F[k].forEach(function(n){M[n.toLowerCase()]=k;});});
+function paint(){[].forEach.call(document.querySelectorAll(".rg"),function(e){if(/\brg-(am|la|eu|as|me)\b/.test(e.className))return;
+var t=(e.textContent||"").split(/[·,\/]/)[0].trim().toLowerCase();var k=M[t];if(k)e.classList.add("rg-"+k);});}
+paint();document.addEventListener("DOMContentLoaded",paint);setTimeout(paint,400);setTimeout(paint,1500);
+if(window.MutationObserver){var n=0;new MutationObserver(function(){if(n++<200)paint();}).observe(document.documentElement,{childList:true,subtree:true});}})();
 </script>
 <script>
 /* Direction D: watchlist chips, overview well plate + tile move bars, agency dots, filters, tracker link */

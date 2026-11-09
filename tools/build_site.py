@@ -331,7 +331,7 @@ def enforce_freshness(page, today):
     dropped = {"articles": 0, "signals": 0, "reg": 0, "papers": 0}
     # Latest Articles and Today's Signals: drop items older than MAX_ARTICLE_DAYS
     for kind, pat, date_pat in (("articles", r'<div class="item">', r'<div class="when">([^<]*)</div>'),
-                                ("signals", r'<div class="signal-card[^"]*">', r'<div class="src">[^<]*·\s*([^<]*)</div>')):
+                                ("signals", r'<div class="signal-card[^"]*"[^>]*>', r'<div class="src">[^<]*·\s*([^<]*)</div>')):
         for a, b in reversed(_blocks(page, pat)):
             dm = re.search(date_pat, page[a:b])
             d = _label_date(dm.group(1), today) if dm else None
@@ -431,6 +431,67 @@ def enforce_freshness(page, today):
 def count_articles(page, panels):
     """Pill counts from the articles actually shown."""
     return {pid: str(len(re.findall(r'<div class="item">', page[a:b]))) for pid, (a, b) in panels.items()}
+
+
+# ---------------------------------------------------------------- region labels
+# Every article and signal carries a region label (<span class="rg">US</span>) before its tag.
+# Labels are colored by world region; the label text names the country or bloc.
+REGION_FAMILY = {
+    "am": ["US", "USA", "United States", "Canada", "North America", "Americas"],
+    "la": ["Brazil", "LatAm", "Latin America", "Argentina", "Mexico", "Chile", "Colombia", "Peru", "Paraguay", "Uruguay"],
+    "eu": ["EU", "Europe", "UK", "Switzerland", "Germany", "France", "Denmark", "Netherlands", "Sweden", "Italy", "Spain",
+           "Norway", "Ireland", "Belgium", "Finland", "Austria", "Poland", "Portugal"],
+    "as": ["Asia", "APAC", "Asia-Pacific", "China", "Japan", "India", "Korea", "South Korea", "Singapore", "Taiwan",
+           "Hong Kong", "Australia", "New Zealand", "Vietnam", "Indonesia", "Thailand", "Malaysia", "Philippines"],
+    "me": ["Middle East", "Africa", "Israel", "Saudi Arabia", "UAE", "Egypt", "South Africa", "Nigeria", "Kenya", "Turkey"],
+}
+REGION_CSS = """<style id="region-colors">
+  .rg.rg-am{color:#1F5FC4 !important;background:#EAF1FC !important;border-color:#BFD3F5 !important;}
+  .rg.rg-la{color:#0B7A4B !important;background:#E5F4EC !important;border-color:#A9DBC1 !important;}
+  .rg.rg-eu{color:#6B46C1 !important;background:#F1ECFB !important;border-color:#CDBDF0 !important;}
+  .rg.rg-as{color:#B42357 !important;background:#FCEAF0 !important;border-color:#F0B8CB !important;}
+  .rg.rg-me{color:#0E7490 !important;background:#E2F3F7 !important;border-color:#A7D8E3 !important;}
+  .row1 .rg{margin-right:6px;}
+  .signal-card .rg{display:inline-block;align-self:flex-start;width:auto;margin:0 0 4px;font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);border-radius:3px;padding:1px 6px;}
+</style>
+"""
+REGION_JS = """<script>
+/* Region labels: color every .rg (articles, signals, regulatory cards, tracker) by world region */
+(function(){var F=%s;var M={};Object.keys(F).forEach(function(k){F[k].forEach(function(n){M[n.toLowerCase()]=k;});});
+function paint(){[].forEach.call(document.querySelectorAll(".rg"),function(e){if(/\\brg-(am|la|eu|as|me)\\b/.test(e.className))return;
+var t=(e.textContent||"").split(/[·,\\/]/)[0].trim().toLowerCase();var k=M[t];if(k)e.classList.add("rg-"+k);});}
+paint();document.addEventListener("DOMContentLoaded",paint);setTimeout(paint,400);setTimeout(paint,1500);
+if(window.MutationObserver){var n=0;new MutationObserver(function(){if(n++<200)paint();}).observe(document.documentElement,{childList:true,subtree:true});}})();
+</script>
+"""
+
+
+def _region_class(label):
+    t = label.strip().lower()
+    for fam, names in REGION_FAMILY.items():
+        if t in (n.lower() for n in names):
+            return fam
+    return ""
+
+
+def style_regions(page):
+    """Region label first in each article row, colored by world region; signal cards keep theirs."""
+    def row(m):
+        r = m.group(0)
+        rg = re.search(r'<span class="rg[^"]*">[^<]*</span>', r)
+        if rg:
+            r = r.replace(rg.group(0), "", 1)
+            r = r.replace('<div class="row1">', '<div class="row1">' + rg.group(0), 1)
+        return r
+    page = re.sub(r'<div class="row1">.*?</div>', row, page, flags=re.S)
+    def paint(m):
+        fam = _region_class(m.group(1))
+        return f'<span class="rg rg-{fam}">{m.group(1)}</span>' if fam else m.group(0)
+    page = re.sub(r'<span class="rg">([^<]{1,30})</span>', paint, page)
+    if 'id="region-colors"' not in page:
+        page = page.replace("</head>", REGION_CSS + "</head>", 1)
+        page = page.replace("</body>", REGION_JS % json.dumps(REGION_FAMILY) + "</body>", 1)
+    return page
 
 
 # Fallback for the Deep Dive page when an edition no longer carries that tab
@@ -724,6 +785,7 @@ def build(edition_path, out, preview=False):
         full = full[:i] + DEEP_FALLBACK + "\n  " + full[i:]
     _d, _e, _iso = edition_meta(full)
     full = enforce_freshness(full, datetime.date.fromisoformat(_iso) if _iso else None)
+    full = style_regions(full)
     panels, first, end_all = find_panels(full)
     counts = nav_counts(full)
     shown = count_articles(full, panels)
