@@ -756,7 +756,7 @@ def apply_layout(doc, pid, slug, label, counts, date_label, edition_no, preview,
         return doc
     doc = re.sub(r"<body(?![^>]*class=)", '<body class="desk"', doc, count=1)
     doc, listen = _cut(doc, r'\s*<section class="listen-bar".*?</section>')
-    gnav = [("", "Overview"), ("daily-pulse", "Daily Pulse"), ("deep-dive", "Deep Dive"), ("about", "About")]
+    gnav = [("", "Overview"), ("daily-pulse", "Daily Pulse"), ("deep-dive", "Deep Dive"), ("partnering", "Partnering (beta)"), ("about", "About")]
     def is_cur(s):
         return (not is_desk) and s == slug
     links = "".join(f'<a href="{_href(s, preview)}"{" aria-current=\"page\"" if is_cur(s) else ""}>{html.escape(l)}</a>' for s, l in gnav)

@@ -625,6 +625,7 @@ def head_tags(title, desc, slug, preview, edition_date_iso):
 def site_footer(preview):
     links = [f'<a href="{href(s, preview)}">{html.escape(l)}</a>' for s, _, l, *_ in PAGES]
     links.append(f'<a href="{href("ontology", preview)}">Ontology (beta)</a>')
+    links.append(f'<a href="{href("partnering", preview)}">Partnering (beta)</a>')
     links.append(f'<a href="{href(ABOUT[0], preview)}">About</a>')
     year = datetime.date.today().year
     return ('\n  <div class="site-foot">\n    <nav aria-label="Site">' + " ".join(links) + "</nav>\n"
@@ -931,7 +932,7 @@ def build(edition_path, out, preview=False):
         open(os.path.join(out, "data", "edition.html"), "w", encoding="utf-8").write(full)
         open(os.path.join(out, "data", ".htaccess"), "w").write("Require all denied\nDeny from all\n")
         lastmod = date_iso or datetime.date.today().isoformat()
-        urls = [SITE + "/" + (s + "/" if s else "") for s, *_ in PAGES] + [SITE + "/about/", SITE + "/ontology/"]
+        urls = [SITE + "/" + (s + "/" if s else "") for s, *_ in PAGES] + [SITE + "/about/", SITE + "/ontology/", SITE + "/partnering/"]
         sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
         for u in urls:
             sm.append(f"  <url><loc>{u}</loc><lastmod>{lastmod}</lastmod><changefreq>daily</changefreq></url>")
