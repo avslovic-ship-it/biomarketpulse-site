@@ -31,6 +31,8 @@ def build():
              f' <div class="meta">{p["meta"]} <span class="sandbox">Beta</span></div></div>\n <nav class="snav" aria-label="Site">{nav}</nav>\n</div></header>\n'
              f'<div class="wrap segbar"><nav class="seg" aria-label="Partnering sector">{seg}</nav></div>')
         s=s[:i]+hdr+s[j:]
+        assert ":root{color-scheme:light dark;" in s
+        s=s.replace(":root{color-scheme:light dark;",":root{color-scheme:light;",1)  # always light, like the rest of the site
         s=s.replace("</style>",CSS+"</style>",1)
         t0=s.index("<title>");t1=s.index("</title>")+8
         s=s[:t0]+f'<title>{p["title"]}</title>\n<meta name="description" content="{p["desc"]}">\n<link rel="icon" href="/favicon.svg" type="image/svg+xml">'+s[t1:]
