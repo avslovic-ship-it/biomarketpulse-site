@@ -932,7 +932,7 @@ def build(edition_path, out, preview=False):
         open(os.path.join(out, "data", "edition.html"), "w", encoding="utf-8").write(full)
         open(os.path.join(out, "data", ".htaccess"), "w").write("Require all denied\nDeny from all\n")
         lastmod = date_iso or datetime.date.today().isoformat()
-        urls = [SITE + "/" + (s + "/" if s else "") for s, *_ in PAGES] + [SITE + "/about/", SITE + "/ontology/", SITE + "/partnering/"]
+        urls = [SITE + "/" + (s + "/" if s else "") for s, *_ in PAGES] + [SITE + "/about/", SITE + "/ontology/", SITE + "/partnering/", SITE + "/partnering/agriculture/"]
         sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
         for u in urls:
             sm.append(f"  <url><loc>{u}</loc><lastmod>{lastmod}</lastmod><changefreq>daily</changefreq></url>")

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Partnering (beta): Fungicidal Peptides in Brazil · BioMarket Pulse</title>
+<meta name="description" content="Which crop-protection companies need new fungicide modes of action in Brazil, which can reach the acres, and which can afford a deal.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+/* VOICE: a BD analyst's target memo for a biopesticide company selling fungicidal peptides into Brazil: verdict first, evidence counted.
+   IDEA: a deal-screening board: who needs new fungicide modes, who can reach Brazilian acres, who can afford a deal.
+   PICTURE: the need-versus-reach matrix, each company a bubble sized by its Brazilian fungicide shelf, coloured by financial capacity.
+   COLOUR and TYPE: BioMarket Pulse Direction D: navy ink, brand blue, green for capacity, orange for stress; Schibsted Grotesk.
+   LAYOUT: verdict and matrix, shortlist profiles with indexed stock lines, the market's white space, peers, method. */
+:root{color-scheme:light dark;--bg:light-dark(#F7F9FB,#0B1622);--card:light-dark(#FFFFFF,#12212F);--soft:light-dark(#F0F4F7,#172938);
+--ink:light-dark(#0E2236,#E6EDF4);--mut:light-dark(#4A5B6C,#9DB0C2);--line:light-dark(#D9E0E6,#25384A);
+--blue:light-dark(#1F5FC4,#7FA9EC);--up:light-dark(#1E7A4C,#5FC48F);--dn:light-dark(#B4560F,#F0A066);--mid:light-dark(#7D5BC0,#B49CE6);--gen:light-dark(#8A99A8,#6E8296)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 'Schibsted Grotesk',system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{margin:0;line-height:1.08;text-wrap:balance}h1{font-size:clamp(30px,4vw,46px);font-weight:800;max-width:24ch}h2{font-size:clamp(24px,2.6vw,32px);font-weight:800}h3{font-size:18px;font-weight:700;line-height:1.25}p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}.band{padding:clamp(28px,4vw,56px) 0}.tint{background:light-dark(#EEF3F8,#0F1D2A)}
+.top{background:light-dark(#F1F4F7,#0F1D2A);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+.brand{font-weight:800;font-size:18px}.brand span{color:var(--mut);font-weight:600}.meta{color:var(--mut);font-size:14px}
+.sandbox{font-size:13px;font-weight:700;color:var(--dn);border:1px solid currentColor;border-radius:999px;padding:2px 10px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:start}
+.lede{color:var(--mut);font-size:17px;margin-top:14px;max-width:80ch}
+.card{background:var(--card);border-radius:18px;box-shadow:0 0 0 1px var(--line);padding:clamp(16px,2vw,24px)}
+.kfs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}.kf{background:var(--card);border-radius:16px;box-shadow:0 0 0 1px var(--line);padding:14px 16px}
+.kf b{display:block;font-size:clamp(24px,2.8vw,34px);font-weight:800;line-height:1.05}.kf span{font-size:13px;color:var(--mut);display:block;margin-top:4px;line-height:1.35}
+.fig{position:relative;min-height:420px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--mut);margin:6px 0 10px}.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.note{font-size:13px;color:var(--mut);margin-top:10px;line-height:1.45}
+.head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;margin-bottom:18px}.head p{color:var(--mut);font-size:15px;max-width:80ch}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tabs button{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.tier{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap;display:inline-block}
+.t1{color:var(--up);background:light-dark(#E2F3E9,#163223)}.t2{color:var(--blue);background:light-dark(#E6EEFB,#16284A)}.t3{color:var(--dn);background:light-dark(#FBEADC,#3A2616)}
+.prof{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.meters{display:grid;gap:10px;margin-top:12px}.mrow{display:grid;grid-template-columns:minmax(0,210px) minmax(0,1fr) 52px;gap:10px;align-items:center;font-size:14px}
+.track{height:12px;background:var(--soft);border-radius:4px;position:relative}.track i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.sig{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}.sig li{background:var(--soft);border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.45}
+.sig time{display:block;font-size:13px;font-weight:700;color:var(--blue)}
+.ang{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}.ang div{border-top:3px solid var(--line);padding-top:10px}.ang b{display:block;font-size:14px;margin-bottom:4px}.ang p{font-size:14.5px}
+.spark{position:relative;height:150px;margin-top:8px}.spark svg{position:absolute;inset:0;width:100%;height:100%}
+table{width:100%;border-collapse:collapse;font-size:14.5px}th{text-align:left;font-size:13px;color:var(--mut);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink);vertical-align:bottom}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}td.n,th.n{text-align:right;white-space:nowrap}
+.ws{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.ws .big{font-size:34px;font-weight:800;line-height:1}.ws p{font-size:15px;margin-top:8px}
+.two{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+.pos{color:var(--up)}.neg{color:var(--dn)}
+
+.ask{position:sticky;top:0;z-index:5;background:light-dark(rgba(247,249,251,.96),rgba(11,22,34,.96));backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.ask .wrap{padding-top:12px;padding-bottom:12px}
+.askf{display:flex;gap:8px}.askf input{flex:1;font:inherit;font-size:16px;min-height:48px;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.askf input:focus-visible{outline:3px solid var(--blue);outline-offset:1px}
+.askf button{font:inherit;font-size:15px;font-weight:700;min-height:48px;padding:0 22px;border-radius:999px;border:0;background:var(--ink);color:var(--bg);cursor:pointer}
+.askf button[disabled]{opacity:.5;cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chips button{font:inherit;font-size:13.5px;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.ans{margin-top:12px;max-height:46vh;overflow:auto}.ans .card{padding:16px 18px}.ans p,.ans li{font-size:15.5px;line-height:1.55}.ans ul{margin:6px 0;padding-left:20px}.ans p+p{margin-top:8px}
+.ans .st{font-size:13px;color:var(--mut);margin-bottom:6px}.ans .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ans .acts button{font:inherit;font-size:13.5px;font-weight:700;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.brow{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr) 70px;gap:10px;align-items:center;font-size:14px;padding:4px 0}
+@media(max-width:600px){.askf button{padding:0 16px}.brow{grid-template-columns:minmax(0,1fr) 60px}.brow .track{grid-column:1/-1;grid-row:2}}
+
+.ans{margin-top:8px}.ans .st{font-size:13.5px;color:var(--mut);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ans .st button{font:inherit;font-size:13.5px;font-weight:700;min-height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.bh{font-size:clamp(20px,2.4vw,28px);font-weight:800;line-height:1.15;text-wrap:balance;margin:0 0 16px}
+#board{scroll-margin-top:150px}.charts{display:grid;gap:16px}.chart{min-width:0}.lay{display:grid;gap:16px}.charts.c2{grid-template-columns:repeat(2,minmax(0,1fr))}body.asked main>section.band:not(#board){display:none}#board{padding-bottom:48px!important}.lay .ws{margin:0}@media(max-width:900px){.charts.c2{grid-template-columns:minmax(0,1fr)}}
+.chart h4{margin:0;font-size:16px;font-weight:700}.chart small{display:block;color:var(--mut);font-size:13px;margin-top:2px}
+.cv{position:relative;height:300px;margin-top:8px}.cv>svg{position:absolute;inset:0;width:100%;height:100%}
+.clg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--mut);margin-top:6px}.clg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--blue);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.spin{animation:none}}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:13px;padding:24px 0 40px}
+@media(max-width:900px){.hero,.prof,.two{grid-template-columns:minmax(0,1fr)}.ws{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.kfs,.ang{grid-template-columns:minmax(0,1fr)}.mrow{grid-template-columns:minmax(0,1fr) 48px}.mrow .track{grid-column:1/-1;grid-row:2}
+table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;color:var(--mut);font-size:12.5px}.stack td:empty{display:none}}
+.snav{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:15px}.snav a{color:var(--mut);text-decoration:none;padding:6px 0;font-weight:500}.snav a:hover{color:var(--ink)}.snav a[aria-current]{color:var(--ink);font-weight:700;box-shadow:inset 0 -2px 0 var(--blue)}.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--card);box-shadow:0 0 0 1px var(--line);margin-top:4px}.seg a{font-size:15px;font-weight:700;text-decoration:none;color:var(--ink);min-height:40px;display:inline-flex;align-items:center;padding:0 20px;border-radius:999px}.seg a:hover{background:var(--soft)}.seg a[aria-current]{background:var(--ink);color:var(--bg)}.segbar{padding-top:18px}</style></head><body>
+<header class="top"><div class="wrap">
+ <div><a class="brand" href="/" style="color:inherit;text-decoration:none">BioMarket Pulse <span>· Partnering (beta): Fungicidal peptides in Brazil</span></a>
+ <div class="meta">Registry to Jan 13, 2026 · company results and news Oct 1 – Nov 17, 2026 · prices to mid-November <span class="sandbox">Beta</span></div></div>
+ <nav class="snav" aria-label="Site"><a href="/">Overview</a><a href="/daily-pulse/">Daily Pulse</a><a href="/deep-dive/">Deep Dive</a><a href="/partnering/" aria-current="page">Partnering (beta)</a><a href="/about/">About</a></nav>
+</div></header>
+<div class="wrap segbar"><nav class="seg" aria-label="Partnering sector"><a href="/partnering/">Pharma</a><a href="/partnering/agriculture/" aria-current="page">Agriculture</a></nav></div>
+<main>
+<section class="ask" aria-label="Ask the Pulse" hidden style="display:none"><div class="wrap">
+ <form class="askf" id="askf" autocomplete="off"><label for="q" class="sr" style="position:absolute;left:-9999px">Ask a question</label>
+ <input id="q" placeholder="Ask anything, e.g. compare Bayer and Corteva, or who sells coffee rust fungicides" maxlength="500"><button id="go" type="submit">Ask</button></form>
+ <div class="ans" id="ans" hidden></div>
+</div></section>
+<section class="band" id="board" hidden style="padding-bottom:0"><div class="wrap"><div id="boardc"></div></div></section>
+<section class="band"><div class="wrap hero">
+ <div>
+  <h1>Bayer, BASF and Corteva pair single-site-heavy fungicide shelves in Brazil with the means and the pressure to buy a new mode now</h1>
+  <p class="lede">For business-development teams at biopesticide companies selling fungicidal peptides. Each company is scored on how stale its registered Brazilian fungicide shelf is, how far it reaches into the diseases that matter, and whether its finances say it can, and must, do a deal this cycle.</p>
+  <div class="kfs">
+   <div class="kf"><b>0</b><span>biological products registered for soybean rust in Brazil</span></div>
+   <div class="kf"><b>74%</b><span>of Bayer's and Corteva's chemical fungicides rely only on single-site modes</span></div>
+   <div class="kf"><b>−20%</b><span>BASF Agricultural Solutions sales, latest quarter; Corteva fell 9%</span></div>
+  </div>
+ </div>
+ <div class="card" id="p-matrix"><h3>Need versus reach in Brazilian fungicides</h3>
+  <div class="legend"><span><i style="background:var(--up)"></i>Can fund a deal</span><span><i style="background:var(--mid)"></i>Can fund, under pressure</span><span><i style="background:var(--dn)"></i>Financially stressed</span><span><i style="background:var(--gen)"></i>Private, no public financials</span></div>
+  <div class="fig" id="mx" role="img" aria-label="Scatter of companies by innovation need and Brazilian fungicide reach"></div>
+  <p class="note">Need combines single-site dependence, share of products built on actives registered before 2010, and absence of biological fungicides. Reach combines the size of the registered fungicide shelf and soybean-rust coverage. Bubble size is the number of registered fungicides. Select a company to open its profile.</p>
+ </div>
+</div></section>
+
+<section class="band" style="padding-top:0" id="profiles"><div class="wrap">
+ <div class="head"><h2>Shortlist profiles</h2><p>Shelf evidence from the registry, financial signals from the latest quarter, and a share-price line indexed to 100. Sources are kept in the evidence trail.</p></div>
+ <div id="p-profile"><div class="tabs" role="tablist" id="tabs" aria-label="Companies"></div>
+ <div id="prof" role="tabpanel" aria-live="polite"></div></div>
+</div></section>
+
+<section class="band tint"><div class="wrap">
+ <div class="head"><h2>Where a fungicidal peptide fits the Brazilian shelf</h2><p>Disease markets read from the registry graph: who controls them today and where biologicals already sell.</p></div>
+ <div class="ws" id="p-shelf">
+  <div class="card"><div class="big">142 : 0</div><h3 style="margin-top:8px">Soybean rust: chemical against biological</h3><p>All 142 registered rust products are chemical; 71% contain a triazole and 61% a strobilurin. A biological with a new mode of action would be the first on that shelf.</p></div>
+  <div class="card"><div class="big">84%</div><h3 style="margin-top:8px">White mold has already gone biological</h3><p>92 of 109 white-mold products are biological, almost all Trichoderma and Bacillus. Growers and distributors already buy biological fungicides here; a peptide competes on consistency, not adoption.</p></div>
+  <div class="card"><div class="big">3</div><h3 style="margin-top:8px">Peptide products registered in Brazil</h3><p>Two harpin-derived peptide fungicides and one nematicide, all from the former Plant Health Care, now PI Industries. Two more peptide plant activators come from Elemental Enzymes. The peptide fungicide field is close to empty.</p></div>
+ </div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+ <div class="head"><h2>Earnings at a glance</h2><p>Latest quarter for each company, ag business where it reports one separately. Changes are against the same quarter a year earlier.</p></div>
+ <div class="card" id="p-earnings" style="padding:8px 14px;overflow-x:auto"><table class="stack" id="earn"><thead><tr><th>Company</th><th>Period</th><th>Reported</th><th class="n">Sales</th><th>Sales change</th><th>Profit measure</th><th>Guidance</th></tr></thead><tbody></tbody></table></div>
+ <p class="note">Figures are rounded and restated in our own form from company results releases; original documents are held in the evidence trail. Sumitomo's half-year segment figures were not captured.</p>
+</div></section>
+
+<section class="band"><div class="wrap" style="display:grid;gap:16px">
+ <div class="card" id="p-lines"><h3>Share prices, indexed to 100</h3><p class="note" style="margin-top:4px">First available point in the window = 100. Corteva's line is adjusted for its October seed spin-off. UPL and PI Industries start in January 2026.</p>
+  <div class="legend" id="lgd"></div><div class="fig" id="lines" style="min-height:320px" role="img" aria-label="Indexed share prices"></div></div>
+ <div class="card" id="p-score"><h3>Scorecard</h3><div style="overflow-x:auto"><table class="stack" id="score"><thead><tr><th>Company</th><th class="n">Need</th><th class="n">Reach</th><th>Capacity</th><th class="n">Since start</th><th>Verdict</th></tr></thead><tbody></tbody></table></div>
+ <p class="note">Need and reach are 0–100 scores from the registry graph. "Since start" is the share-price change across the indexed window.</p></div>
+</div></section>
+
+<section class="band tint"><div class="wrap">
+ <div class="head"><h2>How the scores are built</h2></div>
+ <div class="two">
+  <div class="card"><p><b>Need</b> = 40% single-site dependence (share of chemical fungicides whose every active sits in a medium- or high-risk FRAC group) + 35% shelf age (share of products whose actives were all on the Brazilian register before 2010) + 25% biological gap (full weight with no biological fungicide, less for each one held).</p>
+  <p style="margin-top:10px"><b>Reach</b> = 60% size of the registered fungicide shelf + 40% soybean-rust coverage, both against the largest holder.</p>
+  <p style="margin-top:10px"><b>Capacity</b> reads the latest quarter: sales trend, profit, guidance, balance-sheet stress and strategic moves such as spin-offs and listings.</p></div>
+  <div class="card"><p><b>Built from</b> 4,252 Brazilian registrations, 10 latest earnings reports, 26 dated financial signals from results releases and news between Oct 1 and Nov 17, 2026 (plus earlier deal news), and 8 share-price series. Original articles and filings are held in the evidence trail, not shown here.</p>
+  <p style="margin-top:10px"><b>Limits.</b> The registry counts registrations, not sales. Private companies have no public financials. Mode-of-action mapping is a draft awaiting agronomic review. This is market intelligence, not investment advice.</p></div>
+ </div>
+</div></section>
+</main>
+<footer><div class="wrap">BioMarket Pulse · Partnering (beta): fungicidal peptides in brazil · Prepared November 21, 2026 · For information only, not investment advice · <a href="/about/" style="color:inherit">About &amp; methodology</a></div></footer>
+<script>
+{
+const $=id=>document.getElementById(id);
+const CAP={hi:['var(--up)','Can fund a deal'],mid:['var(--mid)','Can fund, under pressure'],lo:['var(--dn)','Financially stressed'],pv:['var(--gen)','Private']};
+const M=["Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"];
+const C=[
+ {id:"bayer",n:"Bayer",tier:["t1","Approach first"],cap:"hi",fung:39,need:76,reach:38,ss:74,old:76,bio:1,rust:13,newA:"Fluopyram, impirfluxam and fluoxapiprolim",
+  px:[8.78,10.79,13.11,12.26,11.45,11.17,10.55,13.70,13.89,14.25,13.50,13.99,14.59],
+  sig:[["Nov 3","Crop Science sales of €3.88B were 2.4% lower on a like-for-like basis; fungicide sales fell 8.6%."],["Nov 3","Latin America grew about 6% like-for-like and made up about 55% of the division's quarter."],["Nov 3","Division EBITDA before special items fell 41% to €101M in its seasonally smallest quarter, while the group raised its full-year outlook."]],
+  why:"Three-quarters of its Brazilian fungicide shelf rests on single-site chemistry, it holds one biological fungicide, and fungicide sales are shrinking while Latin America is its growth engine.",
+  angle:"Position the peptide as a rust and target-spot partner for its triazole and strobilurin mixtures, sold through its Latin American channel, which is still growing.",
+  watch:"Group priorities sit with pharma and litigation; crop decisions may move slowly. Ask for a regional option before a global licence."},
+ {id:"basf",n:"BASF Agricultural Solutions",tier:["t1","Approach first"],cap:"mid",fung:52,need:66,reach:34,ss:63,old:59,bio:1,rust:8,newA:"Mefentrifluconazole and ametoctradin",
+  px:[13.00,12.97,13.57,14.35,15.03,16.08,14.82,13.31,14.52,15.36,14.22,14.97,13.58],
+  sig:[["Oct 28","Agricultural Solutions sales fell about 20% to €1.40B, partly pulled forward into the second quarter, and segment earnings turned negative."],["Oct 28","Management says the carve-out is 80% done and the business will be ready for a Frankfurt listing by mid-2027."],["Sep 14","Four global banks were mandated to prepare the listing."],["Mar 31","It closed its acquisition of the biological insecticide company AgBiTech."]],
+  why:"A listing in 2027 needs a growth story, sales are falling, and it has already shown it will buy biologicals. Its fungicide shelf is broad but has only one biological product.",
+  angle:"Offer an exclusive Brazilian fungicide pipeline asset it can show investors before the listing; frame it next to its existing biologicals.",
+  watch:"Deal teams are busy with the carve-out; aim at the biologicals business lead rather than corporate development."},
+ {id:"corteva",n:"Corteva",tier:["t1","Approach first"],cap:"mid",fung:27,need:78,reach:18,ss:74,old:67,bio:0,rust:4,newA:"Florylpicoxamid and oxathiapiprolin",
+  px:[10.03,9.99,10.85,11.94,12.50,12.10,11.69,12.68,11.78,12.67,11.65,11.64,8.12],
+  sig:[["Oct 1","Completed the spin-off of its seed business into a separate company and now operates as a pure crop-protection company, citing a pipeline of 12 new actives including 5 biologicals."],["Nov 11","Third-quarter sales fell 9% to $1.59B; prices fell 7%, concentrated in Brazil and on late-lifecycle molecules."],["Nov 11","Cut full-year EBITDA guidance to $1.1–1.125B on weaker-than-expected Brazil and runs a restructuring programme of $130–140M through 2028."]],
+  why:"Now a pure-play, its story depends on new products, and its Brazilian fungicide shelf is small, single-site and has no biological. Brazil is where it is losing price.",
+  angle:"Lead with a differentiated rust or target-spot mode that protects price in Brazil; pitch co-development under its biologicals and natural-products platform.",
+  watch:"Shares have fallen about 30% since the spin-off; budgets are under review. Expect pressure for low upfront payments and milestone-heavy terms."},
+ {id:"syngenta",n:"Syngenta Group",tier:["t2","Channel partner"],cap:"pv",fung:157,need:45,reach:100,ss:48,old:74,bio:6,rust:22,newA:"Pydiflumetofen, isopyrazam, cyclobutrifluram and oxathiapiprolin",px:null,
+  sig:[["Oct 30","Group sales fell 10% in the third quarter to $5.2B; nine-month EBITDA margin rose to 18.4%."],["Oct 30","Brazil crop-protection sales were down 6% over nine months, with continued price pressure on off-patent products."],["Oct 30","Biologicals grew double digits, led by Brazil and China; three new biological innovations were announced in September."]],
+  why:"The largest Brazilian fungicide shelf by far, and already active in biologicals. Lower need, but unmatched reach into rust, target spot and white mold.",
+  angle:"Approach as a distribution or co-marketing partner rather than a buyer of a gap-filler; its biologicals unit is the entry point.",
+  watch:"Privately held, so there are no market signals to read; it has many biological options and strong leverage in negotiations."},
+ {id:"upl",n:"UPL",tier:["t2","Channel partner"],cap:"mid",fung:46,need:64,reach:38,ss:22,old:85,bio:0,rust:11,newA:"Fluoxastrobin and laminarin",
+  px:[null,null,793.85,741.9,null,592.9,632.55,null,603.2,568,554.35,513.9,null],
+  sig:[["Nov 2","Quarter revenue was flat at ₹11,860 crore, but global crop-protection revenue fell 8% on Latin American channel liquidity and European drought."],["Nov 2","Group EBITDA still rose 5%, carried by seeds and specialty chemicals."]],
+  why:"Its Brazilian fungicides are old chemistry (85% built on pre-2010 actives) with no biological fungicide, even though it already pairs most products with multi-site partners.",
+  angle:"Offer the peptide as a mixture partner for its multi-site lines and as an entry for its natural plant protection range in Brazil.",
+  watch:"Shares are down about a third since January; expect tough terms on upfront payments."},
+ {id:"sumitomo",n:"Sumitomo Chemical",tier:["t2","Channel partner"],cap:"mid",fung:23,need:81,reach:12,ss:83,old:65,bio:0,rust:2,newA:"Impirfluxam and mandestrobin",
+  px:[15.09,14.04,15.05,18.02,15.70,16.26,19.16,15.80,15.94,17.91,18.36,17.93,14.40],
+  sig:[["Nov 2026","First-half crop-protection sales held up in Japan, but recovery outside Japan was slow."],["Aug 4","Management flagged high channel inventory in Latin America, especially Brazil."],["Sep 2026","Bought the natural pyrethrum crop-protection business of Italy's COPYR."]],
+  why:"The highest single-site dependence in the set (83%) and no biological fungicide, and it is buying naturally derived products.",
+  angle:"A natural-origin fungicide fits the logic of its pyrethrum purchase; pitch a regional licence for Brazil and Asia.",
+  watch:"Brazilian reach is thin and channel stock is high, so expect slow first-year volumes."},
+ {id:"fmc",n:"FMC",tier:["t3","Watch, unlikely buyer"],cap:"lo",fung:16,need:58,reach:13,ss:75,old:67,bio:4,rust:4,newA:"Fluindapyr",
+  px:[13.92,13.59,15.48,14.44,16.95,15.14,13.45,11.40,10.62,11.43,8.92,6.20,4.04],
+  sig:[["Oct 29","Third-quarter revenue fell to $106M from $542M after about $639M of channel price and rebate actions; adjusted EBITDA was −$559M."],["Oct 29","GAAP net loss was $2.07B, and fourth-quarter guidance was cut."]],
+  why:"Single-site heavy, but in no position to fund licences; it is resetting prices in its own channel.",
+  angle:"Track for asset sales or a channel partnership later; do not lead with a licence request.",
+  watch:"Shares fell about 71% over the year."},
+ {id:"pi",n:"PI Industries",tier:["t3","Peer and competitor"],cap:"lo",fung:2,need:null,reach:null,ss:null,old:null,bio:2,rust:0,newA:"Harpin-derived peptides (PREtec)",
+  px:[null,null,3195.4,3117.3,2718.8,3054.8,2781,null,2706.6,null,null,null,1714.8],
+  sig:[["Nov 4","Quarterly profit fell about 70% on export agrochemical weakness; shares dropped 19% the next day to a six-year low."],["Nov 2026","It targets 250%+ global biologicals growth and says peptide demand is strong."],["Mar 2026","Won US registration of a foliar peptide nematicide from its peptide platform."]],
+  why:"The only peptide player already registered in Brazil, through the former Plant Health Care. A competitor for shelf space, and a possible manufacturing or cross-licensing counterpart.",
+  angle:"Benchmark your efficacy and cost against its harpin peptides; explore toll manufacturing or a combined offer if your mode is complementary.",
+  watch:"Under earnings pressure, so it may cut prices on its peptide range."},
+ {id:"vittia",n:"Vittia (Brazil)",tier:["t2","Channel partner"],cap:"mid",fung:4,need:null,reach:null,ss:null,old:null,bio:4,rust:0,newA:"Microbial fungicides",px:null,
+  sig:[["Nov 11","Third-quarter revenue fell 13% to R$282M and profit 14% to R$34M; biologicals fell least as adoption keeps rising."],["Nov 11","Leverage stays low at about 0.9 times EBITDA, with buybacks and interest on capital paid to shareholders."],["Nov 12","Management describes grower sentiment in Brazil as the weakest in years."]],
+  why:"A listed Brazilian biologicals maker with its own sales force and low debt, and only four microbial fungicides.",
+  angle:"Pitch distribution or local formulation for Brazil, an alternative to a multinational licence.",
+  watch:"A small balance sheet; upfront payments will be modest."}];
+
+const E={
+ bayer:{p:"Q3 2026 · Crop Science division",d:"Nov 3",r:[["Sales","€3.88B","−2.4% like-for-like (+0.7% reported)"],["Fungicide sales","—","−8.6% like-for-like"],["Latin America sales","€2.13B","+5.6% like-for-like"],["EBITDA before special items","€101M","−41%"],["Year-to-date EBITDA margin","24.6%",""]],g:["up","Group outlook raised; Crop Science in line with targets"],gl:"Raised (group)"},
+ basf:{p:"Q3 2026 · Agricultural Solutions segment",d:"Oct 28",r:[["Sales","€1.40B","−19.7% (from €1.75B)"],["EBITDA before special items","−€48M","turned negative"],["Group sales","€16.4B","+14%"]],g:["up","Group EBITDA guidance raised to €7.4–7.8B; listing of the agricultural business on track for mid-2027"],gl:"Raised (group)"},
+ corteva:{p:"Q3 2026 · pro forma, crop protection only",d:"Nov 11",r:[["Net sales","$1.59B","−9% (price −7%, volume −2%)"],["Operating EBITDA (adjusted)","$222M","−17%"],["Operating EPS (adjusted)","$0.06","vs $0.14"],["Loss from continuing operations","−$54M","vs +$60M"],["Nine-month sales","$5.36B","−1%"]],g:["down","Full-year operating EBITDA cut to $1.1–1.125B on weaker Brazil"]},
+ syngenta:{p:"Q3 and nine months 2026 · group",d:"Oct 30",r:[["Q3 sales","$5.2B","−10%"],["Q3 EBITDA","$0.8B","−2%"],["Nine-month sales","$17.3B","−5%"],["Nine-month EBITDA margin","18.4%","+1.0 pt"],["Crop protection, nine months","$9.8B","flat"]],g:["flat","No public guidance (privately held)"]},
+ upl:{p:"Q2 FY27 (Jul–Sep 2026) · group",d:"Nov 2",r:[["Revenue","₹11,860 cr","−1%"],["EBITDA","₹2,312 cr","+5%"],["Global crop protection revenue","₹7,972 cr","−8%"],["Global crop protection EBITDA","₹1,083 cr","−14%"],["Half-year revenue","₹22,041 cr","+4%"]],g:["flat","Fiscal 2027 goals kept"]},
+ sumitomo:{p:"H1 FY2026 (Apr–Sep 2026) · Agro & Life Solutions",d:"Oct 30",r:[["Segment sales","—","half-year figure not captured"],["Q1 core operating income","¥9.6B","+¥7.4B year on year"],["H1 crop protection","—","steady in Japan, slow recovery abroad"]],g:["flat","Brazilian channel inventory flagged as a risk to shipments"],note:"Half-year segment figures were not captured; the Q1 figure is shown."},
+ fmc:{p:"Q3 2026 · group",d:"Oct 29",r:[["Revenue","$106M","vs $542M (−80%)"],["Like-for-like revenue","$745M","−22% excluding India and channel actions"],["Adjusted EBITDA","−$559M","vs +$236M"],["GAAP net loss","−$2.07B","−$15.54 per share"],["Adjusted EPS","−$4.41","vs +$0.89"]],g:["down","Q4 adjusted EBITDA guided to $210–230M, down 22% at the midpoint"]},
+ pi:{p:"Q2 FY27 (Jul–Sep 2026) · consolidated",d:"Nov 4",r:[["Revenue","₹1,702 cr","−9%"],["Adjusted net profit","₹122 cr","−70%"],["Gross margin","49%","from 57%"]],g:["flat","No formal guidance; targets 5+ product launches this fiscal year"]},
+ vittia:{p:"Q3 2026 · group",d:"Nov 11",r:[["Net revenue","R$281.7M","−13.3%"],["Adjusted EBITDA","R$68.3M","−18.3% (margin 24.2%)"],["Net profit","R$34.0M","−13.7%"],["Net debt / EBITDA","0.9×",""]],g:["flat","No formal guidance; two more biologicals due"]},
+ avd:{p:"Q3 2026 · group",d:"Nov 9",r:[["Net sales","$108M","−9%"],["Gross margin","24%","from 29%"],["Net loss","−$17.7M","vs −$12.4M"],["Adjusted EBITDA","breakeven","vs $8.3M"]],g:["down","Full-year revenue cut to $500–530M and adjusted EBITDA to $36–40M"]}};
+const GI={up:['▲','var(--up)','Raised'],down:['▼','var(--dn)','Cut'],flat:['■','var(--mut)','Held or none']};
+const ecard=id=>{const e=E[id];if(!e)return '';return `<div class="card" style="margin-top:16px"><div style="display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline"><h3>Latest earnings report</h3><span class="note" style="margin:0">${e.p} · reported ${e.d}</span></div>
+ <table style="margin-top:8px"><tbody>${e.r.map(r=>`<tr><td>${r[0]}</td><td class="n"><b>${r[1]}</b></td><td style="color:var(--mut)">${r[2]}</td></tr>`).join('')}</tbody></table>
+ <p style="margin-top:10px;font-size:14.5px"><b style="color:${GI[e.g[0]][1]}">${GI[e.g[0]][0]} Guidance: ${GI[e.g[0]][2]}.</b> ${e.g[1]}.</p>${e.note?`<p class="note">${e.note}</p>`:''}</div>`};
+// matrix
+let HL=new Set(),F=null;const inF=c=>!F||(!!c.id&&F.has(c.id));
+const pts=C.filter(c=>c.need!=null).concat([{n:"Nortox",need:90,reach:25,fung:32,cap:"pv",lp:"b"},{n:"Rainbow",need:81,reach:26,fung:25,cap:"pv",lp:"l"},{n:"Ihara",need:51,reach:15,fung:19,cap:"pv"},{n:"Ouro Fino",need:92,reach:9,fung:14,cap:"pv",lp:"b"}]);
+const mx=$('mx');
+function drawMx(){const W=mx.clientWidth,H=mx.clientHeight,L=46,R=16,T=14,B=40,sm=W<520;
+ const x=v=>L+(v-30)/(100-30)*(W-L-R),y=v=>H-B-(v)/(105)*(H-T-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}">`;
+ s+=`<rect x="${x(65)}" y="${T}" width="${W-R-x(65)}" height="${y(30)-T}" fill="light-dark(#E2F3E9,#163223)" opacity=".55" rx="10"/>`;
+ s+=`<text x="${W-R-8}" y="${T+18}" text-anchor="end" font-size="13" font-weight="700" fill="var(--up)">High need, real reach</text>`;
+ for(const v of [40,60,80,100]) s+=`<line x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${H-B}" stroke="var(--line)"/>${sm&&v%40?'':`<text x="${x(v)}" y="${H-B+18}" font-size="12" text-anchor="middle" fill="var(--mut)">${v}</text>`}`;
+ for(const v of [0,25,50,75,100]) s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${y(v)+4}" font-size="12" text-anchor="end" fill="var(--mut)">${v}</text>`;
+ s+=`<text x="${(L+W-R)/2}" y="${H-6}" font-size="13" text-anchor="middle" fill="var(--mut)">Innovation need →</text><text transform="translate(13 ${(T+H-B)/2}) rotate(-90)" font-size="13" text-anchor="middle" fill="var(--mut)">Brazil fungicide reach →</text>`;
+ pts.filter(inF).forEach(p=>{const r=Math.max(7,Math.sqrt(p.fung)*2.4),cx=x(p.need),cy=y(p.reach),col=CAP[p.cap][0];
+  const lbl=p.n.replace(' Agricultural Solutions','').replace(' Chemical','').replace(' Group','');const right=cx<W-110;
+  const LP={UPL:'t',BASF:'b',Sumitomo:'b',Corteva:'l'};const lp=p.lp||LP[lbl];
+  const side=lp==='l'||lp==='r';const tx=lp==='l'?cx-r-5:lp==='r'?cx+r+5:lp?cx:(right?cx+r+5:cx-r-5),ty=lp==='t'?cy-r-6:lp==='b'?cy+r+15:cy+4,ta=lp==='l'?'end':lp==='r'?'start':lp?'middle':(right?'start':'end');
+  s+=`<g class="pt" data-id="${p.id||''}" style="cursor:${p.id?'pointer':'default'}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}" fill-opacity="${HL.size&&!HL.has(lbl.toLowerCase())?.15:.85}" stroke="var(--card)" stroke-width="2"/><text x="${tx}" y="${ty}" font-size="${sm?12:13}" font-weight="700" fill="var(--ink)" opacity="${HL.size&&!HL.has(lbl.toLowerCase())?.35:1}" text-anchor="${ta}">${lbl}</text></g>`});
+ mx.innerHTML=s+`</svg>`;
+ mx.querySelectorAll('.pt[data-id]').forEach(g=>{if(g.dataset.id)g.addEventListener('click',()=>{show(g.dataset.id);$('p-profile').scrollIntoView({behavior:'smooth'})})});}
+const ro1=new ResizeObserver(drawMx);ro1.observe(mx);
+// profiles
+const idx=a=>{const f=a.findIndex(v=>v!=null);return a.map(v=>v==null?null:v/a[f]*100)};
+function spark(el,c){const W=el.clientWidth,H=el.clientHeight,L=34,R=10,T=10,B=22,v=idx(c.px),vals=v.filter(x=>x!=null),lo=Math.min(60,...vals)-5,hi=Math.max(120,...vals)+18;
+ const x=i=>L+i/(M.length-1)*(W-L-R),y=k=>T+(hi-k)/(hi-lo)*(H-T-B);
+ let d='';v.forEach((k,i)=>{if(k!=null)d+=(d?'L':'M')+x(i).toFixed(1)+' '+y(k).toFixed(1)});
+ const last=vals[vals.length-1],col=last>=100?'var(--up)':'var(--dn)';
+ el.innerHTML=`<svg viewBox="0 0 ${W} ${H}"><line x1="${L}" x2="${W-R}" y1="${y(100)}" y2="${y(100)}" stroke="var(--mut)" stroke-dasharray="3 3"/><text x="${L-6}" y="${y(100)+4}" font-size="12" text-anchor="end" fill="var(--mut)">100</text>
+ <path d="${d}" fill="none" stroke="${col}" stroke-width="2.5"/>${[0,4,8,12].map(i=>`<text x="${x(i)}" y="${H-4}" font-size="12" text-anchor="middle" fill="var(--mut)">${M[i]}${i==0?" ’25":i==12?" ’26":""}</text>`).join('')}
+ <text x="${W-R}" y="${y(last)-8}" font-size="13" font-weight="700" text-anchor="end" fill="${col}">${Math.round(last)}</text></svg>`}
+const bar=(lab,v,col,txt)=>`<div class="mrow"><span>${lab}</span><div class="track"><i style="width:${v}%;background:${col}"></i></div><b style="text-align:right">${txt}</b></div>`;
+function show(id){const c=C.find(k=>k.id===id);[...$('tabs').children].forEach(b=>b.setAttribute('aria-selected',b.dataset.id===id));
+ const shelf=c.ss!=null?`${bar('Single-site dependence',c.ss,'var(--dn)',c.ss+'%')}${bar('Built on pre-2010 actives',c.old,'var(--dn)',c.old+'%')}${bar('Innovation need score',c.need,'var(--blue)',c.need)}${bar('Brazil fungicide reach',c.reach,'var(--up)',c.reach)}`
+  :`<p class="note" style="margin-top:10px">Not scored: its Brazilian fungicide shelf is biological and too small to compare with chemical portfolios.</p>`;
+ $('prof').innerHTML=`<div class="prof"><div class="card"><div style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center"><h3 style="font-size:22px">${c.n}</h3><span class="tier ${c.tier[0]}">${c.tier[1]}</span><span class="note" style="margin:0">${CAP[c.cap][1]}</span></div>
+  <p style="margin-top:10px;font-size:16px">${c.why}</p>
+  <div class="meters">${shelf}</div>
+  <p class="note">Brazil register: ${c.fung} fungicides (${c.bio} biological), ${c.rust} labelled for soybean rust. Newest actives: ${c.newA}.</p>
+  <div class="ang"><div><b>Approach</b><p>${c.angle}</p></div><div><b>Watch-outs</b><p>${c.watch}</p></div><div><b>Fit for a peptide</b><p>${c.tier[0]==='t1'?'Licence or co-development':c.tier[0]==='t2'?'Distribution, co-marketing or mixture partner':'Monitor; benchmark or opportunistic'}</p></div></div>${ecard(c.id)}</div>
+  <div class="card"><h3>Latest financial signals</h3><ul class="sig">${c.sig.map(s=>`<li><time>${s[0]}</time>${s[1]}</li>`).join('')}</ul>
+  ${c.px?`<h3 style="margin-top:16px">Share price, indexed</h3><div class="spark" id="sp"></div>`:`<p class="note" style="margin-top:14px">${c.cap==='pv'?'Privately held: no share price.':'Share-price history not available in this window.'}</p>`}</div></div>`;
+ if(c.px){const el=$('sp');spark(el,c);new ResizeObserver(()=>spark(el,c)).observe(el)}
+ try{localStorage.setItem('bmp-partner',id)}catch(e){}}
+function rTabs(){$('tabs').innerHTML=C.filter(inF).map(c=>`<button role="tab" data-id="${c.id}">${c.n.replace(' Agricultural Solutions','').replace(' (Brazil)','')}</button>`).join('');
+}rTabs();$('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b.dataset.id)});
+let st='bayer';try{st=localStorage.getItem('bmp-partner')||'bayer'}catch(e){}show(C.some(c=>c.id===st)?st:'bayer');
+// indexed lines
+const LC=["#1F5FC4","#7D5BC0","#0E9384","#C8691E","#8A6D00","#B4235A","#8A99A8","#0E2236"];
+const S=C.filter(c=>c.px).concat([{id:"avd",n:"American Vanguard",px:[4.66,3.82,5.08,4.61,2.49,2.88,2.58,2.80,2.39,2.20,1.75,1.10,0.68]}]);
+function rLgd(){$('lgd').innerHTML=S.map((c,i)=>!inF(c)?'':`<span><i style="background:${LC[i]};border-radius:3px"></i>${c.n.replace(' Agricultural Solutions','').replace(' Chemical','')}</span>`).join('');}rLgd();
+const lines=$('lines');
+function drawL(){const W=lines.clientWidth,H=lines.clientHeight,L=40,R=12,T=10,B=24,lo=0,hi=180;
+ const x=i=>L+i/(M.length-1)*(W-L-R),y=k=>T+(hi-Math.min(k,hi))/(hi-lo)*(H-T-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}">`;[0,50,100,150].forEach(v=>s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${v===100?'var(--mut)':'var(--line)'}" ${v===100?'stroke-dasharray="3 3"':''}/><text x="${L-6}" y="${y(v)+4}" font-size="12" text-anchor="end" fill="var(--mut)">${v}</text>`);
+ [0,3,6,9,12].forEach(i=>s+=`<text x="${x(i)}" y="${H-4}" font-size="12" text-anchor="middle" fill="var(--mut)">${M[i]}${i==0?" ’25":i==12?" ’26":""}</text>`);
+ S.forEach((c,j)=>{if(!inF(c))return;const v=idx(c.px);let d='';v.forEach((k,i)=>{if(k!=null)d+=(d?'L':'M')+x(i).toFixed(1)+' '+y(k).toFixed(1)});s+=`<path d="${d}" fill="none" stroke="${LC[j]}" stroke-width="2.2"/>`});
+ lines.innerHTML=s+`</svg>`}
+const ro2=new ResizeObserver(drawL);ro2.observe(lines);
+// scorecard
+const chg=c=>{if(!c.px)return '';const v=idx(c.px).filter(x=>x!=null);const d=Math.round(v[v.length-1]-100);return `<span class="${d>=0?'pos':'neg'}">${d>=0?'+':'−'}${Math.abs(d)}%</span>`};
+function rScore(){$('score').querySelector('tbody').innerHTML=C.filter(inF).map(c=>`<tr><td><b>${c.n}</b></td><td class="n">${c.need??'–'}</td><td class="n">${c.reach??'–'}</td><td style="white-space:nowrap"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${CAP[c.cap][0]};margin-right:6px"></span>${CAP[c.cap][1]}</td><td class="n">${chg(c)}</td><td><span class="tier ${c.tier[0]}">${c.tier[1]}</span></td></tr>`).join('')}rScore();
+
+const EN={bayer:"Bayer",basf:"BASF Agricultural Solutions",corteva:"Corteva",syngenta:"Syngenta Group",upl:"UPL",sumitomo:"Sumitomo Chemical",fmc:"FMC",pi:"PI Industries",vittia:"Vittia",avd:"American Vanguard"};
+function rEarn(){$('earn').querySelector('tbody').innerHTML=Object.keys(E).filter(k=>!F||F.has(k)).map(k=>{const e=E[k],r=e.r[0],pr=e.r.find(x=>/EBITDA|profit|loss/i.test(x[0])&&x!==r)||e.r[1];
+ return `<tr><td><b>${EN[k]}</b></td><td>${e.p.split(' · ')[0]}</td><td style="white-space:nowrap">${e.d}</td><td class="n">${r[1]}</td><td>${r[2]}</td><td>${pr[0]}: <b>${pr[1]}</b> <span style="color:var(--mut)">${pr[2]}</span></td><td style="white-space:nowrap"><b style="color:${GI[e.g[0]][1]}">${GI[e.g[0]][0]} ${e.gl||GI[e.g[0]][2]}</b></td></tr>`}).join('')}rEarn();
+
+// ---------- Ask the Pulse ----------
+const use=n=>window.claude&&window.claude.use?window.claude.use(n):Promise.resolve(null);
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md=t=>{const L=esc(t).replace(/https?:\/\/\S+/g,'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').split(/\n/);let h='',ul=false;
+ for(const l of L){const m=l.match(/^\s*[-*•]\s+(.*)/);if(m){if(!ul){h+='<ul>';ul=true}h+=`<li>${m[1]}</li>`}else{if(ul){h+='</ul>';ul=false}if(l.trim())h+=`<p>${l.replace(/^#+\s*/,'')}</p>`}}return h+(ul?'</ul>':'')};
+let G=null;const graph=()=>G||(G=fetch('graph.json').then(r=>r.json()));
+const ID={};C.forEach(c=>{ID[c.n.toLowerCase()]=c.id;ID[c.id]=c.id});Object.assign(ID,{basf:'basf',syngenta:'syngenta',sumitomo:'sumitomo',pi:'pi','pi industries':'pi',vittia:'vittia'});
+const findId=n=>{n=String(n||'').toLowerCase();return ID[n]||Object.keys(ID).find(k=>n.includes(k)||k.includes(n))&&ID[Object.keys(ID).find(k=>n.includes(k)||k.includes(n))]};
+const TOOLS=[
+ {name:"get_dashboard_data",description:"Returns every shortlisted company: tier, capacity, need and reach scores, Brazilian fungicide shelf stats, dated financial signals and latest earnings report figures.",
+  inputSchema:{type:"object",properties:{}},execute:()=>C.map(c=>({id:c.id,name:c.n,tier:c.tier[1],capacity:CAP[c.cap][1],need:c.need,reach:c.reach,single_site_pct:c.ss,pre2010_pct:c.old,brazil_fungicides:c.fung,biological_fungicides:c.bio,soy_rust_products:c.rust,newest_actives:c.newA,signals:c.sig,earnings:E[c.id]||null,approach:c.angle,watch:c.watch,share_index_latest:c.px?Math.round(idx(c.px).filter(x=>x!=null).pop()):null,share_index_by_month:c.px?idx(c.px).map(v=>v==null?null:Math.round(v)):null,months:"Nov 2025 to Nov 2026"})).concat([{name:"American Vanguard",earnings:E.avd}])},
+ {name:"list_registry_names",description:"Find exact Portuguese crop, target (pest, disease or weed) or company-group names in Brazil's crop-protection registry. Use before query_registry.",
+  inputSchema:{type:"object",properties:{kind:{type:"string",enum:["crops","targets","companies"]},contains:{type:"string",description:"case-insensitive fragment, Portuguese, e.g. ferrugem, cafe, mofo"}},required:["kind","contains"]},
+  execute:async({kind,contains})=>{const g=await graph(),f=(contains||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');const norm=x=>x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+   const list=kind==='companies'?[...new Set(g.products.map(p=>p.c))]:g[kind==='crops'?'crops':'targets'];return list.filter(x=>norm(x).includes(f)).slice(0,25)}},
+ {name:"query_registry",description:"Query Brazil's registered crop-protection products (MAPA AGROFIT, registrations to Jan 13, 2026). Filters are optional and use exact registry names. Returns counts by company group, mode of action and year, plus biological share.",
+  inputSchema:{type:"object",properties:{crop:{type:"string"},target:{type:"string"},product_class:{type:"string",description:"e.g. Fungicida, Inseticida, Herbicida"},company:{type:"string"},biological_only:{type:"boolean"}}},
+  execute:async(q)=>{const g=await graph(),ci=q.crop?g.crops.indexOf(q.crop):-2,ti=q.target?g.targets.indexOf(q.target):-2,ALL=g.crops.indexOf("Todas as culturas");
+   if(ci===-1||ti===-1)return{error:"Name not found; call list_registry_names first."};
+   const L=g.products.filter(p=>(ci===-2||p.u.includes(ci)||p.u.includes(ALL))&&(ti===-2||p.z.includes(ti))&&(!q.product_class||p.k.toLowerCase().includes(q.product_class.toLowerCase()))&&(!q.company||p.c.toLowerCase().includes(q.company.toLowerCase()))&&(!q.biological_only||p.bio));
+   const cnt=f=>{const o={};L.forEach(p=>[].concat(f(p)).forEach(k=>{if(k)o[k]=(o[k]||0)+1}));return Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,12)};
+   return{products:L.length,biological:L.filter(p=>p.bio).length,since_2023:L.filter(p=>p.y>="2023").length,by_company:cnt(p=>p.c),by_mode_of_action:cnt(p=>p.m).map(([k,v])=>[k+' '+(g.moas[k]?.label||''),v]),by_active:cnt(p=>p.a).slice(0,10),by_year:cnt(p=>p.y).sort((a,b)=>a[0]<b[0]?1:-1).slice(0,8)}}},
+ {name:"search_research",description:"Search PubMed for recent research papers (titles, journals, dates). Use for science questions such as antifungal peptides, rust resistance or biocontrol.",
+  inputSchema:{type:"object",properties:{query:{type:"string",description:"PubMed keywords, at most five terms"},since_year:{type:"string"}},required:["query"]},
+  execute:async({query,since_year})=>{const mcp=await use("mcp");if(!mcp)throw new Error("Research search is not available in this view.");
+   const r=await mcp.callTool("PubMed","search_articles",{query,max_results:8,sort:"relevance",...(since_year?{date_from:since_year}:{})});return JSON.stringify(r.payload??r).slice(0,6000)}},
+ {name:"update_dashboard",description:"Rebuild the whole page for this question. Always call once. Give a one-sentence headline (max 20 words), the companies the question is about (ids from get_dashboard_data; omit for all), and 3-6 blocks in reading order. Block types: new charts built only from tool numbers (bar: items ranking; pie: items shares of a whole; radar: 2-4 companies across 4-7 dimensions on 0-100 via axes + series; line: x + series over time; scatter: points with x,y), at most 4 charts; and existing panels, which are automatically filtered to the chosen companies: matrix (need vs reach bubble chart), profile (detailed company card with signals and share price; set focus_company), share_prices (indexed price lines), scorecard (need, reach, capacity, verdict table), earnings (latest-quarter table), shelf_facts (soybean rust, white mold and peptide facts for Brazil).",
+  inputSchema:{type:"object",properties:{headline:{type:"string"},companies:{type:"array",items:{type:"string"}},focus_company:{type:"string"},highlight:{type:"array",items:{type:"string"}},
+   blocks:{type:"array",items:{type:"object",properties:{type:{type:"string",enum:["bar","pie","radar","line","scatter","matrix","profile","share_prices","scorecard","earnings","shelf_facts"]},title:{type:"string"},caption:{type:"string"},unit:{type:"string"},
+    items:{type:"array",items:{type:"object"},description:"bar/pie: [{label, value(number)}]"},
+    axes:{type:"array",items:{type:"string"},description:"radar: dimension names"},x:{type:"array",items:{type:"string"},description:"line: x labels"},
+    series:{type:"array",items:{type:"object"},description:"radar/line: [{name, values:[numbers]}]"},
+    points:{type:"array",items:{type:"object"},description:"scatter: [{label, x, y}]"},x_label:{type:"string"},y_label:{type:"string"}},required:["type"]}}},required:["headline","blocks"]},
+  execute:(u)=>{HL=new Set((u.highlight||[]).map(h=>String(h).toLowerCase().replace(' agricultural solutions','').replace(' chemical','').replace(' group','')));
+   board(u);return "Page rebuilt."}}];
+const PAL=["#1F5FC4","#C8691E","#0E9384","#7D5BC0","#B4235A","#8A6D00","#8A99A8","#0E2236"];
+const fmtN=v=>v==null?'':Math.abs(v)>=1000?Math.round(v).toLocaleString('en-US'):(+v).toFixed(Math.abs(v)<10&&v%1?1:0);
+const DRAW={
+ bar(c,W,H){const it=(c.items||[]).slice(0,12),n=it.length,mx=Math.max(1,...it.map(d=>Math.abs(d.value))),lw=Math.min(220,W*.38),rh=Math.min(34,(H-10)/Math.max(n,1));
+  return it.map((d,i)=>{const y=6+i*rh,w=Math.abs(d.value)/mx*(W-lw-70);return `<text x="${lw-8}" y="${y+rh/2+4}" font-size="13" text-anchor="end" fill="var(--ink)">${esc(d.label.slice(0,30))}</text><rect x="${lw}" y="${y+rh*.18}" width="${Math.max(w,2)}" height="${rh*.64}" rx="4" fill="${PAL[0]}"/><text x="${lw+w+6}" y="${y+rh/2+4}" font-size="13" font-weight="700" fill="var(--ink)">${fmtN(d.value)}${c.unit||''}</text>`}).join('')},
+ pie(c,W,H){const it=(c.items||[]).filter(d=>d.value>0).slice(0,8),tot=it.reduce((a,d)=>a+d.value,0)||1,r=Math.min(H/2-10,W/2-10,130),cx=W/2,cy=H/2,ri=r*.58;let a0=-Math.PI/2,s='';
+  it.forEach((d,i)=>{const a1=a0+d.value/tot*Math.PI*2,lg=a1-a0>Math.PI?1:0,p=(a,R)=>[cx+R*Math.cos(a),cy+R*Math.sin(a)];const[x0,y0]=p(a0,r),[x1,y1]=p(a1,r),[x2,y2]=p(a1,ri),[x3,y3]=p(a0,ri);
+   s+=`<path d="M${x0} ${y0}A${r} ${r} 0 ${lg} 1 ${x1} ${y1}L${x2} ${y2}A${ri} ${ri} 0 ${lg} 0 ${x3} ${y3}Z" fill="${PAL[i%8]}" stroke="var(--soft)" stroke-width="2"/>`;
+   const am=(a0+a1)/2,[lx,ly]=p(am,(r+ri)/2);if(d.value/tot>.06)s+=`<text x="${lx}" y="${ly+4}" font-size="12.5" font-weight="700" text-anchor="middle" fill="#fff">${Math.round(d.value/tot*100)}%</text>`;a0=a1});
+  return s+`<text x="${cx}" y="${cy-2}" font-size="22" font-weight="800" text-anchor="middle" fill="var(--ink)">${fmtN(tot)}</text><text x="${cx}" y="${cy+16}" font-size="12.5" text-anchor="middle" fill="var(--mut)">${esc(c.unit||'total')}</text>`},
+ radar(c,W,H){const ax=(c.axes||[]).slice(0,8),n=ax.length;if(n<3)return'';const ser=(c.series||[]).slice(0,4),mx=Math.max(100,...ser.flatMap(s=>s.values.map(v=>+v||0))),r=Math.min(H/2-34,W/2-(W<500?68:95)),cx=W/2,cy=H/2;
+  const P=(i,v)=>{const a=-Math.PI/2+i/n*Math.PI*2;return[cx+r*v/mx*Math.cos(a),cy+r*v/mx*Math.sin(a)]};let s='';
+  [.25,.5,.75,1].forEach(f=>s+=`<polygon points="${ax.map((_,i)=>P(i,mx*f).join(',')).join(' ')}" fill="none" stroke="var(--line)"/>`);
+  ax.forEach((a,i)=>{const[x,y]=P(i,mx),[lx,ly]=P(i,mx*1.13);const wd=a.slice(0,24).split(' '),half=Math.ceil(wd.length/2),l1=wd.length>1&&W<500?wd.slice(0,half).join(' '):a.slice(0,24),l2=wd.length>1&&W<500?wd.slice(half).join(' '):'';s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text x="${lx}" y="${ly+(l2?-3:4)}" font-size="12.5" text-anchor="${Math.abs(lx-cx)<8?'middle':lx>cx?'start':'end'}" fill="var(--mut)">${esc(l1)}${l2?`<tspan x="${lx}" dy="14">${esc(l2)}</tspan>`:''}</text>`});
+  ser.forEach((se,j)=>{s+=`<polygon points="${ax.map((_,i)=>P(i,+se.values[i]||0).join(',')).join(' ')}" fill="${PAL[j]}" fill-opacity=".15" stroke="${PAL[j]}" stroke-width="2.5"/>`});return s},
+ line(c,W,H){const x=c.x||[],ser=(c.series||[]).slice(0,8),v=ser.flatMap(s=>s.values).filter(v=>v!=null&&isFinite(v));if(!v.length)return'';let lo=Math.min(...v),hi=Math.max(...v);const pad=(hi-lo)*.1||1;lo-=pad;hi+=pad;
+  const L=44,R=14,T=10,B=24,X=i=>L+i/Math.max(x.length-1,1)*(W-L-R),Y=k=>T+(hi-k)/(hi-lo)*(H-T-B);let s='';
+  for(let k=0;k<=4;k++){const val=lo+(hi-lo)*k/4;s+=`<line x1="${L}" x2="${W-R}" y1="${Y(val)}" y2="${Y(val)}" stroke="var(--line)"/><text x="${L-6}" y="${Y(val)+4}" font-size="12" text-anchor="end" fill="var(--mut)">${fmtN(val)}</text>`}
+  const step=Math.ceil(x.length/(W<500?4:7));x.forEach((t,i)=>{if(i%step===0||i===x.length-1)s+=`<text x="${X(i)}" y="${H-4}" font-size="12" text-anchor="middle" fill="var(--mut)">${esc(String(t).slice(0,8))}</text>`});
+  ser.forEach((se,j)=>{let d='';se.values.forEach((k,i)=>{if(k!=null&&isFinite(k))d+=(d?'L':'M')+X(i).toFixed(1)+' '+Y(k).toFixed(1)});s+=`<path d="${d}" fill="none" stroke="${PAL[j]}" stroke-width="2.5"/>`});return s},
+ scatter(c,W,H){const pt=(c.points||[]).slice(0,20);if(!pt.length)return'';const xs=pt.map(p=>p.x),ys=pt.map(p=>p.y);let x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);const px=(x1-x0)*.12||1,py=(y1-y0)*.15||1;x0-=px;x1+=px;y0-=py;y1+=py;if(Math.min(...xs)>=0)x0=Math.max(0,x0);if(Math.min(...ys)>=0)y0=Math.max(0,y0);
+  const L=44,R=16,T=12,B=34,X=v=>L+(v-x0)/(x1-x0)*(W-L-R),Y=v=>T+(y1-v)/(y1-y0)*(H-T-B);let s=`<line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="var(--line)"/><line x1="${L}" x2="${L}" y1="${T}" y2="${H-B}" stroke="var(--line)"/>`;
+  s+=`<text x="${(L+W-R)/2}" y="${H-6}" font-size="12.5" text-anchor="middle" fill="var(--mut)">${esc(c.x_label||'')} →</text><text transform="translate(12 ${(T+H-B)/2}) rotate(-90)" font-size="12.5" text-anchor="middle" fill="var(--mut)">${esc(c.y_label||'')} →</text>`;
+  for(let k=0;k<=3;k++){const xv=x0+(x1-x0)*k/3,yv=y0+(y1-y0)*k/3;s+=`<text x="${X(xv)}" y="${H-B+15}" font-size="11.5" text-anchor="middle" fill="var(--mut)">${fmtN(xv)}</text><text x="${L-6}" y="${Y(yv)+4}" font-size="11.5" text-anchor="end" fill="var(--mut)">${fmtN(yv)}</text>`}
+  const placed=[];pt.map((p,i)=>({p,i,x:X(p.x),y:Y(p.y)})).sort((a,b)=>a.y-b.y).forEach(({p,i,x,y})=>{const rt=x<W-130,lab=p.label.slice(0,W<500?14:22),lw=lab.length*7;let ly=y+4;
+   const lx0=rt?x+12:x-12-lw;for(let t=0;t<6&&placed.some(q=>Math.abs(q.y-ly)<14&&lx0<q.x1&&lx0+lw>q.x0);t++)ly+=14;placed.push({y:ly,x0:lx0,x1:lx0+lw});
+   s+=`<circle cx="${x}" cy="${y}" r="8" fill="${PAL[i%8]}" fill-opacity=".85"/>${ly!==y+4?`<line x1="${x}" y1="${y}" x2="${rt?x+10:x-10}" y2="${ly-4}" stroke="var(--mut)" stroke-width="1"/>`:''}<text x="${rt?x+12:x-12}" y="${ly}" font-size="12.5" font-weight="700" text-anchor="${rt?'start':'end'}" fill="var(--ink)">${esc(lab)}</text>`});return s}};
+const LEG=c=>c.type==='pie'?(c.items||[]).filter(d=>d.value>0).slice(0,8).map((d,i)=>`<span><i style="background:${PAL[i%8]}"></i>${esc(d.label)} · ${fmtN(d.value)}</span>`).join(''):(c.type==='radar'||c.type==='line')?(c.series||[]).slice(0,8).map((se,i)=>`<span><i style="background:${PAL[i]}"></i>${esc(se.name)}</span>`).join(''):'';
+const PANELS={matrix:'p-matrix',profile:'p-profile',share_prices:'p-lines',scorecard:'p-score',earnings:'p-earnings',shelf_facts:'p-shelf'};const SLOT={};
+function home(){for(const k in SLOT){SLOT[k].replaceWith($(PANELS[k]));delete SLOT[k]}}
+function refresh(){rTabs();rScore();rEarn();rLgd();drawMx();drawL()}
+function board(u){home();
+ const ids=(u.companies||[]).map(findId).filter(id=>id&&(C.some(c=>c.id===id)||id==='avd'));F=ids.length?new Set(ids):null;refresh();
+ const seen=new Set(),bl=[];let nc=0;for(const b of (u.blocks||u.charts||[])){if(PANELS[b.type]){if(!seen.has(b.type)){seen.add(b.type);bl.push(b)}}else if(DRAW[b.type]&&nc<4){nc++;bl.push(b)}if(bl.length>=7)break}
+ if(!bl.length)bl.push({type:'matrix'},{type:'scorecard'});
+ const groups=[];bl.forEach(b=>{const pn=!!PANELS[b.type],g=groups[groups.length-1];if(!pn&&g&&!g.pn)g.items.push(b);else groups.push({pn,items:[b]})});
+ let ci=0;const charts=[];
+ $('boardc').innerHTML=`<p class="bh">${esc(u.headline||'')}</p><div class="lay">${groups.map(g=>g.pn?`<div data-slot="${g.items[0].type}"></div>`:`<div class="charts${g.items.length>1?' c2':''}">${g.items.map(c=>{const i=ci++;charts.push([i,c]);return `<div class="chart card"><h4>${esc(c.title||'')}</h4>${c.caption?`<small>${esc(c.caption)}</small>`:''}<div class="cv" id="cv${i}" style="height:${c.type==='bar'?Math.min(36*Math.max((c.items||[]).length,3)+12,440):c.type==='pie'?280:320}px"></div><div class="clg">${LEG(c)}</div></div>`}).join('')}</div>`).join('')}</div>`;
+ $('boardc').querySelectorAll('[data-slot]').forEach(sl=>{const k=sl.dataset.slot,el=$(PANELS[k]);const ph=document.createComment(k);el.before(ph);SLOT[k]=ph;sl.appendChild(el)});
+ document.body.classList.add('asked');$('board').hidden=false;
+ charts.forEach(([i,c])=>{const el=$('cv'+i);const d=()=>{const W=el.clientWidth,H=el.clientHeight;if(!W)return;el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(c.title||'')}">${(DRAW[c.type]||DRAW.bar)(c,W,H)}</svg>`};d();new ResizeObserver(d).observe(el)});
+ let fid=u.focus_company&&findId(u.focus_company);if(!fid||!C.some(c=>c.id===fid)||!inF({id:fid}))fid=(C.find(inF)||C[0]).id;show(fid);
+ requestAnimationFrame(()=>{drawMx();drawL();$('board').scrollIntoView({behavior:'smooth',block:'start'})})}
+function reset(){home();HL=new Set();F=null;refresh();document.body.classList.remove('asked');$('board').hidden=true;$('ans').hidden=true;HIST.length=0;scrollTo({top:0,behavior:'smooth'})}
+const SYS=`You are the analyst inside BioMarket Pulse's partner finder for a business-development executive at a company developing fungicidal peptides (a biological fungicide) who wants partners in Brazil. Today is ${new Date().toISOString().slice(0,10)}.
+Use ONLY data from your tools: get_dashboard_data (company scores, financial signals, earnings, share-price index by month), list_registry_names and query_registry (Brazil's crop-protection registry, registrations to Jan 13, 2026, names in Portuguese), and search_research (PubMed). Never invent figures, companies or papers.
+The answer REBUILDS THE WHOLE PAGE. Always call update_dashboard once: a one-sentence headline (max 20 words), the companies the question concerns (omit for all), focus_company when one stands out, highlight for the matrix, and 3-6 blocks in reading order. Lead with the block that answers the question. Mix 1-4 new charts built from tool numbers (pie for shares of a whole such as modes of action or biological vs chemical; radar to compare 2-4 companies on 4-7 dimensions scaled 0-100 such as need, reach, single-site %, pre-2010 %, share index; line for time series; scatter for positioning; bar for rankings) with existing panels that help: matrix, profile, share_prices, scorecard, earnings, shelf_facts. Only include panels relevant to the question. Chart titles max 8 words, captions max 12 words, labels short.
+Your final text reply must be ONE short sentence (max 20 words) and nothing else: no bullets, no links, no outlet names. If the data cannot answer, say so in that sentence and show what is closest.`;
+const HIST=[];let ctl=null;
+async function ask(q){q=q.trim();if(!q)return;const sample=await use("sample");const box=$('ans');box.hidden=false;
+ if(!sample){box.innerHTML=`<div class="st">Asking needs Claude, which this view can't reach. Open the page on claude.ai.</div>`;return}
+ ctl&&ctl.abort();ctl=new AbortController();$('go').disabled=true;
+ box.innerHTML=`<div class="st"><span id="stt"><span class="spin"></span>Building your view…</span><button type="button" id="rs">Reset view</button></div>`;$('rs').onclick=reset;
+ HIST.push({role:"user",content:(HIST.length?'':SYS+"\n\nQuestion: ")+q});
+ try{const r=await sample(HIST.slice(-8),{tools:TOOLS,signal:ctl.signal,modelTier:"default"});
+  const t=(r.text||'').replace(/https?:\/\/\S+/g,'').split(/\n/)[0].slice(0,220);
+  $('stt').textContent=t||'Done.';if($('board').hidden&&t){board({headline:t,charts:[]})}HIST.push({role:"assistant",content:r.text||''})}
+ catch(e){HIST.pop();if(e&&e.name==='AbortError')return;
+  $('stt').textContent=e&&e.code==='not_granted'?'Asking was not allowed in this view.':e&&e.code==='rate_limited'?'Too many questions just now; try again in a minute.':'The view could not be built'+(e&&e.code?' ('+e.code+(e.message?': '+String(e.message).slice(0,160):'')+')':'')+'. Try again or rephrase.';console.error('ask failed',e)}
+ finally{$('go').disabled=false}}
+$('askf').addEventListener('submit',e=>{e.preventDefault();ask($('q').value)});
+use("sample").then(s=>{if(!s){$('q').placeholder="Asking needs Claude: open this page on claude.ai";}});
+for(const t of document.querySelectorAll('.stack')){const h=[...t.rows[0].cells].map(c=>c.textContent);for(const rw of [...t.rows].slice(1))[...rw.cells].forEach((c,i)=>c.dataset.l=h[i]||'')}
+}
+</script>
+</body></html>
